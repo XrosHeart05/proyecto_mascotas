@@ -1,20 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package main;
 
-/**
- *
- * @author xrosfer
- */
 public class Main {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+  public static void main(String[] args) {
+    // Refugio Huellas Felices
+    // Gestor de Reporte de Mascotas
+    // Obtener automáticamente la fecha del sistema para cada reporte
+
+    PetController petController = new PetController();
+
+    Pet pet = petController.createPet("Archie");
+  }
+
 }
