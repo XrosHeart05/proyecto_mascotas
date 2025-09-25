@@ -11,9 +11,17 @@ public class Main {
     do {
       System.out.println(Menu.mainMenu());
       option = InputController.inputIntRange(1, 7);
-    } while (option != 7);
-    // Posible forma de llamar método para sugerir coincidencias
-    // suggests.forEach(p -> System.out.println("Posible coincidencia " + p.getName());
+      
+    switch (option) {
+      case 1:
+        Report report = Menu.newReport();
+        break;
+      default:
+        break;
+    }
+}
+while (option != 7); // Posible forma de llamar método para sugerir coincidencias
+// suggests.forEach(p -> System.out.println("Posible coincidencia " + p.getName());
   }
 
 }

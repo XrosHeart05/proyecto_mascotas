@@ -2,10 +2,11 @@ package main;
 
 public class Report {
 
-  int id;
+  String id;
   String reporterId;
   String fullName;
-  ReportTypeEnum reportType;
+  // Valor por defecto
+  ReportTypeEnum reportType = ReportTypeEnum.PRD;
   String date;
   String zone;
   SpeciesTypeEnum species;
@@ -14,8 +15,11 @@ public class Report {
   String contactNumber;
   String microchip;
 
+  // Constructor vacío
+  public Report() {}
+  
   // Constructor con todos los atributos
-  public Report(int id, String reporterId, String fullName, ReportTypeEnum reportType, String date, String zone, SpeciesTypeEnum species, String color, String particularSigns, String contactNumber, String microchip) {
+  public Report(String id, String reporterId, String fullName, ReportTypeEnum reportType, String date, String zone, SpeciesTypeEnum species, String color, String particularSigns, String contactNumber, String microchip) {
     this.id = id;
     this.reporterId = reporterId;
     this.fullName = fullName;
@@ -30,7 +34,7 @@ public class Report {
   }
 
   // Constructor sin microchip
-  public Report(int id, String reporterId, String fullName, ReportTypeEnum reportType, String date, String zone, SpeciesTypeEnum species, String color, String particularSigns, String contactNumber) {
+  public Report(String id, String reporterId, String fullName, ReportTypeEnum reportType, String date, String zone, SpeciesTypeEnum species, String color, String particularSigns, String contactNumber) {
     this.id = id;
     this.reporterId = reporterId;
     this.fullName = fullName;
@@ -45,11 +49,11 @@ public class Report {
   
   // TODO: 
   // En los SET mandar a llamar el InputController
-  public int getId() {
+  public String getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(String id) {
     this.id = id;
   }
 
@@ -132,7 +136,4 @@ public class Report {
   public void setMicrochip(String microchip) {
     this.microchip = microchip;
   }
-
-  
-  
 }

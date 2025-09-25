@@ -33,7 +33,7 @@ public class ReportController {
   // Regresa el reporte por identificador
   // Devuelve un Optional, Optional puede contener un objeto, en este caso Report o estar vacío si dicha máscota no se encontró
   // No devuelve null
-  public Optional<Report> getReportById(int id) {
+  public Optional<Report> getReportById(String id) {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
     return reports.stream()
@@ -43,7 +43,7 @@ public class ReportController {
       // La nomenclatura usada es la siguiente, "r" pasa a ser la referencia de un único objeto de reporte
       // Es como un lop forEach o for de pets[i]
       // Se hace uso del getId() de los getters de la clase Report
-      .filter(r -> r.getId() == id)
+      .filter(r -> r.getId().equals(id))
       // Devuelve la primera coincidencia, si hubieran más coincidencias no importa porque ya hizo un return
       .findFirst();
   }
@@ -90,8 +90,8 @@ public class ReportController {
     return matchedReport;
   }
 
-  public boolean deleteReport(int id) {
+  public boolean deleteReport(String id) {
     // Validar removeIf
-    return reports.removeIf(r -> r.getId() == id);
+    return reports.removeIf(r -> r.getId().equals(id));
   }
 }
