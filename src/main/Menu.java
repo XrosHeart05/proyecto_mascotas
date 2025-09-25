@@ -1,5 +1,7 @@
 package main;
 
+import java.util.List;
+
 public class Menu {
   // Clase que busca imprimir menus
 
@@ -74,7 +76,7 @@ public class Menu {
     // hallazgo).
     // Ajustar a que solo solicite el enum de tipo de reporte
     // report.setReportType(InputController.inputString());
-    
+
     System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
     // TODO: 
     // Fecha del reporte: se obtiene automáticamente del sistema (No obstante, el usuario podrá ingresar una
@@ -83,30 +85,57 @@ public class Menu {
     // Crear nuevo inputString para longitud determinada y además que cada ciertos caracteres solicite slashes /
     // input similar al de la cedula
     report.setDate(InputController.inputString());
-    
+
     System.out.println("\nIngrese zona: ");
     // TODO: Ajustar input para que solo solicite máximo; sino dejar eso, creo que está bien
     report.setZone(InputController.inputStringRange(0, 30));
-    
+
     System.out.println("\nIngrese especie (DOG/CAT): ");
     // TODO: Crear nuevo inputString para que solicite el enum
     // report.setSpecies(InputController.inputString());
-    
+
     System.out.println("\nIngrese color principal: ");
     report.setColor(InputController.inputString());
-    
+
     System.out.println("\nIngrese señas particulares (mínimo 10 caracteres): ");
     // TODO: Crear nuevo inputString para que solo solicite el mínimo
     report.setParticularSigns(InputController.inputStringRange(10, 100));
-    
+
     System.out.println("\nIngrese teléfono de contacto (####-####): ");
     // TODO: Crear input con el formato ####-####.
     report.setContactNumber(InputController.inputString());
-    
+
     System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
     // TODO: Crear input que admita vacíos
     report.setMicrochip(InputController.inputString());
 
     return report;
+  }
+
+  public static String searchReportHeader() {
+    String text = "";
+    int large = 45;
+    text += "-".repeat(large) + "\n";
+    text += centerText("CONSULTA DE REPORTES POR CRITERIO", large) + "\n";
+    text += "=".repeat(large) + "\n";
+    text += "Seleccione criterio de búsqueda: \n";
+    text += "1. ID del reportante\n";
+    text += "2. Especie\n";
+    text += "3. Zona\n";
+    text += "Ingrese opción: ";
+
+    return text;
+  }
+
+  public static List<Report> searchReport() {
+    ReportController reportController = new ReportController();
+    int option;
+    String query = "";
+    System.out.println(Menu.searchReportHeader());
+    option = InputController.inputIntRange(1, 3);
+    
+    List<Report> reports = reportController.searchReports(option, query);
+
+    return reports;
   }
 }

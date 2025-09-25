@@ -16,6 +16,8 @@ public class Main {
       case 1:
         Report report = Menu.newReport();
         break;
+      case 2:
+        break;
       default:
         break;
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ReportController {
+
   private final List<Report> reports;
   private Report report;
 
@@ -49,18 +50,57 @@ public class ReportController {
   }
 
   // Realizar búsqueda de reporte por los demás atributos
-  public List<Report> searchReports(String query) {
+  public List<Report> searchReports(int option, String query) {
     // Transforma el query a caracteres en minuscula
     String lowerQuery = query.toLowerCase();
-    return reports.stream()
-      // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
-      // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
-      .filter(r -> r.getReporterId().toLowerCase().contains(lowerQuery))
-      // Demás filtros que se deseen usar
-      .filter(r -> r.getFullName().toLowerCase().contains(lowerQuery))
-      // Se debe convertir todos los filtros de un stream a nuevamente un listado
-      // Porque se determinó que se devolvería un List<Report>
-      .toList();
+    List<Report> toReturn;
+
+    switch (option) {
+      // ID Reportante
+      case 1:
+        toReturn = reports.stream()
+          // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
+          // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
+          .filter(r -> r.getReporterId().toLowerCase().contains(lowerQuery))
+          // Demás filtros que se deseen usar
+          .filter(r -> r.getFullName().toLowerCase().contains(lowerQuery))
+          // Se debe convertir todos los filtros de un stream a nuevamente un listado
+          // Porque se determinó que se devolvería un List<Report>
+          .toList();
+        break;
+
+      // Especie
+      // TODO: Aplicar filtro de especie
+      case 2:
+        toReturn = reports.stream()
+          // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
+          // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
+          .filter(r -> r.getReporterId().toLowerCase().contains(lowerQuery))
+          // Demás filtros que se deseen usar
+          .filter(r -> r.getFullName().toLowerCase().contains(lowerQuery))
+          // Se debe convertir todos los filtros de un stream a nuevamente un listado
+          // Porque se determinó que se devolvería un List<Report>
+          .toList();
+        break;
+
+      // Zona
+      // TODO: Aplicar filtro de zona
+      case 3:
+        toReturn = reports.stream()
+          // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
+          // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
+          .filter(r -> r.getReporterId().toLowerCase().contains(lowerQuery))
+          // Demás filtros que se deseen usar
+          .filter(r -> r.getFullName().toLowerCase().contains(lowerQuery))
+          // Se debe convertir todos los filtros de un stream a nuevamente un listado
+          // Porque se determinó que se devolvería un List<Report>
+          .toList();
+        break;
+      default:
+        return new ArrayList<>();
+    }
+
+    return toReturn;
   }
 
   public List<Report> suggestMatches(Report _report) {
