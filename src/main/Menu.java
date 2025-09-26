@@ -6,77 +6,77 @@ import java.util.List;
 public class Menu {
   // Clase que busca imprimir menus
 
-  public static String centerText(String text, int large) {
-    int spaces = (large - text.length()) / 2;
-    return " ".repeat(spaces) + text;
+  public static String centrarTexto(String texto, int largo) {
+    int espacios = (largo - texto.length()) / 2;
+    return " ".repeat(espacios) + texto;
   }
 
-  public static String mainMenu() {
-    return mainMenuHeader() + mainMenuBody();
+  public static String menuPrincipal() {
+    return menuPrincipalCabecera() + menuPrincipalCuerpo();
   }
 
-  public static String mainMenuHeader() {
-    String text = "";
-    int large = 45;
-    String line1 = "SISTEMA - REFUGIO \"HUELLAS FELICES\"";
-    String line2 = "GESTOR DE REPORTES DE MASCOTAS";
-    text += "=".repeat(large) + "\n";
-    text += centerText(line1, large) + "\n";
-    text += centerText(line2, large) + "\n";
-    text += "=".repeat(large) + "\n";
+  public static String menuPrincipalCabecera() {
+    String texto = "";
+    int largo = 45;
+    String linea1 = "SISTEMA - REFUGIO \"HUELLAS FELICES\"";
+    String linea2 = "GESTOR DE REPORTES DE MASCOTAS";
+    texto += "=".repeat(largo) + "\n";
+    texto += centrarTexto(linea1, largo) + "\n";
+    texto += centrarTexto(linea2, largo) + "\n";
+    texto += "=".repeat(largo) + "\n";
 
-    return text;
+    return texto;
   }
 
-  public static String mainMenuBody() {
-    String text = "";
-    int large = 45;
-    text += "1. Registrar mascota desaparecida\n";
-    text += "2. Consultar por ID / Especie / Zona\n";
-    text += "3. Reporte general\n";
-    text += "4. Reporte agrupado\n";
-    text += "5. Ver coincidencias\n";
-    text += "6. Actualizar reporte\n";
-    text += "7. Salir\n";
-    text += "-".repeat(large) + "\n";
-    text += "Ingrese una opción:\n";
+  public static String menuPrincipalCuerpo() {
+    String texto = "";
+    int largo = 45;
+    texto += "1. Registrar mascota desaparecida\n";
+    texto += "2. Consultar por ID / Especie / Zona\n";
+    texto += "3. Reporte general\n";
+    texto += "4. Reporte agrupado\n";
+    texto += "5. Ver coincidencias\n";
+    texto += "6. Actualizar reporte\n";
+    texto += "7. Salir\n";
+    texto += "-".repeat(largo) + "\n";
+    texto += "Ingrese una opción:\n";
 
-    return text;
+    return texto;
   }
 
-  public static String newReportHeader() {
-    String text = "";
-    int large = 45;
-    text += "-".repeat(large) + "\n";
-    text += centerText("REGISTRAR NUEVO REPORTE", large) + "\n";
-    text += "=".repeat(large) + "\n";
+  public static String nuevoReporteCabecera() {
+    String texto = "";
+    int largo = 45;
+    texto += "-".repeat(largo) + "\n";
+    texto += centrarTexto("REGISTRAR NUEVO REPORTE", largo) + "\n";
+    texto += "=".repeat(largo) + "\n";
 
-    return text;
+    return texto;
   }
 
-  public static Report newReport() {
-    System.out.println(Menu.newReportHeader());
-    Report report = new Report();
+  public static Reporte nuevoReporte() {
+    System.out.println(Menu.nuevoReporteCabecera());
+    Reporte reporte = new Reporte();
     System.out.print("\nIngrese ID del reporte (ejemplo: REP-0001): ");
     // TODO:  identificador único del reporte, ingresado por el usuario. 
     // Formato obligatorio prefijo REP- cuatro dígitos, comenzado por 1 
     // (ejemplo: REP - 0001, REP - 0002). El sistema debe validar que el ID no exista; 
     // en caso de duplicado, solicitar uno nuevo
-    report.setId(InputController.inputString());
+    reporte.setId(InputController.inputString());
     System.out.println("\nIngrese ID del reportante (1-1111-1111): ");
     // TODO: cédula costarricense en el formato 1-1111-1111.
     // En el input Controller debes crear un inputString nuevo que cada ciertos 
     // caracteres solicite un guión, además de una longitud definida
-    report.setReporterId(InputController.inputString());
+    reporte.setReportanteId(InputController.inputString());
     System.out.println("\nIngrese nombre completo: ");
     // TODO: mínimo 7 caracteres; se permiten espacios.
-    report.setFullName(InputController.inputString());
+    reporte.setNombreCompleto(InputController.inputString());
     System.out.println("\nTipo de reporte (PDR/ENC) [PDR por defecto]: ");
     // TODO: PDR o ENC (3 letras). PDR = Perdida (valor asignado por defecto al registrar una
     // nueva mascota). ENC = Encontrada (se selecciona cuando el usuario desea actualizar un
     // hallazgo).
     // Ajustar a que solo solicite el enum de tipo de reporte
-    // report.setReportType(InputController.inputString());
+    // reporte.setReportType(InputController.inputString());
 
     System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
     // TODO: 
@@ -85,58 +85,58 @@ public class Menu {
     // automáticamente).
     // Crear nuevo inputString para longitud determinada y además que cada ciertos caracteres solicite slashes /
     // input similar al de la cedula
-    report.setDate(InputController.inputString());
+    reporte.setFecha(InputController.inputString());
 
     System.out.println("\nIngrese zona: ");
     // TODO: Ajustar input para que solo solicite máximo; sino dejar eso, creo que está bien
-    report.setZone(InputController.inputStringRange(0, 30));
+    reporte.setZona(InputController.inputStringRango(0, 30));
 
     System.out.println("\nIngrese especie (DOG/CAT): ");
     // TODO: Crear nuevo inputString para que solicite el enum
-    // report.setSpecies(InputController.inputString());
+    // reporte.setSpecies(InputController.inputString());
 
     System.out.println("\nIngrese color principal: ");
-    report.setColor(InputController.inputString());
+    reporte.setColor(InputController.inputString());
 
     System.out.println("\nIngrese señas particulares (mínimo 10 caracteres): ");
     // TODO: Crear nuevo inputString para que solo solicite el mínimo
-    report.setParticularSigns(InputController.inputStringRange(10, 100));
+    reporte.setSenasParticulares(InputController.inputStringRango(10, 100));
 
     System.out.println("\nIngrese teléfono de contacto (####-####): ");
     // TODO: Crear input con el formato ####-####.
-    report.setContactNumber(InputController.inputString());
+    reporte.setContacto(InputController.inputString());
 
     System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
     // TODO: Crear input que admita vacíos
-    report.setMicrochip(InputController.inputString());
+    reporte.setMicrochip(InputController.inputString());
 
-    return report;
+    return reporte;
   }
 
-  public static String searchReportHeader() {
-    String text = "";
-    int large = 45;
-    text += "-".repeat(large) + "\n";
-    text += centerText("CONSULTA DE REPORTES POR CRITERIO", large) + "\n";
-    text += "=".repeat(large) + "\n";
-    text += "Seleccione criterio de búsqueda: \n";
-    text += "1. ID del reportante\n";
-    text += "2. Especie\n";
-    text += "3. Zona\n";
-    text += "Ingrese opción: ";
+  public static String buscarReporteCabecera() {
+    String texto = "";
+    int largo = 45;
+    texto += "-".repeat(largo) + "\n";
+    texto += centrarTexto("CONSULTA DE REPORTES POR CRITERIO", largo) + "\n";
+    texto += "=".repeat(largo) + "\n";
+    texto += "Seleccione criterio de búsqueda: \n";
+    texto += "1. ID del reportante\n";
+    texto += "2. Especie\n";
+    texto += "3. Zona\n";
+    texto += "Ingrese opción: ";
 
-    return text;
+    return texto;
   }
 
-  public static List<Report> searchReport() {
-    ReportController reportController = new ReportController(new ArrayList<>());
-    int option;
-    String query = "";
-    System.out.println(Menu.searchReportHeader());
-    option = InputController.inputIntRange(1, 3);
+  public static List<Reporte> buscarReporte() {
+    ReporteController reporteController = new ReporteController(new ArrayList<>());
+    int opcion;
+    String consulta = "";
+    System.out.println(Menu.buscarReporteCabecera());
+    opcion = InputController.inputIntRango(1, 3);
     
-    List<Report> reports = reportController.searchReports(option, query);
+    List<Reporte> reportes = reporteController.buscarReportes(opcion, consulta);
 
-    return reports;
+    return reportes;
   }
 }
