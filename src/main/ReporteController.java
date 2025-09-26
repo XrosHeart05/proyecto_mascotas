@@ -35,7 +35,7 @@ public class ReporteController {
   public List<Reporte> obtenerReportesPorId(String id) {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
-    return reportes.stream().filter(r -> r.getId().equals(id)).toList();
+    return reportes.stream().filter(i -> i.getId().equals(id)).toList();
     // Filter aplica como su nombre indica filtros a dichos objetos
     // Ósea, es como un colador de datos
     // Que filtros, en este caso solo deja pasar los datos que coinciden con el ID recibido como argumento
@@ -47,10 +47,6 @@ public class ReporteController {
 
   }
 
-  public List<Reporte> obtenerReportePorZona(String zona) {
-    return reportes.stream().filter(r -> r.getZona().equals(zona)).toList();
-  }
-
   public List<Reporte> obtenerReportePorEspecie(String especie) {
     TipoEspecieEnum _especie;
     if ("DOG".equals(especie)) {
@@ -58,9 +54,13 @@ public class ReporteController {
     } else {
       _especie = TipoEspecieEnum.CAT;
     }
-    return reportes.stream().filter(r -> r.getEspecie().equals(_especie)).toList();
+    return reportes.stream().filter(i -> i.getEspecie().equals(_especie)).toList();
   }
 
+  public List<Reporte> obtenerReportePorZona(String zona) {
+    return reportes.stream().filter(i -> i.getZona().equals(zona)).toList();
+  }
+  
   // Realizar búsqueda de reporte por los demás atributos
   public List<Reporte> buscarReportes(int opcion, String consulta) {
     // Transforma el query a caracteres en minuscula
@@ -70,44 +70,19 @@ public class ReporteController {
     switch (opcion) {
       // ID Reportante
       case 1:
-        obtenerReportesPorId(consulta);
-        resultado = reportes.stream()
-          // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
-          // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
-          .filter(r -> r.getReportanteId().toLowerCase().contains(minusConsulta))
-          // Demás filtros que se deseen usar
-          .filter(r -> r.getNombreCompleto().toLowerCase().contains(minusConsulta))
-          // Se debe convertir todos los filtros de un stream a nuevamente un listado
-          // Porque se determinó que se devolvería un List<Report>
-          .toList();
+        resultado =obtenerReportesPorId(consulta);
         break;
 
       // Especie
       // TODO: Aplicar filtro de especie
       case 2:
-        resultado = reportes.stream()
-          // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
-          // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
-          .filter(r -> r.getReportanteId().toLowerCase().contains(minusConsulta))
-          // Demás filtros que se deseen usar
-          .filter(r -> r.getNombreCompleto().toLowerCase().contains(minusConsulta))
-          // Se debe convertir todos los filtros de un stream a nuevamente un listado
-          // Porque se determinó que se devolvería un List<Report>
-          .toList();
+        resultado= obtenerReportePorEspecie(consulta);
         break;
 
       // Zona
       // TODO: Aplicar filtro de zona
       case 3:
-        resultado = reportes.stream()
-          // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
-          // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
-          .filter(r -> r.getReportanteId().toLowerCase().contains(minusConsulta))
-          // Demás filtros que se deseen usar
-          .filter(r -> r.getNombreCompleto().toLowerCase().contains(minusConsulta))
-          // Se debe convertir todos los filtros de un stream a nuevamente un listado
-          // Porque se determinó que se devolvería un List<Report>
-          .toList();
+        resultado= obtenerReportePorZona(consulta);
         break;
       default:
         return new ArrayList<>();

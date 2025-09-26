@@ -26,9 +26,10 @@ public class Main {
       switch (opcion) {
         case 1:
           Reporte report = Menu.nuevoReporte();
-          reporteController.crearReporte(report);
+          reporteController.crearReporte(report); //Se agrega a la lista
           break;
         case 2:
+            Menu.buscarReporte();
           break;
         case 3:
           break;

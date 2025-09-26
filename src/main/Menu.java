@@ -68,9 +68,11 @@ public class Menu {
     // En el input Controller debes crear un inputString nuevo que cada ciertos 
     // caracteres solicite un guión, además de una longitud definida
     reporte.setReportanteId(InputController.inputString());
+    
+    //--------------------------------------------------------------------------
     System.out.println("\nIngrese nombre completo: ");
-    // TODO: mínimo 7 caracteres; se permiten espacios.
-    reporte.setNombreCompleto(InputController.inputString());
+    reporte.setNombreCompleto(InputController.inputStringMinimo(7));
+    
     System.out.println("\nTipo de reporte (PDR/ENC) [PDR por defecto]: ");
     // TODO: PDR o ENC (3 letras). PDR = Perdida (valor asignado por defecto al registrar una
     // nueva mascota). ENC = Encontrada (se selecciona cuando el usuario desea actualizar un
@@ -86,10 +88,9 @@ public class Menu {
     // Crear nuevo inputString para longitud determinada y además que cada ciertos caracteres solicite slashes /
     // input similar al de la cedula
     reporte.setFecha(InputController.inputString());
-
+    //--------------------------------------------------------------------------
     System.out.println("\nIngrese zona: ");
-    // TODO: Ajustar input para que solo solicite máximo; sino dejar eso, creo que está bien
-    reporte.setZona(InputController.inputStringRango(0, 30));
+    reporte.setZona(InputController.inputStringMaximo(30));
 
     System.out.println("\nIngrese especie (DOG/CAT): ");
     // TODO: Crear nuevo inputString para que solicite el enum
@@ -136,7 +137,11 @@ public class Menu {
     opcion = InputController.inputIntRango(1, 3);
     
     List<Reporte> reportes = reporteController.buscarReportes(opcion, consulta);
-
+    if (reportes.isEmpty()){
+        System.out.println("No hay reportes que coincidan");
+    }
     return reportes;
   }
+  
+  
 }

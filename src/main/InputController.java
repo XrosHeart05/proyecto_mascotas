@@ -6,7 +6,7 @@ public class InputController {
   // static hace que no pueda cambiar
   // Hace que pertenezca a la clase de manera global y no a una referencia del objeto especificamente
 
-  private static Scanner escaner = new Scanner(System.in);
+  private static final Scanner inputScanner = new Scanner(System.in);
 
   // Al llamar los métodos se haría de la siguiente manera
   // InputController.readInt("Ingrese un número: ");
@@ -15,7 +15,7 @@ public class InputController {
   // input.readInt("Ingrese un número: ");
   public static String inputString() {
     while (true) {
-      String input = escaner.nextLine().trim();
+      String input = InputController.inputScanner.nextLine().trim();
       if (input.isEmpty()) {
         System.out.println("Ingrese una cadena de caracteres valida");
         continue;
@@ -24,6 +24,7 @@ public class InputController {
     }
   }
 
+  //Función para menú
   public static String inputStringRango(int min, int max) {
     while (true) {
       String input = inputString();
@@ -38,7 +39,7 @@ public class InputController {
 
   public static int inputInt() {
     while (true) {
-      String input = escaner.nextLine().trim();
+      String input = InputController.inputScanner.nextLine().trim();
       try {
         return Integer.parseInt(input);
       } catch (NumberFormatException e) {
@@ -63,7 +64,7 @@ public class InputController {
   public static boolean inputSiNo() {
     while (true) {
 
-      String input = escaner.nextLine().trim().toLowerCase();
+      String input = InputController.inputScanner.nextLine().trim().toLowerCase();
       if ("s".equals(input)) {
         return true;
       }
@@ -72,6 +73,31 @@ public class InputController {
       }
 
       System.out.println("Ingrese un valor valido");
+    }
+  }
+  
+  //Función para usuario digite nombre
+  public static String inputStringMinimo(int min) {
+    while (true) {
+      String input = inputString();
+      if (input.length() < min) {
+        System.out.println("Cadena de caracteres fuera de rango");
+        System.out.println("Rango aceptado " + min + " caracteres");
+        continue;
+      }
+      return input;
+    }
+  }
+  
+  public static String inputStringMaximo(int max) {
+    while (true) {
+      String input = inputString();
+      if (input.length() > max) {
+        System.out.println("Cadena de caracteres fuera de rango");
+        System.out.println("Rango aceptado " + max + " caracteres");
+        continue;
+      }
+      return input;
     }
   }
 
