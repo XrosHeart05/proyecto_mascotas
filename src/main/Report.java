@@ -6,49 +6,33 @@ public class Report {
   String reporterId;
   String fullName;
   // Valor por defecto
-  ReportTypeEnum reportType = ReportTypeEnum.PRD;
+  TipoReporteEnum tipoReporte = TipoReporteEnum.PRD;
   String date;
   String zone;
-  SpeciesTypeEnum species;
+  TipoEspecieEnum especie;
   String color;
   String particularSigns;
   String contactNumber;
   String microchip;
 
-  // Constructor vacío
-  public Report() {}
-  
+  public Report() {
+  }
+
   // Constructor con todos los atributos
-  public Report(String id, String reporterId, String fullName, ReportTypeEnum reportType, String date, String zone, SpeciesTypeEnum species, String color, String particularSigns, String contactNumber, String microchip) {
+  public Report(String id, String reporterId, String fullName, TipoReporteEnum tipoReporte, String date, String zone, TipoEspecieEnum especie, String color, String particularSigns, String contactNumber, String microchip) {
     this.id = id;
     this.reporterId = reporterId;
     this.fullName = fullName;
-    this.reportType = reportType;
+    this.tipoReporte = tipoReporte;
     this.date = date;
     this.zone = zone;
-    this.species = species;
+    this.especie = especie;
     this.color = color;
     this.particularSigns = particularSigns;
     this.contactNumber = contactNumber;
     this.microchip = microchip;
   }
 
-  // Constructor sin microchip
-  public Report(String id, String reporterId, String fullName, ReportTypeEnum reportType, String date, String zone, SpeciesTypeEnum species, String color, String particularSigns, String contactNumber) {
-    this.id = id;
-    this.reporterId = reporterId;
-    this.fullName = fullName;
-    this.reportType = reportType;
-    this.date = date;
-    this.zone = zone;
-    this.species = species;
-    this.color = color;
-    this.particularSigns = particularSigns;
-    this.contactNumber = contactNumber;
-  }
-  
-  // TODO: 
-  // En los SET mandar a llamar el InputController
   public String getId() {
     return id;
   }
@@ -73,13 +57,14 @@ public class Report {
     this.fullName = fullName;
   }
 
-  public ReportTypeEnum getReportType() {
-    return reportType;
+  public TipoReporteEnum getTipoReporte() {
+    return tipoReporte;
   }
 
-  public void setReportType(ReportTypeEnum reportType) {
-    this.reportType = reportType;
+  public void setTipoReporte(TipoReporteEnum tipoReporte) {
+    this.tipoReporte = tipoReporte;
   }
+
 
   public String getDate() {
     return date;
@@ -97,12 +82,12 @@ public class Report {
     this.zone = zone;
   }
 
-  public SpeciesTypeEnum getSpecies() {
-    return species;
+  public TipoEspecieEnum getEspecie() {
+    return especie;
   }
 
-  public void setSpecies(SpeciesTypeEnum species) {
-    this.species = species;
+  public void setEspecie(TipoEspecieEnum especie) {
+    this.especie = especie;
   }
 
   public String getColor() {
@@ -136,4 +121,5 @@ public class Report {
   public void setMicrochip(String microchip) {
     this.microchip = microchip;
   }
+
 }

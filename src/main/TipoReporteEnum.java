@@ -1,6 +1,6 @@
 package main;
 
-public enum ReportTypeEnum {
+public enum TipoReporteEnum {
   PRD,
   ENC
 }

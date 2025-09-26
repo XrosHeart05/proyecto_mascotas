@@ -6,19 +6,18 @@ import java.util.Optional;
 
 public class ReportController {
 
-  private final List<Report> reports;
-  private Report report;
+  public final List<Report> reports; // Es un listado que admite solo tipo Report (PLURAL) // Sirve para agregar nuevos reportes
+  public Report report; // Es un reporte tipo Report (SINGULAR)
 
-  public ReportController() {
-    this.reports = new ArrayList<>();
+  // Constructor
+  public ReportController(List<Report> reports) {
+    this.reports = reports;
   }
 
-  public Report createReport(Report _report) {
+  public void createReport(Report _report) {
     // Ajustar valores a insertar
     // Se debe validar si se inserta o no el microchip
-    report = _report;
-    reports.add(report);
-    return report;
+    reports.add(_report);
   }
 
   // Este método obtiene TODOS los reportes, pueda que este método no sea necesario del todo
@@ -28,36 +27,51 @@ public class ReportController {
   // Ya que habría que limitar y paginar y es un poco más complejo
   public List<Report> getAllReports() {
     // Investigar como funciona ArrayList
-    return new ArrayList<>(reports);
+    return reports;
   }
 
   // Regresa el reporte por identificador
   // Devuelve un Optional, Optional puede contener un objeto, en este caso Report o estar vacío si dicha máscota no se encontró
   // No devuelve null
-  public Optional<Report> getReportById(String id) {
+  public List<Report> getReportById(String id) {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
-    return reports.stream()
-      // Filter aplica como su nombre indica filtros a dichos objetos
-      // Ósea, es como un colador de datos
-      // Que filtros, en este caso solo deja pasar los datos que coinciden con el ID recibido como argumento
-      // La nomenclatura usada es la siguiente, "r" pasa a ser la referencia de un único objeto de reporte
-      // Es como un lop forEach o for de pets[i]
-      // Se hace uso del getId() de los getters de la clase Report
-      .filter(r -> r.getId().equals(id))
-      // Devuelve la primera coincidencia, si hubieran más coincidencias no importa porque ya hizo un return
-      .findFirst();
+    return reports.stream().filter(r -> r.getId().equals(id)).toList();
+    // Filter aplica como su nombre indica filtros a dichos objetos
+    // Ósea, es como un colador de datos
+    // Que filtros, en este caso solo deja pasar los datos que coinciden con el ID recibido como argumento
+    // La nomenclatura usada es la siguiente, "r" pasa a ser la referencia de un único objeto de reporte
+    // Es como un loop forEach o for de reports[i]
+    // Se hace uso del getId() de los getters de la clase Report
+    // equals funciona para Strings al igual que == para int
+    // Devuelve la primera coincidencia, si hubieran más coincidencias no importa porque ya hizo un return
+
+  }
+
+  public List<Report> getReportByZone(String zone) {
+    return reports.stream().filter(r -> r.getZone().equals(zone)).toList();
+  }
+
+  public List<Report> getReportBySpecies(String especie) {
+    TipoEspecieEnum _especie;
+    if ("DOG".equals(especie)) {
+      _especie = TipoEspecieEnum.DOG;
+    } else {
+      _especie = TipoEspecieEnum.CAT;
+    }
+    return reports.stream().filter(r -> r.getEspecie().equals(_especie)).toList();
   }
 
   // Realizar búsqueda de reporte por los demás atributos
-  public List<Report> searchReports(int option, String query) {
+  public List<Report> searchReports(int option, String consulta) {
     // Transforma el query a caracteres en minuscula
-    String lowerQuery = query.toLowerCase();
+    String lowerQuery = consulta.toLowerCase();
     List<Report> toReturn;
 
     switch (option) {
       // ID Reportante
       case 1:
+        getReportById(consulta);
         toReturn = reports.stream()
           // Convierte el nombre del objeto (reporte) a minúscula y lo iguala al query
           // Se usa el método "contains" para que sea similar a la cláusula LIKE %% de SQL
@@ -106,10 +120,10 @@ public class ReportController {
   public List<Report> suggestMatches(Report _report) {
     String reporterName = _report.getFullName().toLowerCase();
     String color = _report.getColor().toLowerCase();
-    ReportTypeEnum reportType = _report.getReportType();
+    TipoReporteEnum tipoReporte = _report.getTipoReporte();
 
     return reports.stream()
-      .filter(r -> r.getReportType() == _report.getReportType())
+      .filter(r -> r.getTipoReporte() == _report.getTipoReporte())
       // Otras coincidencias
       .filter(r -> r.getFullName().toLowerCase().contains(reporterName))
       .filter(r -> r.getColor().toLowerCase().contains(color))
@@ -119,12 +133,9 @@ public class ReportController {
   }
 
   public Report updateReport(Report _report) {
-    Optional<Report> auxReport = getReportById(_report.getId());
-    if (auxReport.isEmpty()) {
-      return null;
-    }
-    Report matchedReport = auxReport.get();
-    matchedReport.setReportType(_report.getReportType());
+    Report auxReport = getReportById(_report.getId()).getFirst();
+    Report matchedReport = auxReport;
+    matchedReport.setTipoReporte(_report.getTipoReporte());
     // Ajustar demás atributos
 
     return matchedReport;

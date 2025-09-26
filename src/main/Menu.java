@@ -1,5 +1,6 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
@@ -128,7 +129,7 @@ public class Menu {
   }
 
   public static List<Report> searchReport() {
-    ReportController reportController = new ReportController();
+    ReportController reportController = new ReportController(new ArrayList<>());
     int option;
     String query = "";
     System.out.println(Menu.searchReportHeader());
