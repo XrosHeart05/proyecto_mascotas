@@ -6,17 +6,10 @@ import java.util.List;
 public class Main {
 
   public static void main(String[] args) {
-    ReporteController reporteController = new ReporteController(new ArrayList<>());
+    ReporteController reporteController = new ReporteController();
     // Refugio Huellas Felices
     // Gestor de Reporte de Mascotas
     // Obtener automáticamente la fecha del sistema para cada reporte
-    reporteController.crearReporte(new Reporte("1", "1", "ABC", TipoReporteEnum.PRD, "", "", TipoEspecieEnum.DOG, "", "", "", ""));
-    reporteController.crearReporte(new Reporte("1", "1", "DEF", TipoReporteEnum.PRD, "", "", TipoEspecieEnum.CAT, "", "", "", ""));
-    reporteController.crearReporte(new Reporte("1", "1", "Gomita", TipoReporteEnum.PRD, "", "", TipoEspecieEnum.CAT, "", "", "", ""));
-    List<Reporte> reportes = reporteController.obtenerReportePorEspecie("CAT");
-    for(Reporte r: reportes) {
-      System.out.println(r.getNombreCompleto());
-    }
 
     int opcion;
     do {
@@ -25,14 +18,26 @@ public class Main {
 
       switch (opcion) {
         case 1:
-          Reporte report = Menu.nuevoReporte();
-          reporteController.crearReporte(report); //Se agrega a la lista
+          // Reporte report = Menu.nuevoReporte();
+          // reporteController.crearReporte(report); //Se agrega a la lista
+          reporteController.crearReporte(new Reporte("1-1234-5678", "123", "Juan Pérez López", TipoReporteEnum.PDR, "05/08/2025", "San José", TipoEspecieEnum.CAT, "", "", "", ""));
+          reporteController.crearReporte(new Reporte("3-3456-7890", "124", "Luis Rodríguez", TipoReporteEnum.ENC, "07/08/2025", "Alajuela", TipoEspecieEnum.CAT, "", "", "", ""));
+          reporteController.crearReporte(new Reporte("3-3456-7891", "125", "Luis Rodríguez Enrico", TipoReporteEnum.PDR, "07/08/2025", "Montes de Oca", TipoEspecieEnum.CAT, "", "", "", ""));
           break;
         case 2:
-            Menu.buscarReporte();
+          List<Reporte> resultado = Menu.buscarReporte(reporteController);
+          reporteController.imprimirReportes(resultado);
           break;
         case 3:
+          reporteController.imprimirReportes(reporteController.reportes);
           break;
+        case 4:
+          reporteController.reporteAgrupado();
+          break;
+         
+        case 5:
+          //Reporte _reporte = new Reporte(String id, String reportanteId, String nombreCompleto, TipoReporteEnum tipoReporte, String fecha, String zona, TipoEspecieEnum especie, String color, String senasParticulares, String contacto, String microchip)
+          //reporteController.sugerirCoincidencias(_reporte);
         default:
           break;
       }

@@ -9,8 +9,8 @@ public class ReporteController {
   public Reporte reporte; // Se usa para interactuar con un objeto reporte (SINGULAR)
 
   // Constructor
-  public ReporteController(List<Reporte> reportes) {
-    this.reportes = reportes;
+  public ReporteController() {
+    this.reportes = new ArrayList<>();
   }
 
   public void crearReporte(Reporte _reporte) {
@@ -60,29 +60,35 @@ public class ReporteController {
   public List<Reporte> obtenerReportePorZona(String zona) {
     return reportes.stream().filter(i -> i.getZona().equals(zona)).toList();
   }
-  
+
   // Realizar búsqueda de reporte por los demás atributos
-  public List<Reporte> buscarReportes(int opcion, String consulta) {
+  public List<Reporte> buscarReportes(int opcion) {
     // Transforma el query a caracteres en minuscula
-    String minusConsulta = consulta.toLowerCase();
     List<Reporte> resultado;
+    String consulta;
 
     switch (opcion) {
       // ID Reportante
       case 1:
-        resultado =obtenerReportesPorId(consulta);
+        System.out.println("\nIngrese el ID del reportante: ");
+        consulta = InputController.inputString().toLowerCase();
+        resultado = obtenerReportesPorId(consulta);
         break;
 
       // Especie
       // TODO: Aplicar filtro de especie
       case 2:
-        resultado= obtenerReportePorEspecie(consulta);
+        System.out.println("\nIngrese la especie (DOG/CAT): ");
+        consulta = InputController.inputString().toLowerCase();
+        resultado = obtenerReportePorEspecie(consulta);
         break;
 
       // Zona
       // TODO: Aplicar filtro de zona
       case 3:
-        resultado= obtenerReportePorZona(consulta);
+        System.out.println("\nIngrese la zona: ");
+        consulta = InputController.inputString().toLowerCase();
+        resultado = obtenerReportePorZona(consulta);
         break;
       default:
         return new ArrayList<>();
@@ -91,6 +97,48 @@ public class ReporteController {
     return resultado;
   }
 
+  /**
+   * Imprime la lista de reportes ingresados
+   * @param reportes
+   */
+  public void imprimirReportes(List<Reporte> reportes) {
+    System.out.println("Resultados encontrados:");
+    int nombreMaximo = 0, zonaMaximo = 0;
+    for (Reporte r : reportes) {
+      if (r.getNombreCompleto().length() > nombreMaximo) {
+        nombreMaximo = r.getNombreCompleto().length();
+      }
+      //Caracteres maximos para zona
+      if (r.getZona().length() > zonaMaximo) {
+        zonaMaximo = r.getZona().length();
+      }
+    }
+    System.out.print("ID Reportante |");
+    System.out.print(" Nombre" + " ".repeat(nombreMaximo - 5) + "|");
+    System.out.print(" Fecha      |");
+    System.out.print(" Zona" + " ".repeat(zonaMaximo - 3) + "|");
+    System.out.println(" Tipo ");
+    System.out.print("--------------+");
+    System.out.print("-" + "-".repeat(nombreMaximo) + "-");
+    System.out.print("+------------+");
+    System.out.print("-" + "-".repeat(zonaMaximo) + "-");
+    System.out.println("+------");
+
+    for (Reporte r : reportes) {
+      System.out.print(r.getId() + "   | ");
+      System.out.print(r.getNombreCompleto() + " ".repeat(nombreMaximo - r.getNombreCompleto().length()) + " | ");
+      System.out.print(r.getFecha() + " | ");
+      System.out.print(r.getZona() + " ".repeat(zonaMaximo - r.getZona().length()) + " | ");
+      System.out.println(r.getEspecie() + " ");
+    }
+  }
+
+  /**
+   * Suguiere coincidencias del parámetro ingresado
+   *
+   * @param _reporte
+   * @return lista de reportes
+   */
   public List<Reporte> sugerirCoincidencias(Reporte _reporte) {
     String reportante = _reporte.getNombreCompleto().toLowerCase();
     String color = _reporte.getColor().toLowerCase();
@@ -113,6 +161,32 @@ public class ReporteController {
     // Ajustar demás atributos
 
     return coincidencia;
+  }
+
+  public void reporteAgrupado() {
+    int contadorGatos = 0, contadorPerros = 0, contadorPDR = 0, contadorENC = 0;
+    for (Reporte i : this.reportes) {
+      if (i.getEspecie() == TipoEspecieEnum.CAT) {
+        contadorGatos += 1;
+      } else {
+        contadorPerros += 1;
+      }
+      if (i.getTipoReporte() == TipoReporteEnum.ENC) {
+        contadorENC += 1;
+      } else {
+        contadorPDR += 1;
+      }
+    }
+
+    System.out.println("-".repeat(45));
+    System.out.println(Menu.centrarTexto("REPORTE AGRUPADO DE MASCOTAS", 45));
+    System.out.println("-".repeat(45));
+    System.out.println("Conteo por tipo:");
+    System.out.println("PDR: " + contadorPDR);
+    System.out.println("ENC: " + contadorENC + "\n");
+    System.out.println("Conteo por especie:");
+    System.out.println("CAT: " + contadorGatos);
+    System.out.println("DOG: " + contadorPerros + "\n");
   }
 
   public boolean eliminarReporte(String id) {

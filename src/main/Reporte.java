@@ -6,7 +6,7 @@ public class Reporte {
   String reportanteId;
   String nombreCompleto;
   // Valor por defecto
-  TipoReporteEnum tipoReporte = TipoReporteEnum.PRD;
+  TipoReporteEnum tipoReporte = TipoReporteEnum.PDR;
   String fecha;
   String zona;
   TipoEspecieEnum especie;

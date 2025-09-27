@@ -129,19 +129,36 @@ public class Menu {
     return texto;
   }
 
-  public static List<Reporte> buscarReporte() {
-    ReporteController reporteController = new ReporteController(new ArrayList<>());
+  public static List<Reporte> buscarReporte(ReporteController reporteController) {
     int opcion;
-    String consulta = "";
     System.out.println(Menu.buscarReporteCabecera());
     opcion = InputController.inputIntRango(1, 3);
     
-    List<Reporte> reportes = reporteController.buscarReportes(opcion, consulta);
+    List<Reporte> reportes = reporteController.buscarReportes(opcion);
     if (reportes.isEmpty()){
         System.out.println("No hay reportes que coincidan");
     }
     return reportes;
   }
   
+  public static Reporte sugerirCoincidenciasMenu() {
+    Reporte reporte = new Reporte();
+    System.out.println("Ingrese la especie (DOG/CAT): ");
+    String especie = InputController.inputString();
+    if ("CAT".equals(especie)){
+      reporte.setEspecie(TipoEspecieEnum.CAT);
+    } else{
+      reporte.setEspecie(TipoEspecieEnum.DOG);
+    }
+    
+    System.out.println("Ingrese el color de la especie:");
+    reporte.setColor(InputController.inputString());
+    
+    System.out.println("Ingrese la zona donde fue vista la especie:");
+    reporte.setZona(InputController.inputString());
+    
+    
+    return reporte;
+  }
   
 }

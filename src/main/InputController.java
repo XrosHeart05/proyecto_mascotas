@@ -89,6 +89,7 @@ public class InputController {
     }
   }
   
+  //Función usada en zona
   public static String inputStringMaximo(int max) {
     while (true) {
       String input = inputString();
@@ -101,4 +102,15 @@ public class InputController {
     }
   }
 
+  public static String inputFecha(){
+    while (true) {
+      String input = inputString();
+      System.out.println("Ingrese la fecha en el formato: dd/mm/yyyy");
+      if (input.length() != 10) {
+        System.out.println("La fecha no cumple con el formato establecido");
+        continue;
+      }
+      return input;
+    }
+  }
 }
