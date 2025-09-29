@@ -24,33 +24,26 @@ public class ReporteController {
   }
 
   // Este método obtiene TODOS los reportes, pueda que este método no sea necesario del todo
-  // De ser el caso que se necesite dejarlo
-  // En caso de que sea necesario pero devuelva demasiados resultados se debe buscar la forma de 
-  // limitar la cantidad de registros a devolver (Tipo LIMIT en SQL), pero no creo que esto sea necesario
-  // Ya que habría que limitar y paginar y es un poco más complejo
   public List<Reporte> obtenerReportes() {
     // Investigar como funciona ArrayList
     return reportes;
   }
 
   // Regresa el reporte por identificador
-  // Devuelve un Optional, Optional puede contener un objeto, en este caso Report o estar vacío si dicha máscota no se encontró
+  // Puede devolver un objeto o estar vacío.
   // No devuelve null
   public List<Reporte> obtenerReportesPorId(String id) {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
+    // Filter aplica como su nombre indica filtros a dichos objetos(colador de datos)
     return reportes.stream().filter(i -> i.getId().equals(id)).toList();
-    // Filter aplica como su nombre indica filtros a dichos objetos
-    // Ósea, es como un colador de datos
-    // Que filtros, en este caso solo deja pasar los datos que coinciden con el ID recibido como argumento
-    // La nomenclatura usada es la siguiente, "r" pasa a ser la referencia de un único objeto de reporte
-    // Es como un loop forEach o for de reportes[i]
-    // Se hace uso del getId() de los getters de la clase Report
-    // equals funciona para Strings al igual que == para int
-    // Devuelve la primera coincidencia, si hubieran más coincidencias no importa porque ya hizo un return
-
   }
 
+  /**
+   * Devuelve una lista de reportes que tengan la misma especie
+   * @param especie
+   * @return reportes
+   */
   public List<Reporte> obtenerReportePorEspecie(String especie) {
     TipoEspecieEnum _especie;
     if ("DOG".equals(especie)) {
@@ -61,13 +54,22 @@ public class ReporteController {
     return reportes.stream().filter(i -> i.getEspecie().equals(_especie)).toList();
   }
 
+  /**
+   * Función que devuelve una lista de reportes que tengan la misma zona
+   * @param zona
+   * @return reportes 
+   */
   public List<Reporte> obtenerReportePorZona(String zona) {
     return reportes.stream().filter(i -> i.getZona().equals(zona)).toList();
   }
 
-  // Realizar búsqueda de reporte por los demás atributos
+  /**
+   * Devuelve una lista de reportes de acuerdo a lo que digita el usuario
+   * 1) Reportes de acuerdo al ID 2) Reportes de acuerdo a la especie 3) Reportes de acuerdo a la zona
+   * @param opcion
+   * @return resultado
+   */
   public List<Reporte> buscarReportes(int opcion) {
-    // Transforma el query a caracteres en minuscula
     List<Reporte> resultado;
     String consulta;
 

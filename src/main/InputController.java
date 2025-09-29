@@ -13,12 +13,8 @@ public class InputController {
   // Hace que pertenezca a la clase de manera global y no a una referencia del objeto especificamente
 
   private static final Scanner inputScanner = new Scanner(System.in);
-
-  // Al llamar los métodos se haría de la siguiente manera
-  // InputController.readInt("Ingrese un número: ");
-  // Y no así
-  // InputController input = new InputController(); // Esto es una instancia del objeto común
-  // input.readInt("Ingrese un número: ");
+  
+  //Función para inputs
   public static String inputString() {
     while (true) {
       String input = InputController.inputScanner.nextLine().trim();
@@ -31,6 +27,7 @@ public class InputController {
   }
 
   //Función para menú
+  //Función que válida que caracteres esté dentro del rango
   public static String inputStringRango(int min, int max) {
     while (true) {
       String input = inputString();
@@ -43,6 +40,7 @@ public class InputController {
     }
   }
 
+  //Valida que el usuario digite un entero válido
   public static int inputInt() {
     while (true) {
       String input = InputController.inputScanner.nextLine().trim();
@@ -54,6 +52,7 @@ public class InputController {
     }
   }
 
+  //Función que valida que el usuario digite un número dentro del rango
   public static int inputIntRango(int min, int max) {
     while (true) {
       int input = inputInt();
@@ -67,6 +66,7 @@ public class InputController {
     }
   }
 
+  // Función que valida confirmación
   public static boolean inputSiNo() {
     while (true) {
 
@@ -83,6 +83,7 @@ public class InputController {
   }
   
   //Función para usuario digite nombre
+  //Valida que el usuario digite el nombre en el rango máximo
   public static String inputStringMinimo(int min) {
     while (true) {
       String input = inputString();
@@ -96,6 +97,7 @@ public class InputController {
   }
   
   //Función usada en zona
+  //Valida que el usuario dijite la cantidad máxima de caracteres para zona
   public static String inputStringMaximo(int max) {
     while (true) {
       String input = inputString();
@@ -122,6 +124,10 @@ public class InputController {
   
   /**
    * La función valida que la fecha que digite el usuario es correcta en formato y que sea real
+   * Para esta función se requirió información de la siguiente página
+   * Referencia Bibliográfica:
+   * Alarcón, J.(08/2023) Cómo validar fechas en Java. campusMVP.es. 
+   * https://www.campusmvp.es/recursos/post/como-validar-fechas-en-java.aspx?srsltid=AfmBOoqh9ZAplVDZJ-dG3bVxNxV3o93s2IwdBoiM1jIAVxgXQGk-kzGW
    * @return true: si la fecha es correcta, false: la fecha es incorrecta
    */
   public static boolean validarFecha(){
