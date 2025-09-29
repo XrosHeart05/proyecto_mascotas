@@ -198,6 +198,40 @@ public class ReporteController {
     return reportes.removeIf(r -> r.getId().equals(id));
   }
   
+  public List<Reporte> reportesCoincidencias(){
+      List<Reporte> resultado = new ArrayList<>();
+      int contador = 0; 
+      for (int i = 0; i < reportes.size(); i++){
+          Reporte reporte1 = reportes.get(i);
+          if (reporte1.getTipoReporte() == TipoReporteEnum.PDR){
+              for (int j = i+1; j < reportes.size(); i++){ 
+              Reporte reporte2 = reportes.get(j);
+              
+              //Aqui se empieza a hacer las comparaciones para coincidencias
+              if (reporte1.microchip.equals(reporte2.microchip)){
+                  resultado.add(reportes.get(i));
+                  resultado.add(reportes.get(j));
+                  contador +=1; 
+                  System.out.println("-------------------------------------------------------------------------");
+                  break;
+              }
+              if (reporte1.especie.equals(reporte2.especie) && reporte1.color.equals(reporte2.color) && reporte1.zona.equals(reporte2.zona)){
+                  String fecha1 = reporte1.fecha;
+                  String fecha2 = reporte2.fecha;
+                  boolean rangoFechas = ReporteController.diferenciaDias(fecha1, fecha2);
+                  if (rangoFechas = true){
+                  resultado.add(reportes.get(i));
+                  resultado.add(reportes.get(j));
+                  contador +=1; 
+                  System.out.println("-------------------------------------------------------------------------");
+                  break;
+                  }
+              }
+          }
+      }
+  }
+    return resultado;  
+  }
   /**
    * Función que indica cuales fechas cumplen con 7 días de diferencia
    * Para esta función se requirio información de la siguiente pagina web:
@@ -224,6 +258,21 @@ public class ReporteController {
       }
      }
     return resultado; 
+  }
+  public static boolean diferenciaDias(String fecha1, String fecha2){
+      List<Reporte> resultado = new ArrayList<>();
+      DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      LocalDate fecha1Comparar = LocalDate.parse(fecha1, formato); //La fecha ingresada se pasa a formato fecha
+      LocalDate fecha2Comparar = LocalDate.parse(fecha2, formato); //La fecha ingresada se pasa a formato fecha
+      //Se usa long ya que el método ChronotUnit devuelve long
+      long dias= ChronoUnit.DAYS.between(fecha1Comparar, fecha2Comparar);
+      //Para cuando la fechas son menores a la de comparación, devuelve negativos, por eso abs
+         int rango = (int)Math.abs(dias); 
+         if( rango <= 7) {
+             return true;
+         } else{
+             return false; 
+         }
   }
     
 }
