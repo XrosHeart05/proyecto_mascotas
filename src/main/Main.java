@@ -18,8 +18,8 @@ public class Main {
 
       switch (opcion) {
         case 1:
-          // Reporte report = Menu.nuevoReporte();
-          // reporteController.crearReporte(report); //Se agrega a la lista
+          Reporte report = Menu.nuevoReporte();
+          reporteController.crearReporte(report); //Se agrega a la lista
           reporteController.crearReporte(new Reporte("1-1234-5678", "123", "Juan Pérez López", TipoReporteEnum.PDR, "05/08/2025", "San José", TipoEspecieEnum.CAT, "", "", "", ""));
           reporteController.crearReporte(new Reporte("3-3456-7890", "124", "Luis Rodríguez", TipoReporteEnum.ENC, "07/08/2025", "Alajuela", TipoEspecieEnum.CAT, "", "", "", ""));
           reporteController.crearReporte(new Reporte("3-3456-7891", "125", "Luis Rodríguez Enrico", TipoReporteEnum.PDR, "07/08/2025", "Montes de Oca", TipoEspecieEnum.CAT, "", "", "", ""));

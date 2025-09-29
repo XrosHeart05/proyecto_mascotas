@@ -62,7 +62,7 @@ public class Menu {
     // Formato obligatorio prefijo REP- cuatro dígitos, comenzado por 1 
     // (ejemplo: REP - 0001, REP - 0002). El sistema debe validar que el ID no exista; 
     // en caso de duplicado, solicitar uno nuevo
-    reporte.setId(InputController.inputString());
+    reporte.setId(InputController.inputReporteId());
     System.out.println("\nIngrese ID del reportante (1-1111-1111): ");
     // TODO: cédula costarricense en el formato 1-1111-1111.
     // En el input Controller debes crear un inputString nuevo que cada ciertos 
