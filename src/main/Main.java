@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
@@ -15,14 +14,11 @@ public class Main {
     do {
       System.out.println(Menu.menuPrincipal());
       opcion = InputController.inputIntRango(1, 7);
-
+      
       switch (opcion) {
         case 1:
-          // Reporte report = Menu.nuevoReporte();
-          // reporteController.crearReporte(report); //Se agrega a la lista
-          reporteController.crearReporte(new Reporte("1-1234-5678", "123", "Juan Pérez López", TipoReporteEnum.PDR, "05/08/2025", "San José", TipoEspecieEnum.CAT, "", "", "", ""));
-          reporteController.crearReporte(new Reporte("3-3456-7890", "124", "Luis Rodríguez", TipoReporteEnum.ENC, "07/08/2025", "Alajuela", TipoEspecieEnum.CAT, "", "", "", ""));
-          reporteController.crearReporte(new Reporte("3-3456-7891", "125", "Luis Rodríguez Enrico", TipoReporteEnum.PDR, "07/08/2025", "Montes de Oca", TipoEspecieEnum.CAT, "", "", "", ""));
+          Reporte report = Menu.nuevoReporte(reporteController);
+          reporteController.crearReporte(report); //Se agrega a la lista
           break;
         case 2:
           List<Reporte> resultado = Menu.buscarReporte(reporteController);
@@ -34,23 +30,56 @@ public class Main {
         case 4:
           reporteController.reporteAgrupado();
           break;
-         
+
         case 5:
-            String fechaUsuario = InputController.inputString();
-            List<Reporte> prueba = reporteController.Diferencia7Dias(fechaUsuario);
-            for(Reporte i : prueba){
-              System.out.println("Nombre: " + i.getNombreCompleto());
+          List<Reporte> coincidencias = reporteController.reportesCoincidencias();
+          int contador = 0;
+          for (Reporte i : coincidencias) {
+            contador++;
+          }
+          String texto = "";
+          int largo = 45;
+          texto += "-".repeat(largo) + "\n";
+          texto += Util.centrarTexto("REPORTE DE COINCIDENCIAS ENCONTRADAS", largo) + "\n";
+          texto += "=".repeat(largo) + "\n";
+          System.out.println(texto);
+
+          for (Reporte i : coincidencias) {
+            if (i.getTipoReporte() == TipoReporteEnum.PDR) {
+              System.out.println("PDR - Pérdida");
+            } else {
+              System.out.println("ENC - Encontrada");
             }
-            break;
-          
+            System.out.println(" ID Reportante: " + i.getReportanteId());
+            System.out.println(" Nombre: " + i.getNombreCompleto());
+            System.out.println(" Especie: " + i.getEspecie());
+            System.out.println(" Color: " + i.getColor());
+            System.out.println(" Zona: " + i.getZona());
+            System.out.println(" Fecha: " + i.getFecha() + "\n");
+
+            if (i.getTipoReporte() == TipoReporteEnum.ENC) {
+              texto = "-".repeat(largo);
+              System.out.println(texto);
+            }
+          }
+          if (contador >= 2) {
+            System.out.println("Coincidencias encontradas: " + contador / 2);
+          } else {
+            System.out.println("Coincidencias encontradas: " + contador);
+          }
+          break;
+
         case 6:
-          //Reporte _reporte = new Reporte(String id, String reportanteId, String nombreCompleto, TipoReporteEnum tipoReporte, String fecha, String zona, TipoEspecieEnum especie, String color, String senasParticulares, String contacto, String microchip)
-          //reporteController.sugerirCoincidencias(_reporte);
+          Reporte reporteA = Menu.actualizarReporte(reporteController);
+          if (reporteA == null) {
+            System.out.println("No existe el reporte por ID ingresado, intente nuevamente");
+            break;
+          }
+          break;
         default:
           break;
       }
-    } while (opcion != 7); // Posible forma de llamar método para sugerir coincidencias
-// suggests.forEach(p -> System.out.println("Posible coincidencia " + p.getName());
+    } while (opcion != 7);
   }
 
 }

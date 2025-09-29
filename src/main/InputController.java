@@ -7,7 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 
-
 public class InputController {
   // static hace que no pueda cambiar
   // Hace que pertenezca a la clase de manera global y no a una referencia del objeto especificamente
@@ -40,7 +39,21 @@ public class InputController {
     }
   }
 
+
   //Valida que el usuario digite un entero válido
+  public static String inputReporteId() {
+    while (true) {
+      String input = inputString();
+      // Uso de expresiones regulares
+      if (!input.matches("^REP-\\d{4,}$")) {
+        System.out.println("ID de reporte inválido, debe iniciar con 'REP-' y mínimo 4 digitos numerales");
+        continue;
+      }
+
+      return input;
+    }
+  }
+
   public static int inputInt() {
     while (true) {
       String input = InputController.inputScanner.nextLine().trim();
@@ -81,7 +94,7 @@ public class InputController {
       System.out.println("Ingrese un valor valido");
     }
   }
-  
+
   //Función para usuario digite nombre
   //Valida que el usuario digite el nombre en el rango máximo
   public static String inputStringMinimo(int min) {
@@ -95,7 +108,7 @@ public class InputController {
       return input;
     }
   }
-  
+
   //Función usada en zona
   //Valida que el usuario dijite la cantidad máxima de caracteres para zona
   public static String inputStringMaximo(int max) {
@@ -110,7 +123,7 @@ public class InputController {
     }
   }
 
-  public static String inputFecha(){
+  public static String inputFecha() {
     while (true) {
       String input = inputString();
       System.out.println("Ingrese la fecha en el formato: dd/mm/yyyy");
@@ -121,7 +134,7 @@ public class InputController {
       return input;
     }
   }
-  
+
   /**
    * La función valida que la fecha que digite el usuario es correcta en formato y que sea real
    * Para esta función se requirió información de la siguiente página
@@ -130,17 +143,17 @@ public class InputController {
    * https://www.campusmvp.es/recursos/post/como-validar-fechas-en-java.aspx?srsltid=AfmBOoqh9ZAplVDZJ-dG3bVxNxV3o93s2IwdBoiM1jIAVxgXQGk-kzGW
    * @return true: si la fecha es correcta, false: la fecha es incorrecta
    */
-  public static boolean validarFecha(){
-     //Definir el formato de fecha
-     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-             .withResolverStyle(ResolverStyle.STRICT);
-     try {
-         String fecha = inputString();
-         LocalDate.parse(fecha,formato);
-         return true;
-     } catch (DateTimeParseException e){
-         System.out.println(" Error: el formato de la fecha es invalido o la fecha es incorrecta");
-         return false;
-     }
+  public static boolean validarFecha() {
+    //Definir el formato de fecha
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+      .withResolverStyle(ResolverStyle.STRICT);
+    try {
+      String fecha = inputString();
+      LocalDate.parse(fecha, formato);
+      return true;
+    } catch (DateTimeParseException e) {
+      System.out.println(" Error: el formato de la fecha es invalido o la fecha es incorrecta");
+      return false;
+    }
   }
 }

@@ -17,16 +17,19 @@ public class ReporteController {
     this.reportes = new ArrayList<>();
   }
 
-  public void crearReporte(Reporte _reporte) {
-    // Ajustar valores a insertar
-    // Se debe validar si se inserta o no el microchip
-    reportes.add(_reporte);
+  public boolean existeId(String id) {
+    boolean esValido = true;
+    for (Reporte i : this.reportes) {
+      if (id.equals(i.getId())) {
+        System.out.println("El ID del reporte ya existe, intente con otro ID");
+        esValido = false;
+      }
+    }
+    return esValido;
   }
 
-  // Este método obtiene TODOS los reportes, pueda que este método no sea necesario del todo
-  public List<Reporte> obtenerReportes() {
-    // Investigar como funciona ArrayList
-    return reportes;
+  public void crearReporte(Reporte _reporte) {
+    reportes.add(_reporte);
   }
 
   // Regresa el reporte por identificador
@@ -105,6 +108,7 @@ public class ReporteController {
 
   /**
    * Imprime la lista de reportes ingresados
+   *
    * @param reportes
    */
   public void imprimirReportes(List<Reporte> reportes) {
@@ -140,6 +144,29 @@ public class ReporteController {
   }
 
   /**
+   * Imprime un reporte
+   *
+   * @param reporte
+   */
+  public void imprimirReporte(Reporte reporte) {
+    System.out.println("ID Reporte: " + reporte.getId());
+    System.out.println("ID Reportante: " + reporte.getReportanteId());
+    System.out.println("Nombre: " + reporte.getNombreCompleto());
+    if (reporte.getTipoReporte() == TipoReporteEnum.PDR) {
+      System.out.println("Tipo: PDR (Perdida)");
+    } else {
+      System.out.println("Tipo: ENC (Encontrada)");
+    }
+    System.out.println("Fecha: " + reporte.getFecha());
+    System.out.println("Zona: " + reporte.getZona());
+    System.out.println("Especie: " + reporte.getEspecie());
+    System.out.println("Color: " + reporte.getColor());
+    System.out.println("Señas: " + reporte.getSenasParticulares());
+    System.out.println("Teléfono: " + reporte.getContacto());
+    System.out.println("Microchip: " + reporte.getMicrochip());
+  }
+
+  /**
    * Suguiere coincidencias del parámetro ingresado
    *
    * @param _reporte
@@ -160,13 +187,76 @@ public class ReporteController {
 
   }
 
-  public Reporte actualizarReporte(Reporte _reporte) {
-    Reporte aux = obtenerReportesPorId(_reporte.getId()).getFirst();
-    Reporte coincidencia = aux;
-    coincidencia.setTipoReporte(_reporte.getTipoReporte());
-    // Ajustar demás atributos
+  public void actualizarReporte(Reporte _reporte, int accion) {
+    switch (accion) {
+      // Todos los datos:
+      case 0:
+        // Todos los datos
+        break;
 
-    return coincidencia;
+      // Nombre completo
+      case 1:
+        String nombre = InputController.inputString();
+        _reporte.setNombreCompleto(nombre);
+        break;
+
+      // Tipo de reporte
+      case 2:
+        String tipoRep = InputController.inputString();
+        TipoReporteEnum tipo;
+        if ("PDR".equals(tipoRep)) {
+          tipo = TipoReporteEnum.PDR;
+        } else {
+          tipo = TipoReporteEnum.ENC;
+        }
+        _reporte.setTipoReporte(tipo);
+        break;
+
+      // Zona
+      case 3:
+        String zona = InputController.inputString();
+        _reporte.setZona(zona);
+        break;
+
+      // Especie
+      case 4:
+        String tipoEsp = InputController.inputString();
+        TipoEspecieEnum tipoE;
+        if ("CAT".equals(tipoEsp)) {
+          tipoE = TipoEspecieEnum.CAT;
+        } else {
+          tipoE = TipoEspecieEnum.DOG;
+        }
+        _reporte.setEspecie(tipoE);
+        break;
+
+      // Color principal
+      case 5:
+        String color = InputController.inputString();
+        _reporte.setColor(color);
+        break;
+
+      // Señas
+      case 6:
+        String senas = InputController.inputString();
+        _reporte.setSenasParticulares(senas);
+        break;
+
+      // Contacto
+      case 7:
+        String contacto = InputController.inputString();
+        _reporte.setContacto(contacto);
+        break;
+
+      // Micro
+      case 8:
+        String micro = InputController.inputString();
+        _reporte.setMicrochip(micro);
+        break;
+      default:
+        System.out.println("Error en actualización");
+        break;
+    }
   }
 
   public void reporteAgrupado() {
@@ -195,86 +285,63 @@ public class ReporteController {
     System.out.println("DOG: " + contadorPerros + "\n");
   }
 
-  public boolean eliminarReporte(String id) {
-    // Validar removeIf
-    return reportes.removeIf(r -> r.getId().equals(id));
-  }
-  
-  public List<Reporte> reportesCoincidencias(){
-      List<Reporte> resultado = new ArrayList<>();
-      int contador = 0; 
-      for (int i = 0; i < reportes.size(); i++){
-          Reporte reporte1 = reportes.get(i);
-          if (reporte1.getTipoReporte() == TipoReporteEnum.PDR){
-              for (int j = i+1; j < reportes.size(); i++){ 
-              Reporte reporte2 = reportes.get(j);
-              
-              //Aqui se empieza a hacer las comparaciones para coincidencias
-              if (reporte1.microchip.equals(reporte2.microchip)){
-                  resultado.add(reportes.get(i));
-                  resultado.add(reportes.get(j));
-                  contador +=1; 
-                  System.out.println("-------------------------------------------------------------------------");
-                  break;
-              }
-              if (reporte1.especie.equals(reporte2.especie) && reporte1.color.equals(reporte2.color) && reporte1.zona.equals(reporte2.zona)){
-                  String fecha1 = reporte1.fecha;
-                  String fecha2 = reporte2.fecha;
-                  boolean rangoFechas = ReporteController.diferenciaDias(fecha1, fecha2);
-                  if (rangoFechas = true){
-                  resultado.add(reportes.get(i));
-                  resultado.add(reportes.get(j));
-                  contador +=1; 
-                  System.out.println("-------------------------------------------------------------------------");
-                  break;
-                  }
-              }
+  public List<Reporte> reportesCoincidencias() {
+    List<Reporte> resultado = new ArrayList<>();
+    int contador = 0;
+    for (int i = 0; i < this.reportes.size(); i++) {
+      Reporte reporte1 = this.reportes.get(i);
+      // Si está PDR
+      if (reporte1.getTipoReporte() == TipoReporteEnum.PDR) {
+        for (int j = i + 1; j < this.reportes.size(); j++) {
+          Reporte reporte2 = this.reportes.get(j);
+
+          //Aqui se empieza a hacer las comparaciones para coincidencias
+          if (!reporte1.microchip.isEmpty() && !reporte2.microchip.isEmpty() && reporte1.microchip.equals(reporte2.microchip)) {
+            resultado.add(this.reportes.get(i));
+            resultado.add(this.reportes.get(j));
+            contador += 1;
+            break;
           }
+
+          if (reporte1.especie.equals(reporte2.especie) && reporte1.color.equals(reporte2.color) && reporte1.zona.equals(reporte2.zona)) {
+            String fecha1 = reporte1.fecha;
+            String fecha2 = reporte2.fecha;
+            boolean rangoFechas = diferenciaDias(fecha1, fecha2);
+            if (rangoFechas) {
+              resultado.add(this.reportes.get(i));
+              resultado.add(this.reportes.get(j));
+              contador += 1;
+              break;
+            }
+          }
+        }
       }
+    }
+    return resultado;
   }
-    return resultado;  
-  }
+
   /**
-   * Función que indica cuales fechas cumplen con 7 días de diferencia
-   * Para esta función se requirio información de la siguiente pagina web:
-   * Referencia Bibliográfica
-   * Labex.io. Recuperado el 28 de septiembre de 2025
+   * Función que indica cuales fechas cumplen con 7 días de diferencia Para esta
+   * función se requirio información de la siguiente pagina web: Referencia
+   * Bibliográfica Labex.io. Recuperado el 28 de septiembre de 2025
    * https://labex.io/es/tutorials/java-how-to-use-chronounit-for-date-operations-in-java-414155
-   * @param fechaSTR
-   * @return Lista con reportes con 7 días de diferencias de fecha digitada por el usuario
+   *
+   * @param fecha1 String con la fecha a comparar
+   * @param fecha2 String con la fecha a comparar
+   * @return booleano que indica si están dentro del rango de 7 días o no
    */
-  public List<Reporte> Diferencia7Dias(String fechaSTR) {
-     List<Reporte> resultado = new ArrayList<>();
-     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-     LocalDate fecha = LocalDate.parse(fechaSTR, formato); //La fecha ingresada se pasa a formato fecha
-     
-     for (Reporte i : this.reportes ){
-         String fecha2 = i.getFecha();
-         LocalDate fechaAComparar = LocalDate.parse(fecha2, formato);
-         //Se usa long ya que el método ChronotUnit devuelve long
-         long dias= ChronoUnit.DAYS.between(fecha, fechaAComparar);
-         //Para cuando la fechas son menores a la de comparación, devuelve negativos
-         int rango = (int)Math.abs(dias); 
-         if( rango <= 7) {
-             resultado.add(i);
-      }
-     }
-    return resultado; 
+  public static boolean diferenciaDias(String fecha1, String fecha2) {
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDate fecha1Comparar = LocalDate.parse(fecha1, formato); //La fecha ingresada se pasa a formato fecha
+    LocalDate fecha2Comparar = LocalDate.parse(fecha2, formato); //La fecha ingresada se pasa a formato fecha
+    //Se usa long ya que el método ChronotUnit devuelve long
+    long dias = ChronoUnit.DAYS.between(fecha1Comparar, fecha2Comparar);
+    //Para cuando la fechas son menores a la de comparación, devuelve negativos, por eso abs
+    int rango = (int) Math.abs(dias);
+    if (rango <= 7) {
+      return true;
+    }
+    return false;
   }
-  public static boolean diferenciaDias(String fecha1, String fecha2){
-      List<Reporte> resultado = new ArrayList<>();
-      DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      LocalDate fecha1Comparar = LocalDate.parse(fecha1, formato); //La fecha ingresada se pasa a formato fecha
-      LocalDate fecha2Comparar = LocalDate.parse(fecha2, formato); //La fecha ingresada se pasa a formato fecha
-      //Se usa long ya que el método ChronotUnit devuelve long
-      long dias= ChronoUnit.DAYS.between(fecha1Comparar, fecha2Comparar);
-      //Para cuando la fechas son menores a la de comparación, devuelve negativos, por eso abs
-         int rango = (int)Math.abs(dias); 
-         if( rango <= 7) {
-             return true;
-         } else{
-             return false; 
-         }
-  }
-    
+
 }

@@ -54,25 +54,29 @@ public class Menu {
     return texto;
   }
 
-  public static Reporte nuevoReporte() {
+  public static Reporte nuevoReporte(ReporteController reporteController) {
     System.out.println(Menu.nuevoReporteCabecera());
     Reporte reporte = new Reporte();
+
     System.out.print("\nIngrese ID del reporte (ejemplo: REP-0001): ");
-    // TODO:  identificador único del reporte, ingresado por el usuario. 
-    // Formato obligatorio prefijo REP- cuatro dígitos, comenzado por 1 
-    // (ejemplo: REP - 0001, REP - 0002). El sistema debe validar que el ID no exista; 
-    // en caso de duplicado, solicitar uno nuevo
-    reporte.setId(InputController.inputString());
+    String usuarioReporteId = InputController.inputReporteId();
+    boolean idUsable = reporteController.existeId(usuarioReporteId);
+    if (idUsable) {
+      reporte.setId(usuarioReporteId);
+    } else {
+      return null;
+    }
+
     System.out.println("\nIngrese ID del reportante (1-1111-1111): ");
     // TODO: cédula costarricense en el formato 1-1111-1111.
     // En el input Controller debes crear un inputString nuevo que cada ciertos 
     // caracteres solicite un guión, además de una longitud definida
     reporte.setReportanteId(InputController.inputString());
-    
+
     //--------------------------------------------------------------------------
     System.out.println("\nIngrese nombre completo: ");
     reporte.setNombreCompleto(InputController.inputStringMinimo(7));
-    
+
     System.out.println("\nTipo de reporte (PDR/ENC) [PDR por defecto]: ");
     // TODO: PDR o ENC (3 letras). PDR = Perdida (valor asignado por defecto al registrar una
     // nueva mascota). ENC = Encontrada (se selecciona cuando el usuario desea actualizar un
@@ -114,6 +118,63 @@ public class Menu {
     return reporte;
   }
 
+  public static String actualizarReporteCabecera() {
+    String texto = "";
+    int largo = 45;
+    texto += "-".repeat(largo) + "\n";
+    texto += centrarTexto("ACTUALIZAR ESTADO DE  REPORTE", largo) + "\n";
+    texto += "=".repeat(largo) + "\n";
+
+    return texto;
+  }
+
+  public static Reporte actualizarReporte(ReporteController reporteController) {
+    System.out.println(Menu.actualizarReporteCabecera());
+
+    System.out.print("\nIngrese ID del reporte (No editable): ");
+    String reporteId = InputController.inputReporteId();
+
+    List<Reporte> coincidenciasPorId = reporteController.obtenerReportesPorId(reporteId);
+    Reporte reporte = null;
+    if (!coincidenciasPorId.isEmpty()) {
+      for (Reporte i : coincidenciasPorId) {
+        System.out.println("Reporte encontrado: ");
+        reporteController.imprimirReporte(i);
+        reporte = i;
+        break;
+      }
+    } else {
+      return null;
+    }
+
+    System.out.println("Seleccione nueva acción: ");
+    System.out.println("1. Editar un solo dato");
+    System.out.println("2. Reingresar todos los datos\n");
+    System.out.print("Ingrese opción: ");
+    int accion = InputController.inputIntRango(1, 2);
+
+    int accion2;
+    if (accion == 1) {
+      System.out.println("Que dato desea editar?");
+      System.out.println("1. Nombre completo");
+      System.out.println("2. Tipo de Reporte (PDR/ENC)");
+      System.out.println("3. Zona");
+      System.out.println("4. Especie (DOG/CAT)");
+      System.out.println("5. Color principal");
+      System.out.println("6. Señas particulares");
+      System.out.println("7. Teléfono de contacto");
+      System.out.println("8. Microchip\n");
+      System.out.print("Ingrese una opción: ");
+      accion2 = InputController.inputIntRango(1, 8);
+      reporteController.actualizarReporte(reporte, accion2);
+    } else {
+      // reporteController.actualizarReporte(reporte, 0);
+      return null;
+    }
+
+    return reporte;
+  }
+
   public static String buscarReporteCabecera() {
     String texto = "";
     int largo = 45;
@@ -133,32 +194,31 @@ public class Menu {
     int opcion;
     System.out.println(Menu.buscarReporteCabecera());
     opcion = InputController.inputIntRango(1, 3);
-    
+
     List<Reporte> reportes = reporteController.buscarReportes(opcion);
-    if (reportes.isEmpty()){
-        System.out.println("No hay reportes que coincidan");
+    if (reportes.isEmpty()) {
+      System.out.println("No hay reportes que coincidan");
     }
     return reportes;
   }
-  
+
   public static Reporte sugerirCoincidenciasMenu() {
     Reporte reporte = new Reporte();
     System.out.println("Ingrese la especie (DOG/CAT): ");
     String especie = InputController.inputString();
-    if ("CAT".equals(especie)){
+    if ("CAT".equals(especie)) {
       reporte.setEspecie(TipoEspecieEnum.CAT);
-    } else{
+    } else {
       reporte.setEspecie(TipoEspecieEnum.DOG);
     }
-    
+
     System.out.println("Ingrese el color de la especie:");
     reporte.setColor(InputController.inputString());
-    
+
     System.out.println("Ingrese la zona donde fue vista la especie:");
     reporte.setZona(InputController.inputString());
-    
-    
+
     return reporte;
   }
-  
+
 }
