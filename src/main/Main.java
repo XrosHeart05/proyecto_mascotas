@@ -36,6 +36,14 @@ public class Main {
           break;
          
         case 5:
+            String fechaUsuario = InputController.inputString();
+            List<Reporte> prueba = reporteController.Diferencia7Dias(fechaUsuario);
+            for(Reporte i : prueba){
+              System.out.println("Nombre: " + i.getNombreCompleto());
+            }
+            break;
+          
+        case 6:
           //Reporte _reporte = new Reporte(String id, String reportanteId, String nombreCompleto, TipoReporteEnum tipoReporte, String fecha, String zona, TipoEspecieEnum especie, String color, String senasParticulares, String contacto, String microchip)
           //reporteController.sugerirCoincidencias(_reporte);
         default:

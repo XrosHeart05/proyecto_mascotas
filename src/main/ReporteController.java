@@ -2,6 +2,10 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.temporal.ChronoUnit;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ReporteController {
 
@@ -193,4 +197,33 @@ public class ReporteController {
     // Validar removeIf
     return reportes.removeIf(r -> r.getId().equals(id));
   }
+  
+  /**
+   * Función que indica cuales fechas cumplen con 7 días de diferencia
+   * Para esta función se requirio información de la siguiente pagina web:
+   * Referencia Bibliográfica
+   * Labex.io. Recuperado el 28 de septiembre de 2025
+   * https://labex.io/es/tutorials/java-how-to-use-chronounit-for-date-operations-in-java-414155
+   * @param fechaSTR
+   * @return Lista con reportes con 7 días de diferencias de fecha digitada por el usuario
+   */
+  public List<Reporte> Diferencia7Dias(String fechaSTR) {
+     List<Reporte> resultado = new ArrayList<>();
+     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+     LocalDate fecha = LocalDate.parse(fechaSTR, formato); //La fecha ingresada se pasa a formato fecha
+     
+     for (Reporte i : this.reportes ){
+         String fecha2 = i.getFecha();
+         LocalDate fechaAComparar = LocalDate.parse(fecha2, formato);
+         //Se usa long ya que el método ChronotUnit devuelve long
+         long dias= ChronoUnit.DAYS.between(fecha, fechaAComparar);
+         //Para cuando la fechas son menores a la de comparación, devuelve negativos
+         int rango = (int)Math.abs(dias); 
+         if( rango <= 7) {
+             resultado.add(i);
+      }
+     }
+    return resultado; 
+  }
+    
 }

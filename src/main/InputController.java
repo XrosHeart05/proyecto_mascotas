@@ -1,6 +1,12 @@
 package main;
 
 import java.util.Scanner;
+//para validar fecha
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
+
 
 public class InputController {
   // static hace que no pueda cambiar
@@ -112,5 +118,23 @@ public class InputController {
       }
       return input;
     }
+  }
+  
+  /**
+   * La función valida que la fecha que digite el usuario es correcta en formato y que sea real
+   * @return true: si la fecha es correcta, false: la fecha es incorrecta
+   */
+  public static boolean validarFecha(){
+     //Definir el formato de fecha
+     DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+             .withResolverStyle(ResolverStyle.STRICT);
+     try {
+         String fecha = inputString();
+         LocalDate.parse(fecha,formato);
+         return true;
+     } catch (DateTimeParseException e){
+         System.out.println(" Error: el formato de la fecha es invalido o la fecha es incorrecta");
+         return false;
+     }
   }
 }
