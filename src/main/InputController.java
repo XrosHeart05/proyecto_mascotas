@@ -12,7 +12,12 @@ public class InputController {
   // Hace que pertenezca a la clase de manera global y no a una referencia del objeto especificamente
 
   private static final Scanner inputScanner = new Scanner(System.in);
-  
+
+  //Función para inputs
+  public static String inputVacio() {
+    return InputController.inputScanner.nextLine().trim();
+  }
+
   //Función para inputs
   public static String inputString() {
     while (true) {
@@ -38,7 +43,6 @@ public class InputController {
       return input;
     }
   }
-
 
   //Valida que el usuario digite un entero válido
   public static String inputReporteId() {
@@ -123,37 +127,37 @@ public class InputController {
     }
   }
 
-  public static String inputFecha() {
-    while (true) {
-      String input = inputString();
-      System.out.println("Ingrese la fecha en el formato: dd/mm/yyyy");
-      if (input.length() != 10) {
-        System.out.println("La fecha no cumple con el formato establecido");
-        continue;
-      }
-      return input;
-    }
-  }
-
   /**
-   * La función valida que la fecha que digite el usuario es correcta en formato y que sea real
-   * Para esta función se requirió información de la siguiente página
-   * Referencia Bibliográfica:
-   * Alarcón, J.(08/2023) Cómo validar fechas en Java. campusMVP.es. 
+   * La función valida que la fecha que digite el usuario es correcta en formato
+   * y que sea real Para esta función se requirió información de la siguiente
+   * página Referencia Bibliográfica: Alarcón, J.(08/2023) Cómo validar fechas
+   * en Java. campusMVP.es.
    * https://www.campusmvp.es/recursos/post/como-validar-fechas-en-java.aspx?srsltid=AfmBOoqh9ZAplVDZJ-dG3bVxNxV3o93s2IwdBoiM1jIAVxgXQGk-kzGW
-   * @return true: si la fecha es correcta, false: la fecha es incorrecta
+   *
+   * @return String con la fecha en formato 'dd/MM/uuuu'
    */
-  public static boolean validarFecha() {
+  public static String inputFecha() {
     //Definir el formato de fecha
-    DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    DateTimeFormatter formato = DateTimeFormatter
+      .ofPattern("dd/MM/uuuu")
       .withResolverStyle(ResolverStyle.STRICT);
-    try {
-      String fecha = inputString();
-      LocalDate.parse(fecha, formato);
-      return true;
-    } catch (DateTimeParseException e) {
-      System.out.println(" Error: el formato de la fecha es invalido o la fecha es incorrecta");
-      return false;
+    while (true) {
+      // Admite vacíos
+      String fecha = inputVacio();
+      try {
+        if (fecha.isEmpty()) {
+          // Devuelve la fecha actual
+          System.out.println("Diste Enter, se asignó la fecha actual");
+          return LocalDate.now().format(formato);
+        } else {
+          LocalDate fechaParseada = LocalDate.parse(fecha, formato);
+          return fechaParseada.format(formato);
+        }
+      } catch (DateTimeParseException e) {
+        System.out.println("Error en el formato de la fecha es invalido o la fecha es incorrecta. Error: " + e.getMessage());
+        System.out.println("Ingrese nuevamente la fecha en el formato 'dd/mm/yyyy'");
+      }
     }
+
   }
 }
