@@ -54,7 +54,10 @@ public class ReporteController {
     } else {
       _especie = TipoEspecieEnum.CAT;
     }
-    return reportes.stream().filter(i -> i.getEspecie().equals(_especie)).toList();
+    return reportes
+      .stream()
+      .filter(i -> i.getEspecie().equals(_especie))
+      .toList();
   }
 
   /**
