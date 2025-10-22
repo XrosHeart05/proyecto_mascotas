@@ -85,13 +85,7 @@ public class Menu {
     // reporte.setReportType(InputController.inputString());
 
     System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
-    // TODO: 
-    // Fecha del reporte: se obtiene automáticamente del sistema (No obstante, el usuario podrá ingresar una
-    // fecha manual en el formato dd/mm/yyyy. Si el campo se deja en blanco, el sistema asignará la fecha
-    // automáticamente).
-    // Crear nuevo inputString para longitud determinada y además que cada ciertos caracteres solicite slashes /
-    // input similar al de la cedula
-    reporte.setFecha(InputController.inputString());
+    reporte.setFecha(InputController.inputFecha());
     //--------------------------------------------------------------------------
     System.out.println("\nIngrese zona: ");
     reporte.setZona(InputController.inputStringMaximo(30));
