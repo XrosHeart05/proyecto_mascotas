@@ -66,48 +66,58 @@ public class Menu {
     } else {
       return null;
     }
-
+    
+    //Pedir el id del reportante
     System.out.println("\nIngrese ID del reportante (1-1111-1111): ");
-    // TODO: cédula costarricense en el formato 1-1111-1111.
-    // En el input Controller debes crear un inputString nuevo que cada ciertos 
-    // caracteres solicite un guión, además de una longitud definida
-    reporte.setReportanteId(InputController.inputString());
+    
+    reporte.setReportanteId(InputController.inputID());
 
     //--------------------------------------------------------------------------
+    
+    //Pedir nombre completo
     System.out.println("\nIngrese nombre completo: ");
     reporte.setNombreCompleto(InputController.inputStringMinimo(7));
 
+    //--------------------------------------------------------------------------
+    
+    //Pedir tipo de reporte(PDR por defecto)
     System.out.println("\nTipo de reporte (PDR/ENC) [PDR por defecto]: ");
-    // TODO: PDR o ENC (3 letras). PDR = Perdida (valor asignado por defecto al registrar una
-    // nueva mascota). ENC = Encontrada (se selecciona cuando el usuario desea actualizar un
-    // hallazgo).
-    // Ajustar a que solo solicite el enum de tipo de reporte
-    // reporte.setReportType(InputController.inputString());
+    
 
+    //--------------------------------------------------------------------------
+    
+    //Pedir fecha
     System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
     reporte.setFecha(InputController.inputFecha());
     //--------------------------------------------------------------------------
+    
+    //ingresar zona
     System.out.println("\nIngrese zona: ");
     reporte.setZona(InputController.inputStringMaximo(30));
-
+    //---------------------------------------------------------------------------
+   
+    //Pedir tipo de especie
     System.out.println("\nIngrese especie (DOG/CAT): ");
-    // TODO: Crear nuevo inputString para que solicite el enum
-    // reporte.setSpecies(InputController.inputString());
-
+    reporte.setEspecie(InputController.inputEspecie());
+    //--------------------------------------------------------------------------
+    
+    //Ingresar Color de mascota
     System.out.println("\nIngrese color principal: ");
     reporte.setColor(InputController.inputString());
-
+    //--------------------------------------------------------------------------
+    
+    //Ingresar senas particulares
     System.out.println("\nIngrese señas particulares (mínimo 10 caracteres): ");
-    // TODO: Crear nuevo inputString para que solo solicite el mínimo
     reporte.setSenasParticulares(InputController.inputStringRango(10, 100));
+    //--------------------------------------------------------------------------
 
-    System.out.println("\nIngrese teléfono de contacto (####-####): ");
-    // TODO: Crear input con el formato ####-####.
-    reporte.setContacto(InputController.inputString());
+    //Pedir número de teléfono
+
+    reporte.setContacto(InputController.inputTelefono());
+    //--------------------------------------------------------------------------
 
     System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
-    // TODO: Crear input que admita vacíos
-    reporte.setMicrochip(InputController.inputString());
+    reporte.setMicrochip(InputController.inputVacio());
 
     return reporte;
   }
