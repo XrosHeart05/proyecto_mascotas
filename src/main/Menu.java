@@ -1,5 +1,6 @@
 package main;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Menu {
@@ -53,87 +54,106 @@ public class Menu {
     return texto;
   }
 
-  public static ReportePerdida nuevoReporte(ReporteController reporteController) {
+  public static Reporte nuevoReporte(ReporteController reporteController) {
     System.out.println(Menu.nuevoReporteCabecera());
-    ReportePerdida reporte = new ReportePerdida();
     Mascota mascota = null;
 
+    // Tipo de reporte
+    System.out.println("\nIngrese el tipo de reporte que desea:");
+    List<String> tipoReportePermitidos = Arrays.asList("PDR", "ENC");
+    String tipoReporteEscogido = InputController.inputRestrict(tipoReportePermitidos);
+
+    // ID del reporte
     System.out.print("\nIngrese ID del reporte (ejemplo: REP-0001): ");
     String usuarioReporteId = InputController.inputReporteId();
     boolean idUsable = reporteController.existeId(usuarioReporteId);
-    if (idUsable) {
-      reporte.setId(usuarioReporteId);
-    } else {
+    if (!idUsable) {
       return null;
     }
-    
-    //Pedir el id del reportante
+
+    // ID del reportante
     System.out.println("\nIngrese ID del reportante (1-1111-1111): ");
-    
-    reporte.setReportanteId(InputController.inputID());
+    String reportanteId = InputController.inputID();
 
-    //--------------------------------------------------------------------------
-    
-    //Pedir nombre completo
-    System.out.println("\nIngrese nombre completo: ");
-    reporte.setNombreCompleto(InputController.inputStringMinimo(7));
+    // Nombre completo
+    System.out.println("\nIngrese su nombre completo: ");
+    String nombreCompleto = InputController.inputStringMinimo(7);
 
-    //--------------------------------------------------------------------------
-    
-    //Pedir tipo de reporte(PDR por defecto)
-    System.out.println("\nTipo de reporte (PDR/ENC) [PDR por defecto]: ");
-    
-
-    //--------------------------------------------------------------------------
-    
-    //Pedir fecha
+    // Fecha
     System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
-    reporte.setFecha(InputController.inputFecha());
-    //--------------------------------------------------------------------------
-    
-    //ingresar zona
+    String fecha = InputController.inputFecha();
+
+    // Zona
     System.out.println("\nIngrese zona: ");
-    reporte.setZona(InputController.inputStringMaximo(30));
-    //---------------------------------------------------------------------------
-   
-    //Pedir tipo de especie
-    System.out.println("\nIngrese especie (DOG/CAT): ");
-    String especieEscogida = InputController.inputEspecie();
-    if ("CAT".equals(especieEscogida)) {
-      // Pedir datos de gato
-      System.out.println("\nIngrese la raza del gato: ");
-      String raza = InputController.inputString();
-      
-      mascota = new Gato(raza, "", false, "CAT", "Naranja", "Ninguna", "ABC");
-      System.out.println("\n");
-    } else if ("DOG".equals(especieEscogida)) {
-      // Pedir datos de perro
-    }
-    // Settear mascota
-    reporte.setMascota(mascota);
-    // Ya la mascota no sería nula
-    reporte.getMascota().setEspecie(InputController.inputEspecie());
-    //--------------------------------------------------------------------------
-    
-    //Ingresar Color de mascota
-    System.out.println("\nIngrese color principal: ");
-    reporte.getMascota().setColor(InputController.inputString());
-    //--------------------------------------------------------------------------
-    
-    //Ingresar senas particulares
-    System.out.println("\nIngrese señas particulares (mínimo 10 caracteres): ");
-    reporte.getMascota().setSennas(InputController.inputStringRango(10, 100));
-    //--------------------------------------------------------------------------
+    String zona = InputController.inputStringMaximo(30);
 
-    //Pedir número de teléfono
+    // Tipo de especie
+    System.out.println("\nIngrese el tipo de especie: ");
+    List<String> especiesPermitidas = Arrays.asList("DOG", "CAT");
+    String especieEscogida = InputController.inputRestrict(especiesPermitidas);
 
-    reporte.setContacto(InputController.inputTelefono());
-    //--------------------------------------------------------------------------
+    // Datos generales de mascota
+    // Color
+    System.out.println("\nIngrese el color del " + especieEscogida + ": ");
+    String color = InputController.inputString();
 
+    // Señas
+    System.out.println("\nIngrese las señas del " + especieEscogida + ": ");
+    String sennas = InputController.inputStringRango(10, 100);
+
+    // Microchip
     System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
-    reporte.getMascota().setMicrochip(InputController.inputVacio());
+    String microchip = InputController.inputVacio();
 
-    return reporte;
+    // Gato
+    String raza, tipoPelaje, talla;
+    boolean estaEsterelizado, tieneCollar;
+    if ("CAT".equals(especieEscogida)) {
+      // Raza del gato
+      System.out.println("\nIngrese la raza del " + especieEscogida + ": ");
+      raza = InputController.inputString();
+
+      // Tipo de pelaje del gato
+      System.out.println("\nIngrese el tipo de pelaje del " + especieEscogida + ": ");
+      List<String> pelajesPermitidos = Arrays.asList("CORTO", "LARGO");
+      tipoPelaje = InputController.inputRestrict(pelajesPermitidos);
+
+      // Si el gato está esterelizado o no
+      System.out.println("\nIngrese si el " + especieEscogida + " se encuentra esterelizado o no: ");
+      estaEsterelizado = InputController.inputSiNo();
+
+      mascota = new Gato(raza, tipoPelaje, estaEsterelizado, especieEscogida, color, sennas, microchip);
+    } // PERRO
+    else if ("DOG".equals(especieEscogida)) {
+      // Raza del perro
+      System.out.println("\nIngrese la raza del " + especieEscogida + ": ");
+      raza = InputController.inputString();
+
+      // Talla del perro
+      System.out.println("\nIngrese la talla del " + especieEscogida + ": ");
+      List<String> tallasPermitidas = Arrays.asList("PEQ", "MED", "GRA");
+      talla = InputController.inputRestrict(tallasPermitidas);
+
+      // Si el perro tiene collar o no
+      System.out.println("\nIngrese si el " + especieEscogida + " tiene collar o no: ");
+      tieneCollar = InputController.inputSiNo();
+
+      mascota = new Perro(raza, talla, tieneCollar, especieEscogida, color, sennas, microchip);
+    }
+
+    // Número de teléfono
+    System.out.println("\nIngrese el número de teléfono: ");
+    String contacto = InputController.inputTelefono();
+
+    // Validaciones tipo de reporte
+    if ("PDR".equals(tipoReporteEscogido)) {
+      return new ReportePerdida(usuarioReporteId, reportanteId, nombreCompleto, fecha, zona, contacto, mascota);
+    } else if ("ENC".equals(tipoReporteEscogido)) {
+      return new ReporteEncontrada(usuarioReporteId, reportanteId, nombreCompleto, fecha, zona, contacto, mascota);
+    }
+
+    // Caso error
+    return null;
   }
 
   public static String actualizarReporteCabecera() {
