@@ -45,19 +45,19 @@ public class Main {
           System.out.println(texto);
 
           for (Reporte i : coincidencias) {
-            if (i.getTipoReporte() == TipoReporteEnum.PDR) {
+            if ("PDR".equals(i.getTipo())) {
               System.out.println("PDR - Pérdida");
             } else {
               System.out.println("ENC - Encontrada");
             }
             System.out.println(" ID Reportante: " + i.getReportanteId());
             System.out.println(" Nombre: " + i.getNombreCompleto());
-            System.out.println(" Especie: " + i.getEspecie());
-            System.out.println(" Color: " + i.getColor());
+            System.out.println(" Especie: " + i.getMascota().getEspecie());
+            System.out.println(" Color: " + i.getMascota().getColor());
             System.out.println(" Zona: " + i.getZona());
             System.out.println(" Fecha: " + i.getFecha() + "\n");
 
-            if (i.getTipoReporte() == TipoReporteEnum.ENC) {
+            if ("ENC".equals(i.getTipo())) {
               texto = "-".repeat(largo);
               System.out.println(texto);
             }

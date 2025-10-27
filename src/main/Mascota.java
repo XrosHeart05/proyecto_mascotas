@@ -1,23 +1,23 @@
 package main;
 
 public abstract class Mascota {
-    private TipoEspecieEnum especie; 
+    private String especie; 
     private String color;
     private String sennas; 
     private String microchip;
 
-    public Mascota(TipoEspecieEnum especie, String color, String sennas, String microchip) {
+    public Mascota(String especie, String color, String sennas, String microchip) {
         this.especie = especie;
         this.color = color;
         this.sennas = sennas;
         this.microchip = microchip;
     }
 
-    public TipoEspecieEnum getEspecie() {
+    public String getEspecie() {
         return especie;
     }
 
-    public void setEspecie(TipoEspecieEnum especie) {
+    public void setEspecie(String especie) {
         this.especie = especie;
     }
 

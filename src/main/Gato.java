@@ -5,9 +5,9 @@ public class Gato extends Mascota {
   private String raza;
   private String tipoPelaje;
   private boolean esterelizado;
-
-  public Gato(String raza, String tipoPelaje, boolean esterelizado, TipoEspecieEnum especie, String color, String sennas, String microchip) {
-    super(especie, color, sennas, microchip);
+  
+  public Gato(String raza, String tipoPelaje, boolean esterelizado, String especie, String color, String sennas, String microchip) {
+    super(especie = "CAT", color, sennas, microchip);
     this.raza = raza;
     this.tipoPelaje = tipoPelaje;
     this.esterelizado = esterelizado;

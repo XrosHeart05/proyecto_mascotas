@@ -1,6 +1,5 @@
 package main;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
@@ -54,9 +53,10 @@ public class Menu {
     return texto;
   }
 
-  public static Reporte nuevoReporte(ReporteController reporteController) {
+  public static ReportePerdida nuevoReporte(ReporteController reporteController) {
     System.out.println(Menu.nuevoReporteCabecera());
-    Reporte reporte = new Reporte();
+    ReportePerdida reporte = new ReportePerdida();
+    Mascota mascota = null;
 
     System.out.print("\nIngrese ID del reporte (ejemplo: REP-0001): ");
     String usuarioReporteId = InputController.inputReporteId();
@@ -98,17 +98,31 @@ public class Menu {
    
     //Pedir tipo de especie
     System.out.println("\nIngrese especie (DOG/CAT): ");
-    reporte.setEspecie(InputController.inputEspecie());
+    String especieEscogida = InputController.inputEspecie();
+    if ("CAT".equals(especieEscogida)) {
+      // Pedir datos de gato
+      System.out.println("\nIngrese la raza del gato: ");
+      String raza = InputController.inputString();
+      
+      mascota = new Gato(raza, "", false, "CAT", "Naranja", "Ninguna", "ABC");
+      System.out.println("\n");
+    } else if ("DOG".equals(especieEscogida)) {
+      // Pedir datos de perro
+    }
+    // Settear mascota
+    reporte.setMascota(mascota);
+    // Ya la mascota no sería nula
+    reporte.getMascota().setEspecie(InputController.inputEspecie());
     //--------------------------------------------------------------------------
     
     //Ingresar Color de mascota
     System.out.println("\nIngrese color principal: ");
-    reporte.setColor(InputController.inputString());
+    reporte.getMascota().setColor(InputController.inputString());
     //--------------------------------------------------------------------------
     
     //Ingresar senas particulares
     System.out.println("\nIngrese señas particulares (mínimo 10 caracteres): ");
-    reporte.setSenasParticulares(InputController.inputStringRango(10, 100));
+    reporte.getMascota().setSennas(InputController.inputStringRango(10, 100));
     //--------------------------------------------------------------------------
 
     //Pedir número de teléfono
@@ -117,7 +131,7 @@ public class Menu {
     //--------------------------------------------------------------------------
 
     System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
-    reporte.setMicrochip(InputController.inputVacio());
+    reporte.getMascota().setMicrochip(InputController.inputVacio());
 
     return reporte;
   }
@@ -211,13 +225,13 @@ public class Menu {
     System.out.println("Ingrese la especie (DOG/CAT): ");
     String especie = InputController.inputString();
     if ("CAT".equals(especie)) {
-      reporte.setEspecie(TipoEspecieEnum.CAT);
+      reporte.getMascota().setEspecie("CAT");
     } else {
-      reporte.setEspecie(TipoEspecieEnum.DOG);
+      reporte.getMascota().setEspecie("DOG");
     }
 
     System.out.println("Ingrese el color de la especie:");
-    reporte.setColor(InputController.inputString());
+    reporte.getMascota().setColor(InputController.inputString());
 
     System.out.println("Ingrese la zona donde fue vista la especie:");
     reporte.setZona(InputController.inputString());

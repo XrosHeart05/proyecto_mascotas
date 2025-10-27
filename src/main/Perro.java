@@ -6,8 +6,8 @@ public class Perro extends Mascota {
     private String talla;
     private boolean collar; 
 
-    public Perro(String raza, String talla, boolean collar, TipoEspecieEnum especie, String color, String sennas, String microchip) {
-        super(especie, color, sennas, microchip);
+    public Perro(String raza, String talla, boolean collar, String especie, String color, String sennas, String microchip) {
+        super(especie = "DOG", color, sennas, microchip);
         this.raza = raza;
         this.talla = talla;
         this.collar = collar;

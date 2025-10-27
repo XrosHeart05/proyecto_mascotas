@@ -5,32 +5,23 @@ public class Reporte {
   String id;
   String reportanteId;
   String nombreCompleto;
-  // Valor por defecto
-  TipoReporteEnum tipoReporte = TipoReporteEnum.PDR;
   String fecha;
   String zona;
-  TipoEspecieEnum especie;
-  String color;
-  String senasParticulares;
   String contacto;
-  String microchip;
+  Mascota mascota;
 
   public Reporte() {
   }
 
   // Constructor con todos los atributos
-  public Reporte(String id, String reportanteId, String nombreCompleto, TipoReporteEnum tipoReporte, String fecha, String zona, TipoEspecieEnum especie, String color, String senasParticulares, String contacto, String microchip) {
+  public Reporte(String id, String reportanteId, String nombreCompleto, String fecha, String zona, String contacto, Mascota mascota) {
     this.id = id;
     this.reportanteId = reportanteId;
     this.nombreCompleto = nombreCompleto;
-    this.tipoReporte = tipoReporte;
     this.fecha = fecha;
     this.zona = zona;
-    this.especie = especie;
-    this.color = color;
-    this.senasParticulares = senasParticulares;
     this.contacto = contacto;
-    this.microchip = microchip;
+    this.mascota = mascota;
   }
 
   public String getId() {
@@ -57,15 +48,6 @@ public class Reporte {
     this.nombreCompleto = nombreCompleto;
   }
 
-  public TipoReporteEnum getTipoReporte() {
-    return tipoReporte;
-  }
-
-  public void setTipoReporte(TipoReporteEnum tipoReporte) {
-    this.tipoReporte = tipoReporte;
-  }
-
-
   public String getFecha() {
     return fecha;
   }
@@ -82,30 +64,6 @@ public class Reporte {
     this.zona = zona;
   }
 
-  public TipoEspecieEnum getEspecie() {
-    return especie;
-  }
-
-  public void setEspecie(TipoEspecieEnum especie) {
-    this.especie = especie;
-  }
-
-  public String getColor() {
-    return color;
-  }
-
-  public void setColor(String color) {
-    this.color = color;
-  }
-
-  public String getSenasParticulares() {
-    return senasParticulares;
-  }
-
-  public void setSenasParticulares(String senasParticulares) {
-    this.senasParticulares = senasParticulares;
-  }
-
   public String getContacto() {
     return contacto;
   }
@@ -114,12 +72,16 @@ public class Reporte {
     this.contacto = contacto;
   }
 
-  public String getMicrochip() {
-    return microchip;
+  public Mascota getMascota() {
+    return mascota;
   }
 
-  public void setMicrochip(String microchip) {
-    this.microchip = microchip;
+  public void setMascota(Mascota mascota) {
+    this.mascota = mascota;
+  }
+
+  public String getTipo() {
+    return "";
   }
 
 }
