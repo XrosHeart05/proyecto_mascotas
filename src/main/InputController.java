@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.List;
 
 public class InputController {
   // static hace que no pueda cambiar
@@ -180,12 +181,25 @@ public class InputController {
     System.out.println("Ingrese CAT o DOG, solo se acepta en mayúsculas");
     while (true) {
       String especie = inputString();
-      if (!especie.equals("DOG") || !especie.equals("CAT")) {
+      if (!especie.equals("DOG") && !especie.equals("CAT")) {
         System.out.println("Formato incorrecto, solo se permite CAT o DOG en mayúsculas");
         System.out.println("Vuelve a escribir el código correcto");
         continue;
       }
       return especie;
+    }
+  }
+
+  public static String inputRestrict(List<String> permitidos) {
+    System.out.println("Solo se permiten los siguientes valores: ");
+    for (String permitido : permitidos) {
+      System.out.println("- " + permitido);
+    }
+    while (true) {
+      String valor = inputString();
+      if (permitidos.contains(valor)) {
+        return valor;
+      }
     }
   }
 
