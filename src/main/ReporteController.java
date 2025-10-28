@@ -1,7 +1,7 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import java.time.temporal.ChronoUnit;
 
 import java.time.LocalDate;
@@ -9,12 +9,149 @@ import java.time.format.DateTimeFormatter;
 
 public class ReporteController {
 
-  public final List<Reporte> reportes; // Listado que solo admite objetos Reporte // Sirve para agregar nuevos reportes
-  public Reporte reporte; // Se usa para interactuar con un objeto reporte (SINGULAR)
+  // Listado que solo admite objetos Reporte
+  // Sirve para agregar nuevos reportes
+  public final List<Reporte> reportes;
+  private final String archivoPerdidas = "reporte_perdidas.txt";
+  private final String archivoEncontradas = "reporte_encontradas.txt";
 
   // Constructor
   public ReporteController() {
     this.reportes = new ArrayList<>();
+    cargarReportes();
+  }
+
+  public void crearReporte(Reporte _reporte) {
+    reportes.add(_reporte);
+    almacenarReporte(_reporte);
+  }
+
+  private void almacenarReporte(Reporte reporte) {
+    FileWriter fileWriter = null;
+    BufferedWriter bufferedWriter = null;
+    PrintWriter printWriter = null;
+
+    String nombreArchivo;
+    // Validación de tipo de reporte
+    if (reporte.getTipo() == "PDR") {
+      nombreArchivo = archivoPerdidas;
+    } else {
+      nombreArchivo = archivoEncontradas;
+    }
+
+    // Escritura en archivo
+    try {
+      // Inicialización de objetos para escritura de archivo
+      // true para modo append
+      fileWriter = new FileWriter(nombreArchivo, true);
+      bufferedWriter = new BufferedWriter(fileWriter);
+      printWriter = new PrintWriter(bufferedWriter);
+
+      if ("CAT".equals(reporte.getMascota().getEspecie())) {
+        Mascota mascota = reporte.getMascota();
+        // Escritura en archivo para gato
+        printWriter.println(String.join("|",
+          reporte.getId(),
+          reporte.getReportanteId(),
+          reporte.getNombreCompleto(),
+          reporte.getFecha(),
+          reporte.getZona(),
+          reporte.getContacto(),
+          mascota.getEspecie(),
+          mascota.getColor(),
+          mascota.getSennas(),
+          mascota.getMicrochip(),
+          mascota.toPrint()
+        ));
+      }
+
+    } catch (IOException e) {
+      System.out.println("Error al guardar el reporte en el archivo " + nombreArchivo + ". Error: " + e.getMessage());
+    } finally {
+      try {
+        if (printWriter != null) {
+          printWriter.close();
+        }
+        if (bufferedWriter != null) {
+          bufferedWriter.close();
+        }
+        if (fileWriter != null) {
+          fileWriter.close();
+        }
+      } catch (IOException e) {
+        System.out.println("Error al cerrar el archivo " + nombreArchivo + ". Error: " + e.getMessage());
+      }
+    }
+
+  }
+
+  private void cargarReportes() {
+    cargarArchivo(archivoPerdidas, true);
+//    cargarArchivo(archivoEncontradas, false);
+    System.out.println("Prueba");
+  }
+
+  private void cargarArchivo(String archivo, boolean esPerdida) {
+    // Instancia de objetos para lectura de archivos
+    File file = new File(archivo);
+    Reporte reporte;
+    BufferedReader bufferedReader = null;
+
+    // Valida si existe el archivo o no
+    if (!file.exists()) {
+      System.out.println("El archivo no existe");
+      return;
+    }
+
+    try {
+      // Lectura de archivo
+      bufferedReader = new BufferedReader(new FileReader(file));
+      String linea;
+
+      // Línea por línea
+      while ((linea = bufferedReader.readLine()) != null) {
+        // Corte de cada línea por el caracter "|"
+        String[] datos = linea.split("\\|");
+        // Determinar que especie es
+        String especie = datos[6];
+        boolean estaEsterelizado = false, tieneCollar = false;
+
+        // Rellenado de datos de la mascota
+        Mascota mascota;
+        if ("CAT".equals(especie)) {
+          if ("si".equals(datos[12])) {
+            estaEsterelizado = true;
+          }
+          mascota = new Gato(datos[10], datos[11], estaEsterelizado, especie, datos[7], datos[8], datos[9]);
+        } else {
+          if ("si".equals(datos[12])) {
+            tieneCollar = true;
+          }
+          mascota = new Perro(datos[10], datos[11], tieneCollar, especie, datos[7], datos[8], datos[9]);
+        }
+
+        // Rellenado de los datos de cada reporte
+        if (esPerdida) {
+          reporte = new ReportePerdida(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], mascota);
+        } else {
+          reporte = new ReporteEncontrada(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], mascota);
+        }
+
+        this.reportes.add(reporte);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Error al leer el archivo " + archivo + ". Error: " + e.getMessage());
+    } finally {
+      try {
+        if (bufferedReader != null) {
+          // Cerrar lectura de archivo
+          bufferedReader.close();
+        }
+      } catch (IOException e) {
+        System.out.println("Error al cerrar el lector del archivo " + archivo + ". Error: " + e.getMessage());
+      }
+    }
   }
 
   public boolean existeId(String id) {
@@ -26,10 +163,6 @@ public class ReporteController {
       }
     }
     return esValido;
-  }
-
-  public void crearReporte(Reporte _reporte) {
-    reportes.add(_reporte);
   }
 
   // Regresa el reporte por identificador
