@@ -241,7 +241,15 @@ public class Menu {
   }
 
   public static Reporte sugerirCoincidenciasMenu() {
-    Reporte reporte = new Reporte();
+    System.out.println("\nQué tipo de reporte es? \n1: Perdido\n2: Encontrado");
+    int opcion = InputController.inputIntRango(1, 2);
+    Reporte reporte;
+    if (opcion == 1) {
+      reporte = new ReportePerdida();
+    } else {
+      reporte = new ReporteEncontrada();
+    }
+
     System.out.println("Ingrese la especie (DOG/CAT): ");
     String especie = InputController.inputString();
     if ("CAT".equals(especie)) {
