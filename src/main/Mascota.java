@@ -46,4 +46,6 @@ public abstract class Mascota {
     }
     
     abstract String resumenMascota();
+    
+    abstract String toPrint();
 }

@@ -5,7 +5,7 @@ public class Gato extends Mascota {
   private String raza;
   private String tipoPelaje;
   private boolean esterelizado;
-  
+
   public Gato(String raza, String tipoPelaje, boolean esterelizado, String especie, String color, String sennas, String microchip) {
     super(especie = "CAT", color, sennas, microchip);
     this.raza = raza;
@@ -57,6 +57,23 @@ public class Gato extends Mascota {
       + ", " + estaEsterelizado + " está esterelizado"
       + ", tiene las siguientes señas: " + super.getSennas()
       + " y " + micro;
+  }
+
+  @Override
+  String toPrint() {
+    String estaEsterelizado;
+    if (isEsterelizado()) {
+      estaEsterelizado = "si";
+    } else {
+      estaEsterelizado = "no";
+    }
+
+    return String.join("|",
+      getRaza(),
+      getTipoPelaje(),
+      estaEsterelizado
+    );
+
   }
 
 }
