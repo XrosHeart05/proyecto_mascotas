@@ -1,6 +1,6 @@
 package main;
 
-public class Reporte {
+public abstract class Reporte {
 
   String id;
   String reportanteId;
@@ -80,8 +80,6 @@ public class Reporte {
     this.mascota = mascota;
   }
 
-  public String getTipo() {
-    return "";
-  }
+  public abstract String getTipo();
 
 }
