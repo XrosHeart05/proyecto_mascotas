@@ -22,9 +22,10 @@ public class ReporteController {
   }
 
   /**
-   * Agrega los reportes al listado de reportes e invoca el método de 
+   * Agrega los reportes al listado de reportes e invoca el método de
    * almacenamiento de datos al archivo de txt correspondiente
-   * @param _reporte 
+   *
+   * @param _reporte
    */
   public void crearReporte(Reporte _reporte) {
     reportes.add(_reporte);
@@ -32,7 +33,9 @@ public class ReporteController {
   }
 
   /**
-   * Desfragmenta un reporte en string para almacenarse en el txt correspondiente
+   * Desfragmenta un reporte en string para almacenarse en el txt
+   * correspondiente
+   *
    * @param reporte Reporte a almacenar
    */
   private void almacenarReporte(Reporte reporte) {
@@ -104,10 +107,10 @@ public class ReporteController {
   }
 
   /**
-   * Apertura archivos txt, los lee línea por línea y separa cada una de sus 
-   * "columnas" por medio del caracter "|"
-   * Transforma los archivos txt en objetos de tipo Reporte para su posterior 
-   * adición al listado de reportes
+   * Apertura archivos txt, los lee línea por línea y separa cada una de sus
+   * "columnas" por medio del caracter "|" Transforma los archivos txt en
+   * objetos de tipo Reporte para su posterior adición al listado de reportes
+   *
    * @param archivo Nombre del archivo
    * @param esPerdida Si se trata del archivo de perdidos o no
    */
@@ -176,6 +179,7 @@ public class ReporteController {
 
   /**
    * Valida si el id del reporte ya existe o no
+   *
    * @param id Id del reporte a comparar
    * @return boolean indicando si existe o no; true no existe, false, existe
    */
@@ -191,9 +195,9 @@ public class ReporteController {
   }
 
   /**
-   * Regresa el reporte por identificador
-   * Puede devolver un objeto o estar vacío.
-   * No devuelve null
+   * Regresa el reporte por identificador Puede devolver un objeto o estar
+   * vacío. No devuelve null
+   *
    * @param id ID del reporte a buscar
    * @return Listado de reportes
    */
@@ -345,10 +349,9 @@ public class ReporteController {
   public List<Reporte> sugerirCoincidencias(Reporte _reporte) {
     String reportante = _reporte.getNombreCompleto().toLowerCase();
     String color = _reporte.getMascota().getColor().toLowerCase();
-    String tipoReporte = _reporte.getTipo();
 
     return reportes.stream()
-      .filter(r -> r.getTipo() == _reporte.getTipo())
+      .filter(r -> r.getTipo().equals(_reporte.getTipo()))
       // Otras coincidencias
       .filter(r -> r.getNombreCompleto().toLowerCase().contains(reportante))
       .filter(r -> r.getMascota().getColor().toLowerCase().contains(color))
@@ -359,88 +362,238 @@ public class ReporteController {
 
   /**
    * Actualiza un reporte completo o solo ciertos valores de este
+   *
    * @param _reporte Reporte a actualizar
    * @param accion Indica si actualizar un reporte por completo o solo un dato
    * especifico
    */
-  public void actualizarReporte(Reporte _reporte, int accion) {
+  public void actualizarReporte(Reporte reporte, int accion) {
+    Mascota mascota = null;
+    List<String> especiesPermitidas = Arrays.asList("DOG", "CAT");
+    List<String> pelajesPermitidos = Arrays.asList("CORTO", "LARGO");
+    List<String> tallasPermitidas = Arrays.asList("PEQ", "MED", "GRA");
+
+    if (reporte == null) {
+      System.out.println("No se encontró el reporte");
+      return;
+    }
+
     switch (accion) {
       // Todos los datos:
       case 0:
         // Todos los datos
+        System.out.println("Actualizando todos los datos");
+
+        // ID del reportante
+        System.out.println("\nDigite el ID del reportante:");
+        reporte.setReportanteId(InputController.inputID());
+
+        // Nombre completo
+        System.out.println("\nDigite el nombre completo del reportante:");
+        reporte.setNombreCompleto(InputController.inputStringMinimo(7));
+
+        // Fecha
+        System.out.println("\nDigite la fecha:");
+        reporte.setFecha(InputController.inputFecha());
+
+        // Zona
+        System.out.println("\nDigite la zona:");
+        reporte.setZona(InputController.inputStringMaximo(30));
+
+        // Número de teléfono
+        System.out.println("\nIngrese el número de teléfono: ");
+        String contacto = InputController.inputTelefono();
+
+        // Tipo de especie
+        System.out.println("\nIngrese el tipo de especie:");
+        String especieEscogida = InputController.inputRestrict(especiesPermitidas);
+
+        // Datos generales de mascota
+        // Color
+        System.out.println("\nIngrese el color del " + especieEscogida + ": ");
+        String color = InputController.inputString();
+
+        // Señas
+        System.out.println("\nIngrese las señas del " + especieEscogida + ": ");
+        String sennas = InputController.inputStringRango(10, 100);
+
+        // Microchip
+        System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
+        String microchip = InputController.inputVacio();
+
+        // Gato
+        String raza,
+         tipoPelaje,
+         talla;
+        boolean estaEsterelizado,
+         tieneCollar;
+        if ("CAT".equals(especieEscogida)) {
+          // Raza del gato
+          System.out.println("\nIngrese la raza del " + especieEscogida + ": ");
+          raza = InputController.inputString();
+
+          // Tipo de pelaje del gato
+          System.out.println("\nIngrese el tipo de pelaje del " + especieEscogida + ": ");
+          tipoPelaje = InputController.inputRestrict(pelajesPermitidos);
+
+          // Si el gato está esterelizado o no
+          System.out.println("\nIngrese si el " + especieEscogida + " se encuentra esterelizado o no: ");
+          estaEsterelizado = InputController.inputSiNo();
+
+          mascota = new Gato(raza, tipoPelaje, estaEsterelizado, especieEscogida, color, sennas, microchip);
+        } // PERRO
+        else if ("DOG".equals(especieEscogida)) {
+          // Raza del perro
+          System.out.println("\nIngrese la raza del " + especieEscogida + ": ");
+          raza = InputController.inputString();
+
+          // Talla del perro
+          System.out.println("\nIngrese la talla del " + especieEscogida + ": ");
+          talla = InputController.inputRestrict(tallasPermitidas);
+
+          // Si el perro tiene collar o no
+          System.out.println("\nIngrese si el " + especieEscogida + " tiene collar o no: ");
+          tieneCollar = InputController.inputSiNo();
+
+          mascota = new Perro(raza, talla, tieneCollar, especieEscogida, color, sennas, microchip);
+        }
+
+        reporte.setMascota(mascota);
         break;
 
       // Nombre completo
       case 1:
         String nombre = InputController.inputString();
-        _reporte.setNombreCompleto(nombre);
+        reporte.setNombreCompleto(nombre);
         break;
 
       // Tipo de reporte
       case 2:
-        System.out.println("El tipo de reporte actual es:" + _reporte.getTipo());
-        String tipoRep = InputController.inputReporte();
-        if (!"PDR".equals(tipoRep) || !"ENC".equals(tipoRep)) {
-          System.out.println("Solo se admiten 'PDR' o 'ENC'");
+        System.out.println("El tipo de reporte actual es:" + reporte.getTipo());
+        List<String> tiposPermitidos = Arrays.asList("PDR", "ENC");
+        String tipoRep = InputController.inputRestrict(tiposPermitidos);
+
+        if (tipoRep.equals(reporte.getTipo())) {
+          System.out.println("Ya el reporte es del tipo " + reporte.getTipo());
           break;
         }
+
         if ("PDR".equals(tipoRep)) {
-          _reporte = new ReportePerdida(
-            _reporte.getId(),
-            _reporte.getReportanteId(),
-            _reporte.getNombreCompleto(),
-            _reporte.getFecha(),
-            _reporte.getZona(),
-            _reporte.getContacto(),
-            _reporte.getMascota()
+          reporte = new ReportePerdida(
+            reporte.getId(),
+            reporte.getReportanteId(),
+            reporte.getNombreCompleto(),
+            reporte.getFecha(),
+            reporte.getZona(),
+            reporte.getContacto(),
+            reporte.getMascota()
           );
         } else if ("ENC".equals(tipoRep)) {
-          _reporte = new ReporteEncontrada(
-            _reporte.getId(),
-            _reporte.getReportanteId(),
-            _reporte.getNombreCompleto(),
-            _reporte.getFecha(),
-            _reporte.getZona(),
-            _reporte.getContacto(),
-            _reporte.getMascota()
+          reporte = new ReporteEncontrada(
+            reporte.getId(),
+            reporte.getReportanteId(),
+            reporte.getNombreCompleto(),
+            reporte.getFecha(),
+            reporte.getZona(),
+            reporte.getContacto(),
+            reporte.getMascota()
           );
         }
         break;
 
       // Zona
       case 3:
-        String zona = InputController.inputString();
-        _reporte.setZona(zona);
+        String zona = InputController.inputStringMaximo(30);
+        reporte.setZona(zona);
         break;
 
       // Especie
       case 4:
-        String tipoEsp = InputController.inputEspecie();
-        _reporte.getMascota().setEspecie(tipoEsp);
+        // Tipo de especie
+        System.out.println("\nIngrese el tipo de especie: ");
+        String especieAct = InputController.inputRestrict(especiesPermitidas);
+
+        if (especieAct.equals(reporte.getMascota().getEspecie())) {
+          System.out.println("Ya la mascota es de ese tipo de especie");
+          break;
+        }
+
+        // Datos generales de mascota
+        System.out.println("\nIngrese los datos restantes de la mascota");
+        // Color
+        System.out.println("\nIngrese el color del " + especieAct + ": ");
+        String colorAct = InputController.inputString();
+
+        // Señas
+        System.out.println("\nIngrese las señas del " + especieAct + ": ");
+        String sennasAct = InputController.inputStringRango(10, 100);
+
+        // Microchip
+        System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
+        String microchipAct = InputController.inputVacio();
+
+        // Gato
+        String tipoPelajeAct,
+         tallaAct;
+        boolean estaEsterelizadoAct,
+         tieneCollarAct;
+        if ("CAT".equals(especieAct)) {
+          // Raza del gato
+          System.out.println("\nIngrese la raza del " + especieAct + ": ");
+          String razaGatoAct = InputController.inputString();
+
+          // Tipo de pelaje del gato
+          System.out.println("\nIngrese el tipo de pelaje del " + especieAct + ": ");
+          tipoPelajeAct = InputController.inputRestrict(pelajesPermitidos);
+
+          // Si el gato está esterelizado o no
+          System.out.println("\nIngrese si el " + especieAct + " se encuentra esterelizado o no: ");
+          estaEsterelizadoAct = InputController.inputSiNo();
+
+          mascota = new Gato(razaGatoAct, tipoPelajeAct, estaEsterelizadoAct, especieAct, colorAct, sennasAct, microchipAct);
+        } // PERRO
+        else if ("DOG".equals(especieAct)) {
+          // Raza del perro
+          System.out.println("\nIngrese la raza del " + especieAct + ": ");
+          String razaPerroAct = InputController.inputString();
+
+          // Talla del perro
+          System.out.println("\nIngrese la talla del " + especieAct + ": ");
+          tallaAct = InputController.inputRestrict(tallasPermitidas);
+
+          // Si el perro tiene collar o no
+          System.out.println("\nIngrese si el " + especieAct + " tiene collar o no: ");
+          tieneCollarAct = InputController.inputSiNo();
+
+          mascota = new Perro(razaPerroAct, tallaAct, tieneCollarAct, especieAct, colorAct, sennasAct, microchipAct);
+        }
+
+        reporte.setMascota(mascota);
+        System.out.println("Mascota actualizada");
         break;
 
       // Color principal
       case 5:
-        String color = InputController.inputString();
-        _reporte.getMascota().setColor(color);
+        String soloColorAct = InputController.inputString();
+        reporte.getMascota().setColor(soloColorAct);
         break;
 
       // Señas
       case 6:
-        String senas = InputController.inputString();
-        _reporte.getMascota().setSennas(senas);
+        String soloSennasAct = InputController.inputString();
+        reporte.getMascota().setSennas(soloSennasAct);
         break;
 
       // Contacto
       case 7:
-        String contacto = InputController.inputTelefono();
-        _reporte.setContacto(contacto);
+        String soloContactoAct = InputController.inputTelefono();
+        reporte.setContacto(soloContactoAct);
         break;
 
       // Micro
       case 8:
-        String micro = InputController.inputVacio();
-        _reporte.getMascota().setMicrochip(micro);
+        String soloMicroAct = InputController.inputVacio();
+        reporte.getMascota().setMicrochip(soloMicroAct);
         break;
       default:
         System.out.println("Error en actualización");
@@ -480,6 +633,7 @@ public class ReporteController {
 
   /**
    * Genera un listado de coincidencias de reportes
+   *
    * @return Listado de reportes
    */
   public List<Reporte> reportesCoincidencias() {
