@@ -21,11 +21,20 @@ public class ReporteController {
     cargarReportes();
   }
 
+  /**
+   * Agrega los reportes al listado de reportes e invoca el método de 
+   * almacenamiento de datos al archivo de txt correspondiente
+   * @param _reporte 
+   */
   public void crearReporte(Reporte _reporte) {
     reportes.add(_reporte);
     almacenarReporte(_reporte);
   }
 
+  /**
+   * Desfragmenta un reporte en string para almacenarse en el txt correspondiente
+   * @param reporte Reporte a almacenar
+   */
   private void almacenarReporte(Reporte reporte) {
     FileWriter fileWriter = null;
     BufferedWriter bufferedWriter = null;
@@ -85,12 +94,23 @@ public class ReporteController {
 
   }
 
+  /**
+   * Invoca los métodos de carga de archivos
+   */
   private void cargarReportes() {
     cargarArchivo(archivoPerdidas, true);
 //    cargarArchivo(archivoEncontradas, false);
     System.out.println("Prueba");
   }
 
+  /**
+   * Apertura archivos txt, los lee línea por línea y separa cada una de sus 
+   * "columnas" por medio del caracter "|"
+   * Transforma los archivos txt en objetos de tipo Reporte para su posterior 
+   * adición al listado de reportes
+   * @param archivo Nombre del archivo
+   * @param esPerdida Si se trata del archivo de perdidos o no
+   */
   private void cargarArchivo(String archivo, boolean esPerdida) {
     // Instancia de objetos para lectura de archivos
     File file = new File(archivo);
@@ -154,6 +174,11 @@ public class ReporteController {
     }
   }
 
+  /**
+   * Valida si el id del reporte ya existe o no
+   * @param id Id del reporte a comparar
+   * @return boolean indicando si existe o no; true no existe, false, existe
+   */
   public boolean existeId(String id) {
     boolean esValido = true;
     for (Reporte i : this.reportes) {
@@ -165,9 +190,13 @@ public class ReporteController {
     return esValido;
   }
 
-  // Regresa el reporte por identificador
-  // Puede devolver un objeto o estar vacío.
-  // No devuelve null
+  /**
+   * Regresa el reporte por identificador
+   * Puede devolver un objeto o estar vacío.
+   * No devuelve null
+   * @param id ID del reporte a buscar
+   * @return Listado de reportes
+   */
   public List<Reporte> obtenerReportesPorId(String id) {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
@@ -328,6 +357,12 @@ public class ReporteController {
 
   }
 
+  /**
+   * Actualiza un reporte completo o solo ciertos valores de este
+   * @param _reporte Reporte a actualizar
+   * @param accion Indica si actualizar un reporte por completo o solo un dato
+   * especifico
+   */
   public void actualizarReporte(Reporte _reporte, int accion) {
     switch (accion) {
       // Todos los datos:
@@ -413,6 +448,9 @@ public class ReporteController {
     }
   }
 
+  /**
+   * Imprime conteos por tipo de reportes y por tipo de especies
+   */
   public void reporteAgrupado() {
     int contadorGatos = 0, contadorPerros = 0, contadorPDR = 0, contadorENC = 0;
     for (Reporte i : this.reportes) {
@@ -440,6 +478,10 @@ public class ReporteController {
     System.out.println("DOG: " + contadorPerros + "\n");
   }
 
+  /**
+   * Genera un listado de coincidencias de reportes
+   * @return Listado de reportes
+   */
   public List<Reporte> reportesCoincidencias() {
     List<Reporte> resultado = new ArrayList<>();
     int contador = 0;
