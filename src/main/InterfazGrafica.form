@@ -140,6 +140,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="2. Consultar por ID/Especie/Zona"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ButtonOpcion3">
           <Properties>
