@@ -25,6 +25,7 @@ public class InputController {
       String input = InputController.inputScanner.nextLine().trim();
       if (input.isEmpty()) {
         System.out.println("Ingrese una cadena de caracteres valida");
+        System.out.println("Vuelva a digitar: ");
         continue;
       }
       return input;
@@ -39,6 +40,7 @@ public class InputController {
       if (input.length() < min || input.length() > max) {
         System.out.println("Cadena de caracteres fuera de rango");
         System.out.println("Rango aceptado " + min + " - " + max + " caracteres");
+        System.out.println("Vuelva a digitar: ");
         continue;
       }
       return input;
@@ -52,6 +54,7 @@ public class InputController {
       // Uso de expresiones regulares
       if (!input.matches("^REP-\\d{4,}$")) {
         System.out.println("ID de reporte inválido, debe iniciar con 'REP-' y mínimo 4 digitos numerales");
+        System.out.println("Vuelva a digitarlo: ");
         continue;
       }
 
@@ -88,7 +91,7 @@ public class InputController {
   // Función que valida confirmación
   public static boolean inputSiNo() {
     while (true) {
-
+      System.out.println("Digite 's' para sí y 'n' para no: ");
       String input = InputController.inputScanner.nextLine().trim().toLowerCase();
       if ("s".equals(input)) {
         return true;
@@ -123,6 +126,7 @@ public class InputController {
       if (input.length() > max) {
         System.out.println("Cadena de caracteres fuera de rango");
         System.out.println("Rango aceptado " + max + " caracteres");
+        System.out.println("Ingrese nuevamente: ");
         continue;
       }
       return input;
@@ -171,6 +175,7 @@ public class InputController {
       if (!id.matches("^\\d-\\d{4}-\\d{4}$")) {
 
         System.out.println("ID del usuario inválido, el formato debe ser 1-1111-1111");
+        System.out.println("Ingrese nuevamente");
         continue;
       }
       return id;
@@ -200,20 +205,20 @@ public class InputController {
       if (permitidos.contains(valor)) {
         return valor;
       }
+      System.out.println("Ingrese uno de los valores permitidos");
     }
   }
 
   public static String inputTelefono() {
-    System.out.println("Ingrese el número de telefono");
     System.out.println("El formato permitido es: ####-####");
     while (true) {
       String numero = inputString();
       if (!numero.matches("^\\d{4}-\\d{4}$")) {
         System.out.println("Formato del número es incorrecto, el formato correcto es: ####-####");
+        System.out.println("Ingrese de nuevo: ");
         continue;
-      } else {
-        return numero;
       }
+      return numero;
     }
   }
 
@@ -225,9 +230,8 @@ public class InputController {
         System.out.println("Formato del reporte incorrecto");
         System.out.println("Vuelva a ingresar el tipo de reporte");
         continue;
-      } else {
-        return reporte;
       }
+      return reporte;
     }
   }
 
