@@ -315,12 +315,15 @@ public class ReporteController {
         break;
 
       // Especie
-      // TODO: Aplicar filtro de especie
-//      case 2:
-//        System.out.println("\nIngrese la especie (DOG/CAT): ");
-//        consulta = InputController.inputString();
-//        resultado = obtenerReportePorEspecie(consulta);
-//        break;
+      case 2:
+        List<String> permitidos = Arrays.asList("CAT", "DOG");
+        consulta = InputController.inputRestrictInterfaz(permitidos, valor);
+        if (consulta != null) {
+          resultado = obtenerReportePorEspecie(consulta);
+        } else {
+          resultado = null;
+        }
+        break;
 //
 //      // Zona
 //      // TODO: Aplicar filtro de zona
