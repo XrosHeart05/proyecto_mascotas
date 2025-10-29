@@ -1,1 +1,2 @@
 REP-0004|1-1111-1111|Luis Fernando|28/10/2025|Alajuela|1234-1234|DOG|Café|Es muy orejón||Beagle|PEQ|no
+REP-0002|1-1111-1111|Luis F Campos|28/10/2025|GAM|1234-1236|CAT|Naranja y blanco|Rayado y ojos celestitos||Callejero|CORTO|no

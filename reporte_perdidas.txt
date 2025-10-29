@@ -1,2 +1,1 @@
-REP-0001|1-1111-1111|Luis Fer|27/10/2025|San José|1234-1234|CAT|Naranja|Es muy arisco||Persa|CORTO|si
-REP-0002|1-1111-1111|Luis Fernando|28/10/2025|San José|1234-1234|DOG|Café|Es muy peludo||Belga|GRA|no
+REP-0001|1-1111-1111|Luis Fernando Campos Mendoza|27/10/2025|Cartucho|1234-4321|CAT|Marrón|Ojos muy muy grandes||Persa|CORTO|si
