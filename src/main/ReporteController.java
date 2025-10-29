@@ -291,6 +291,52 @@ public class ReporteController {
   }
 
   /**
+   * Devuelve una lista de reportes de acuerdo a lo que digita el usuario 1)
+   * Reportes de acuerdo al ID 2) Reportes de acuerdo a la especie 3) Reportes
+   * de acuerdo a la zona
+   *
+   * @param opcion
+   * @param valor
+   * @return resultado
+   */
+  public List<Reporte> buscarReportes2(int opcion, String valor) {
+    List<Reporte> resultado = null;
+    String consulta;
+
+    switch (opcion) {
+      // ID Reportante
+      case 1:
+        consulta = InputController.inputReporteIdInterfaz(valor);
+        if (consulta != null) {
+          resultado = obtenerReportesPorId(valor);
+        } else {
+          resultado = null;
+        }
+        break;
+
+      // Especie
+      // TODO: Aplicar filtro de especie
+//      case 2:
+//        System.out.println("\nIngrese la especie (DOG/CAT): ");
+//        consulta = InputController.inputString();
+//        resultado = obtenerReportePorEspecie(consulta);
+//        break;
+//
+//      // Zona
+//      // TODO: Aplicar filtro de zona
+//      case 3:
+//        System.out.println("\nIngrese la zona: ");
+//        consulta = InputController.inputString().toLowerCase();
+//        resultado = obtenerReportePorZona(consulta);
+//        break;
+//      default:
+//        return new ArrayList<>();
+    }
+
+    return resultado;
+  }
+
+  /**
    * Imprime la lista de reportes ingresados
    *
    * @param reportes
