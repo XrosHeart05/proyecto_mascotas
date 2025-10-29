@@ -1,20 +1,26 @@
 package main;
 
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 public class Main {
-
+  
   public static void main(String[] args) {
     ReporteController reporteController = new ReporteController();
     // Refugio Huellas Felices
     // Gestor de Reporte de Mascotas
     // Obtener automáticamente la fecha del sistema para cada reporte
-
+    
+    SwingUtilities.invokeLater(() -> {
+      InterfazGrafica ventanaPrincipal = new InterfazGrafica();
+      ventanaPrincipal.setVisible(true);
+    });
+    
     int opcion;
     do {
       System.out.println(Menu.menuPrincipal());
       opcion = InputController.inputIntRango(1, 7);
-
+      
       switch (opcion) {
         case 1:
           Reporte reporte = Menu.nuevoReporte(reporteController);
@@ -35,7 +41,7 @@ public class Main {
         case 4:
           reporteController.reporteAgrupado();
           break;
-
+        
         case 5:
           List<Reporte> coincidencias = reporteController.reportesCoincidencias();
           int contador = 0;
@@ -48,7 +54,7 @@ public class Main {
           texto += Util.centrarTexto("REPORTE DE COINCIDENCIAS ENCONTRADAS", largo) + "\n";
           texto += "=".repeat(largo) + "\n";
           System.out.println(texto);
-
+          
           for (Reporte i : coincidencias) {
             if ("PDR".equals(i.getTipo())) {
               System.out.println("PDR - Pérdida");
@@ -61,7 +67,7 @@ public class Main {
             System.out.println(" Color: " + i.getMascota().getColor());
             System.out.println(" Zona: " + i.getZona());
             System.out.println(" Fecha: " + i.getFecha() + "\n");
-
+            
             if ("ENC".equals(i.getTipo())) {
               texto = "-".repeat(largo);
               System.out.println(texto);
@@ -73,7 +79,7 @@ public class Main {
             System.out.println("Coincidencias encontradas: " + contador);
           }
           break;
-
+        
         case 6:
           Reporte reporteA = Menu.actualizarReporte(reporteController);
           if (reporteA == null) {
@@ -86,5 +92,5 @@ public class Main {
       }
     } while (opcion != 7);
   }
-
+  
 }
