@@ -65,7 +65,7 @@
                               <Component id="ButtonOpcion2" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion1" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion3" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
-                              <Component id="ButtonOpcion4" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
+                              <Component id="botonReporteAgrupado" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion5" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion6" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion7" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
@@ -94,7 +94,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="ButtonOpcion3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="ButtonOpcion4" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonReporteAgrupado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="ButtonOpcion5" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -170,7 +170,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion3ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonOpcion4">
+        <Component class="javax.swing.JButton" name="botonReporteAgrupado">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="14" style="0"/>
@@ -179,7 +179,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonReporteAgrupadoActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ButtonOpcion5">
