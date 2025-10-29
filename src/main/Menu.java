@@ -206,7 +206,7 @@ public class Menu {
       accion2 = InputController.inputIntRango(1, 8);
       reporteController.actualizarReporte(reporte, accion2);
     } else {
-      // reporteController.actualizarReporte(reporte, 0);
+      reporteController.actualizarReporte(reporte, 0);
       return null;
     }
 
