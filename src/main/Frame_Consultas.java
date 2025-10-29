@@ -330,7 +330,9 @@ public class Frame_Consultas extends javax.swing.JFrame {
 
   private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
     List<Reporte> reportes = buscarReportes();
-    poblarTabla(reportes);
+    if (reportes != null) {
+      poblarTabla(reportes);
+    }
   }//GEN-LAST:event_botonBuscarActionPerformed
 
   private List<Reporte> buscarReportes() {
