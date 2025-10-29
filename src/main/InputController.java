@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class InputController {
   // static hace que no pueda cambiar
@@ -60,6 +61,17 @@ public class InputController {
 
       return input;
     }
+  }
+
+  //Valida que el usuario digite un entero válido
+  public static String inputReporteIdInterfaz(String texto) {
+    // Uso de expresiones regulares
+    if (!texto.matches("^REP-\\d{4,}$")) {
+      JOptionPane.showMessageDialog(null, "Formato inválido");
+      return null;
+    }
+
+    return texto;
   }
 
   public static int inputInt() {
