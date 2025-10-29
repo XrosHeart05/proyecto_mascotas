@@ -14,15 +14,20 @@ public class Main {
     do {
       System.out.println(Menu.menuPrincipal());
       opcion = InputController.inputIntRango(1, 7);
-      
+
       switch (opcion) {
         case 1:
-          Reporte report = Menu.nuevoReporte(reporteController);
-          reporteController.crearReporte(report); //Se agrega a la lista
+          Reporte reporte = Menu.nuevoReporte(reporteController);
+          if (reporte == null) {
+            break;
+          }
+          reporteController.crearReporte(reporte); //Se agrega a la lista
           break;
         case 2:
           List<Reporte> resultado = Menu.buscarReporte(reporteController);
-          reporteController.imprimirReportes(resultado);
+          if (resultado != null) {
+            reporteController.imprimirReportes(resultado);
+          }
           break;
         case 3:
           reporteController.imprimirReportes(reporteController.reportes);
