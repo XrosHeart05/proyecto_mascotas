@@ -33,6 +33,17 @@ public class InputController {
     }
   }
 
+  //Función para inputs
+  public static String inputStringInterfaz(String texto) {
+    texto = texto.trim();
+    if (texto.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Debe digitar algún texto");
+      return null;
+    }
+
+    return texto;
+  }
+
   //Función para menú
   //Función que válida que caracteres esté dentro del rango
   public static String inputStringRango(int min, int max) {
@@ -219,6 +230,15 @@ public class InputController {
       }
       System.out.println("Ingrese uno de los valores permitidos");
     }
+  }
+
+  public static String inputRestrictInterfaz(List<String> permitidos, String valor) {
+    valor = valor.trim();
+    if (!permitidos.contains(valor)) {
+      JOptionPane.showMessageDialog(null, "Valor no permitido");
+      return null;
+    }
+    return valor;
   }
 
   public static String inputTelefono() {
