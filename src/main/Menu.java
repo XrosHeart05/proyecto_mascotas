@@ -80,7 +80,7 @@ public class Menu {
     String nombreCompleto = InputController.inputStringMinimo(7);
 
     // Fecha
-    System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
+    System.out.println("\nIngresa la fecha (dd/mm/yyyy) o presione Enter para colocar la fecha actual: ");
     String fecha = InputController.inputFecha();
 
     // Zona
@@ -236,6 +236,7 @@ public class Menu {
     List<Reporte> reportes = reporteController.buscarReportes(opcion);
     if (reportes.isEmpty()) {
       System.out.println("No hay reportes que coincidan");
+      return null;
     }
     return reportes;
   }
