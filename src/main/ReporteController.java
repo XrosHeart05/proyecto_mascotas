@@ -857,6 +857,28 @@ public class ReporteController {
   }
 
   /**
+   * Devuelve el conteos por tipo de reportes y por tipo de especies
+   */
+  public int[] reporteAgrupadoInterfaz() {
+    int contadorGatos = 0, contadorPerros = 0, contadorPDR = 0, contadorENC = 0;
+    for (Reporte i : this.reportes) {
+      if ("CAT".equals(i.getMascota().getEspecie())) {
+        contadorGatos += 1;
+      } else {
+        contadorPerros += 1;
+      }
+
+      if (i.getTipo().equals("ENC")) {
+        contadorENC += 1;
+      } else if (i.getTipo().equals("PDR")) {
+        contadorPDR += 1;
+      }
+    }
+
+    return new int[]{contadorPDR, contadorENC, contadorGatos, contadorPerros};
+  }
+
+  /**
    * Genera un listado de coincidencias de reportes
    *
    * @return Listado de reportes
