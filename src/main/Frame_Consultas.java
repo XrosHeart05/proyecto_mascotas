@@ -158,7 +158,7 @@ public class Frame_Consultas extends javax.swing.JFrame {
         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
-    paneles.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+    paneles.setLayout(new java.awt.BorderLayout());
 
     labelReporteID.setText("ID Reporte");
 
@@ -182,7 +182,7 @@ public class Frame_Consultas extends javax.swing.JFrame {
         .addGroup(panelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(labelSugerenciaReporteID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(textFieldIdReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addContainerGap(173, Short.MAX_VALUE))
+        .addContainerGap(25, Short.MAX_VALUE))
     );
     panelIDLayout.setVerticalGroup(
       panelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,10 +193,10 @@ public class Frame_Consultas extends javax.swing.JFrame {
             .addComponent(textFieldIdReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
             .addComponent(labelSugerenciaReporteID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        .addContainerGap(113, Short.MAX_VALUE))
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
-    paneles.add(panelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 160));
+    paneles.add(panelID, java.awt.BorderLayout.CENTER);
 
     labelEspecie.setText("Especie");
 
@@ -220,7 +220,7 @@ public class Frame_Consultas extends javax.swing.JFrame {
         .addGroup(panelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(labelSugerenciaEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(textFieldEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addContainerGap(251, Short.MAX_VALUE))
+        .addContainerGap(30, Short.MAX_VALUE))
     );
     panelEspecieLayout.setVerticalGroup(
       panelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,7 +233,7 @@ public class Frame_Consultas extends javax.swing.JFrame {
         .addGap(0, 130, Short.MAX_VALUE))
     );
 
-    paneles.add(panelEspecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 513, -1));
+    paneles.add(panelEspecie, java.awt.BorderLayout.PAGE_START);
 
     labelZona.setText("Zona");
 
@@ -257,7 +257,7 @@ public class Frame_Consultas extends javax.swing.JFrame {
         .addGroup(panelZonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
           .addComponent(labelSugerenciaZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
           .addComponent(textFieldZona, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-        .addContainerGap(196, Short.MAX_VALUE))
+        .addContainerGap(52, Short.MAX_VALUE))
     );
     panelZonaLayout.setVerticalGroup(
       panelZonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -271,7 +271,7 @@ public class Frame_Consultas extends javax.swing.JFrame {
         .addContainerGap(27, Short.MAX_VALUE))
     );
 
-    paneles.add(panelZona, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+    paneles.add(panelZona, java.awt.BorderLayout.PAGE_END);
 
     tablaReportes.setModel(tablaModel);
     scrollPane.setViewportView(tablaReportes);
@@ -363,37 +363,50 @@ public class Frame_Consultas extends javax.swing.JFrame {
 
   private void poblarTabla(List<Reporte> reportes) {
     tablaModel.setRowCount(0);
-    String idReporte = "", idReportante = "", reportante = "", fecha = "", zona = "", contacto = "", especie = "", color = "", sennas = "", microchip = "", raza = "", talla = "", pelaje = "", esterelizado = "", collar = "";
     for (Reporte r : reportes) {
+      String idReporte = r.getId();
+      String idReportante = r.getReportanteId();
+      String reportante = r.getNombreCompleto();
+      String fecha = r.getFecha();
+      String zona = r.getZona();
+      String contacto = r.getContacto();
+
+      Mascota mascota = r.getMascota();
+      String especie = mascota.getEspecie();
+      String color = mascota.getColor();
+      String sennas = mascota.getSennas();
+      String microchip = mascota.getMicrochip();
+
+      String raza = "";
+      String talla = "";
+      String pelaje = "";
+      String esterelizado = "";
+      String collar = "";
+
       if ("CAT".equals(r.getMascota().getEspecie())) {
-//        raza = r.getMascota().get
-//        this.raza = raza;
-//        this.tipoPelaje = tipoPelaje;
-//        this.esterelizado = esterelizado;
+        Gato gato = (Gato) mascota;
+        raza = gato.getRaza();
+        pelaje = gato.getTipoPelaje();
+        if (gato.isEsterelizado()) {
+          esterelizado = "Sí";
+        } else {
+          esterelizado = "No";
+        }
       } else {
-//        this.raza = raza;
-//        this.talla = talla;
-//        this.collar = collar;
+        Perro perro = (Perro) mascota;
+        raza = perro.getRaza();
+        talla = perro.getTalla();
+        if (perro.isCollar()) {
+          collar = "Sí";
+        } else {
+          collar = "No";
+        }
       }
-      idReporte = r.getId();
-      idReportante = r.getReportanteId();
-      reportante = r.getNombreCompleto();
-      fecha = r.getFecha();
-      zona = r.getZona();
-      contacto = r.getContacto();
-      especie = r.getMascota().getEspecie();
-      color = r.getMascota().getColor();
-      sennas = r.getMascota().getSennas();
-      microchip = r.getMascota().getMicrochip();
-      raza = "";
-      talla = "";
-      pelaje = "";
-      esterelizado = "";
-      collar = "";
+
+      String[] rowData = {idReporte, idReportante, reportante, fecha, zona, contacto, especie, color, sennas, microchip, raza, talla, pelaje, esterelizado, collar};
+      tablaModel.addRow(rowData);
     }
 
-    String[] rowData = {idReporte, idReportante, reportante, fecha, zona, contacto, especie, color, sennas, microchip, raza, talla, pelaje, esterelizado, collar};
-    tablaModel.addRow(rowData);
   }
   private void textFieldEspecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldEspecieActionPerformed
     // TODO add your handling code here:
