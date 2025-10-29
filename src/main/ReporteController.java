@@ -171,7 +171,6 @@ public class ReporteController {
       System.out.println("Error al guardar el reporte en el archivo " + nombreArchivo + ". Error: " + e.getMessage());
     } finally {
       try {
-        sincronizarArchivos();
         if (printWriter != null) {
           printWriter.close();
         }
@@ -181,6 +180,7 @@ public class ReporteController {
         if (fileWriter != null) {
           fileWriter.close();
         }
+
       } catch (IOException e) {
         System.out.println("Error al cerrar el archivo " + nombreArchivo + ". Error: " + e.getMessage());
       }
@@ -214,7 +214,8 @@ public class ReporteController {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
     // Filter aplica como su nombre indica filtros a dichos objetos(colador de datos)
-    return reportes.stream().filter(i -> i.getId().trim().equals(id.trim())).toList();
+    List<Reporte> reportesADevolver = reportes.stream().filter(i -> i.getId().trim().equals(id.trim())).toList();
+    return reportesADevolver;
   }
 
   /**
@@ -472,13 +473,14 @@ public class ReporteController {
 
       // Nombre completo
       case 1:
+        System.out.println("\nDigite el nuevo nombre completo");
         String nombre = InputController.inputString();
         reporte.setNombreCompleto(nombre);
         break;
 
       // Tipo de reporte
       case 2:
-        System.out.println("El tipo de reporte actual es:" + reporte.getTipo());
+        System.out.println("\nEl tipo de reporte actual es:" + reporte.getTipo());
         List<String> tiposPermitidos = Arrays.asList("PDR", "ENC");
         String tipoRep = InputController.inputRestrict(tiposPermitidos);
 
@@ -630,6 +632,11 @@ public class ReporteController {
         break;
     }
 
+    int indice = indicePorId(reporte.getId());
+    if (indice != -1) {
+      reportes.set(indice, reporte);
+    }
+
     actualizarArchivoTexto(reporte);
     System.out.println("Reporte actualizado correctamente");
   }
@@ -706,7 +713,8 @@ public class ReporteController {
             mascotaActualizada.getEspecie(),
             mascotaActualizada.getColor(),
             mascotaActualizada.getSennas(),
-            mascotaActualizada.getMicrochip()
+            mascotaActualizada.getMicrochip(),
+            mascotaActualizada.toPrint()
           ));
         } else {
           lineasActualizadas.add(linea);
@@ -723,7 +731,6 @@ public class ReporteController {
       System.out.println("Error actualizando el reporte. Error: " + e.getMessage());
     } finally {
       try {
-        sincronizarArchivos();
         if (bufferedReader != null) {
           bufferedReader.close();
         }
