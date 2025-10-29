@@ -245,7 +245,7 @@ public class ReporteController {
    * @return reportes
    */
   public List<Reporte> obtenerReportePorZona(String zona) {
-    return reportes.stream().filter(i -> i.getZona().toLowerCase().equals(zona)).toList();
+    return reportes.stream().filter(i -> i.getZona().equals(zona)).toList();
   }
 
   /**
@@ -324,16 +324,18 @@ public class ReporteController {
           resultado = null;
         }
         break;
-//
-//      // Zona
-//      // TODO: Aplicar filtro de zona
-//      case 3:
-//        System.out.println("\nIngrese la zona: ");
-//        consulta = InputController.inputString().toLowerCase();
-//        resultado = obtenerReportePorZona(consulta);
-//        break;
-//      default:
-//        return new ArrayList<>();
+
+      // Zona
+      case 3:
+        consulta = InputController.inputStringInterfaz(valor);
+        if (consulta != null) {
+          resultado = obtenerReportePorZona(consulta);
+        } else {
+          resultado = null;
+        }
+        break;
+      default:
+        return null;
     }
 
     return resultado;
