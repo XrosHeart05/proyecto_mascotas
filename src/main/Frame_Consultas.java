@@ -1,33 +1,82 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package main;
 
+import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author xrosfer
- */
 public class Frame_Consultas extends javax.swing.JFrame {
 
   private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Frame_Consultas.class.getName());
   private DefaultComboBoxModel<TipoConsulta> comboBoxTipoConsultaModel = new DefaultComboBoxModel<TipoConsulta>();
+  private DefaultTableModel tablaModel = new DefaultTableModel();
+  private ReporteController reporteController = new ReporteController();
 
   /**
    * Creates new form Frame_Consultas
    */
   public Frame_Consultas() {
     initComboBoxModel();
+    addModeloTabla();
     initComponents();
+    tipoConsultaComboBox.setSelectedIndex(0);
     setLocationRelativeTo(null);
+
+    // Listener para mostrar panel correspondiente
+    tipoConsultaComboBox.addActionListener(e -> actualizarPanelVisible());
+    // Panel por defecto, ID Reporte
+    actualizarPanelVisible();
+  }
+
+  private void addModeloTabla() {
+    tablaModel.addColumn("ID Reporte");
+    tablaModel.addColumn("ID Reportante");
+    tablaModel.addColumn("Reportante");
+    tablaModel.addColumn("Fecha");
+    tablaModel.addColumn("Zona");
+    tablaModel.addColumn("Contacto");
+    tablaModel.addColumn("Especie");
+    tablaModel.addColumn("Color");
+    tablaModel.addColumn("Señas");
+    tablaModel.addColumn("Microchip");
+    tablaModel.addColumn("Raza");
+    tablaModel.addColumn("Talla");
+    tablaModel.addColumn("Pelaje");
+    tablaModel.addColumn("Esterelizado");
+    tablaModel.addColumn("Collar");
   }
 
   private void initComboBoxModel() {
     comboBoxTipoConsultaModel.addElement(new TipoConsulta("ID Reporte", 1));
     comboBoxTipoConsultaModel.addElement(new TipoConsulta("Especie", 2));
     comboBoxTipoConsultaModel.addElement(new TipoConsulta("Zona", 3));
+  }
+
+  private void actualizarPanelVisible() {
+    TipoConsulta tipo = (TipoConsulta) tipoConsultaComboBox.getSelectedItem();
+    if (tipo == null) {
+      return;
+    }
+
+    // Ocultar todos los paneles
+    panelID.setVisible(false);
+    panelEspecie.setVisible(false);
+    panelZona.setVisible(false);
+
+    // Muestra el correspondiente
+    switch (tipo.getValor()) {
+      case 1: // ID Reporte
+        panelID.setVisible(true);
+        break;
+      case 2: // Especie
+        panelEspecie.setVisible(true);
+        break;
+      case 3: // Zona
+        panelZona.setVisible(true);
+        break;
+    }
+
+    revalidate();
+    repaint();
   }
 
   /**
@@ -39,14 +88,35 @@ public class Frame_Consultas extends javax.swing.JFrame {
   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
   private void initComponents() {
 
-    panel = new javax.swing.JPanel();
+    panelTipoConsulta = new javax.swing.JPanel();
     labelConsultas = new javax.swing.JLabel();
+    labelTipoConsulta = new javax.swing.JLabel();
     tipoConsultaComboBox = new javax.swing.JComboBox<>();
+    separadorTipoConsulta = new javax.swing.JSeparator();
+    paneles = new javax.swing.JLayeredPane();
+    panelID = new javax.swing.JPanel();
+    labelReporteID = new java.awt.Label();
+    labelSugerenciaReporteID = new java.awt.Label();
+    textFieldIdReporte = new javax.swing.JTextField();
+    panelEspecie = new javax.swing.JPanel();
+    labelEspecie = new java.awt.Label();
+    labelSugerenciaEspecie = new java.awt.Label();
+    textFieldEspecie = new javax.swing.JTextField();
+    panelZona = new javax.swing.JPanel();
+    labelZona = new java.awt.Label();
+    textFieldZona = new javax.swing.JTextField();
+    labelSugerenciaZona = new java.awt.Label();
+    separadorTabla = new javax.swing.JSeparator();
+    scrollPane = new javax.swing.JScrollPane();
+    tablaReportes = new javax.swing.JTable();
+    botonBuscar = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
     labelConsultas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     labelConsultas.setText("CONSULTAS");
+
+    labelTipoConsulta.setText("Tipo de consulta");
 
     tipoConsultaComboBox.setModel(comboBoxTipoConsultaModel);
     tipoConsultaComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -55,39 +125,196 @@ public class Frame_Consultas extends javax.swing.JFrame {
       }
     });
 
-    javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
-    panel.setLayout(panelLayout);
-    panelLayout.setHorizontalGroup(
-      panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(panelLayout.createSequentialGroup()
-        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-          .addGroup(panelLayout.createSequentialGroup()
-            .addGap(172, 172, 172)
-            .addComponent(labelConsultas))
-          .addGroup(panelLayout.createSequentialGroup()
-            .addContainerGap()
-            .addComponent(tipoConsultaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        .addContainerGap(186, Short.MAX_VALUE))
+    javax.swing.GroupLayout panelTipoConsultaLayout = new javax.swing.GroupLayout(panelTipoConsulta);
+    panelTipoConsulta.setLayout(panelTipoConsultaLayout);
+    panelTipoConsultaLayout.setHorizontalGroup(
+      panelTipoConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelTipoConsultaLayout.createSequentialGroup()
+        .addGap(202, 202, 202)
+        .addComponent(labelConsultas)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+      .addGroup(panelTipoConsultaLayout.createSequentialGroup()
+        .addGroup(panelTipoConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addGroup(panelTipoConsultaLayout.createSequentialGroup()
+            .addGap(14, 14, 14)
+            .addGroup(panelTipoConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+              .addComponent(labelTipoConsulta)
+              .addComponent(tipoConsultaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 0, Short.MAX_VALUE))
+          .addComponent(separadorTipoConsulta, javax.swing.GroupLayout.Alignment.TRAILING))
+        .addContainerGap())
     );
-    panelLayout.setVerticalGroup(
-      panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addGroup(panelLayout.createSequentialGroup()
+    panelTipoConsultaLayout.setVerticalGroup(
+      panelTipoConsultaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelTipoConsultaLayout.createSequentialGroup()
         .addContainerGap()
         .addComponent(labelConsultas)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(labelTipoConsulta)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(tipoConsultaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-        .addContainerGap(312, Short.MAX_VALUE))
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(separadorTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
+
+    paneles.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+    labelReporteID.setText("ID Reporte");
+
+    labelSugerenciaReporteID.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
+    labelSugerenciaReporteID.setText("Formato permitido (REP-0000)");
+
+    textFieldIdReporte.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        textFieldIdReporteActionPerformed(evt);
+      }
+    });
+
+    javax.swing.GroupLayout panelIDLayout = new javax.swing.GroupLayout(panelID);
+    panelID.setLayout(panelIDLayout);
+    panelIDLayout.setHorizontalGroup(
+      panelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelIDLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(labelReporteID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(panelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(labelSugerenciaReporteID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(textFieldIdReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addContainerGap(173, Short.MAX_VALUE))
+    );
+    panelIDLayout.setVerticalGroup(
+      panelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelIDLayout.createSequentialGroup()
+        .addGroup(panelIDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(labelReporteID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addGroup(panelIDLayout.createSequentialGroup()
+            .addComponent(textFieldIdReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+            .addComponent(labelSugerenciaReporteID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        .addContainerGap(113, Short.MAX_VALUE))
+    );
+
+    paneles.add(panelID, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 440, 160));
+
+    labelEspecie.setText("Especie");
+
+    labelSugerenciaEspecie.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
+    labelSugerenciaEspecie.setText("CAT o DOG");
+
+    textFieldEspecie.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        textFieldEspecieActionPerformed(evt);
+      }
+    });
+
+    javax.swing.GroupLayout panelEspecieLayout = new javax.swing.GroupLayout(panelEspecie);
+    panelEspecie.setLayout(panelEspecieLayout);
+    panelEspecieLayout.setHorizontalGroup(
+      panelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelEspecieLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(labelEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(24, 24, 24)
+        .addGroup(panelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(labelSugerenciaEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(textFieldEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addContainerGap(251, Short.MAX_VALUE))
+    );
+    panelEspecieLayout.setVerticalGroup(
+      panelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelEspecieLayout.createSequentialGroup()
+        .addGroup(panelEspecieLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+          .addComponent(labelEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(textFieldEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addGap(13, 13, 13)
+        .addComponent(labelSugerenciaEspecie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 130, Short.MAX_VALUE))
+    );
+
+    paneles.add(panelEspecie, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 513, -1));
+
+    labelZona.setText("Zona");
+
+    textFieldZona.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        textFieldZonaActionPerformed(evt);
+      }
+    });
+
+    labelSugerenciaZona.setFont(new java.awt.Font("Lucida Grande", 0, 8)); // NOI18N
+    labelSugerenciaZona.setText("Digite la zona");
+
+    javax.swing.GroupLayout panelZonaLayout = new javax.swing.GroupLayout(panelZona);
+    panelZona.setLayout(panelZonaLayout);
+    panelZonaLayout.setHorizontalGroup(
+      panelZonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelZonaLayout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(labelZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(18, 18, 18)
+        .addGroup(panelZonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(labelSugerenciaZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(textFieldZona, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+        .addContainerGap(196, Short.MAX_VALUE))
+    );
+    panelZonaLayout.setVerticalGroup(
+      panelZonaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+      .addGroup(panelZonaLayout.createSequentialGroup()
+        .addComponent(labelZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addGap(0, 0, Short.MAX_VALUE))
+      .addGroup(panelZonaLayout.createSequentialGroup()
+        .addComponent(textFieldZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(labelSugerenciaZona, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(27, Short.MAX_VALUE))
+    );
+
+    paneles.add(panelZona, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+    tablaReportes.setModel(tablaModel);
+    scrollPane.setViewportView(tablaReportes);
+
+    botonBuscar.setText("Buscar");
+    botonBuscar.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        botonBuscarActionPerformed(evt);
+      }
+    });
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(panelTipoConsulta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+          .addComponent(scrollPane)
+          .addGroup(layout.createSequentialGroup()
+            .addGap(56, 56, 56)
+            .addComponent(paneles, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGap(176, 176, 176)
+            .addComponent(botonBuscar)
+            .addGap(0, 313, Short.MAX_VALUE))
+          .addComponent(separadorTabla))
+        .addContainerGap())
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-      .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addGroup(layout.createSequentialGroup()
+        .addContainerGap()
+        .addComponent(panelTipoConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+          .addComponent(paneles, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+          .addComponent(botonBuscar))
+        .addGap(2, 2, 2)
+        .addComponent(separadorTabla, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addContainerGap(16, Short.MAX_VALUE))
     );
 
     pack();
@@ -96,6 +323,85 @@ public class Frame_Consultas extends javax.swing.JFrame {
   private void tipoConsultaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoConsultaComboBoxActionPerformed
     // TODO add your handling code here:
   }//GEN-LAST:event_tipoConsultaComboBoxActionPerformed
+
+  private void textFieldIdReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldIdReporteActionPerformed
+    // TODO add your handling code here:
+  }//GEN-LAST:event_textFieldIdReporteActionPerformed
+
+  private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
+    List<Reporte> reportes = buscarReportes();
+    poblarTabla(reportes);
+  }//GEN-LAST:event_botonBuscarActionPerformed
+
+  private List<Reporte> buscarReportes() {
+    TipoConsulta tipoConsulta = (TipoConsulta) tipoConsultaComboBox.getSelectedItem();
+    int opcion = tipoConsulta.getValor();
+    String valor;
+    switch (opcion) {
+      case 1:
+        valor = textFieldIdReporte.getText();
+        break;
+      case 2:
+        valor = textFieldEspecie.getText();
+        break;
+      case 3:
+        valor = textFieldZona.getText();
+        break;
+      default:
+        return null;
+    }
+
+    List<Reporte> reportes = reporteController.buscarReportes2(opcion, valor);
+    if (reportes != null) {
+      return reportes;
+    }
+    textFieldIdReporte.setText("");
+    textFieldEspecie.setText("");
+    textFieldZona.setText("");
+    return null;
+  }
+
+  private void poblarTabla(List<Reporte> reportes) {
+    tablaModel.setRowCount(0);
+    String idReporte = "", idReportante = "", reportante = "", fecha = "", zona = "", contacto = "", especie = "", color = "", sennas = "", microchip = "", raza = "", talla = "", pelaje = "", esterelizado = "", collar = "";
+    for (Reporte r : reportes) {
+      if ("CAT".equals(r.getMascota().getEspecie())) {
+//        raza = r.getMascota().get
+//        this.raza = raza;
+//        this.tipoPelaje = tipoPelaje;
+//        this.esterelizado = esterelizado;
+      } else {
+//        this.raza = raza;
+//        this.talla = talla;
+//        this.collar = collar;
+      }
+      idReporte = r.getId();
+      idReportante = r.getReportanteId();
+      reportante = r.getNombreCompleto();
+      fecha = r.getFecha();
+      zona = r.getZona();
+      contacto = r.getContacto();
+      especie = r.getMascota().getEspecie();
+      color = r.getMascota().getColor();
+      sennas = r.getMascota().getSennas();
+      microchip = r.getMascota().getMicrochip();
+      raza = "";
+      talla = "";
+      pelaje = "";
+      esterelizado = "";
+      collar = "";
+    }
+
+    String[] rowData = {idReporte, idReportante, reportante, fecha, zona, contacto, especie, color, sennas, microchip, raza, talla, pelaje, esterelizado, collar};
+    tablaModel.addRow(rowData);
+  }
+  private void textFieldEspecieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldEspecieActionPerformed
+    // TODO add your handling code here:
+  }//GEN-LAST:event_textFieldEspecieActionPerformed
+
+  private void textFieldZonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldZonaActionPerformed
+    // TODO add your handling code here:
+  }//GEN-LAST:event_textFieldZonaActionPerformed
 
   /**
    * @param args the command line arguments
@@ -123,8 +429,27 @@ public class Frame_Consultas extends javax.swing.JFrame {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton botonBuscar;
   private javax.swing.JLabel labelConsultas;
-  private javax.swing.JPanel panel;
+  private java.awt.Label labelEspecie;
+  private java.awt.Label labelReporteID;
+  private java.awt.Label labelSugerenciaEspecie;
+  private java.awt.Label labelSugerenciaReporteID;
+  private java.awt.Label labelSugerenciaZona;
+  private javax.swing.JLabel labelTipoConsulta;
+  private java.awt.Label labelZona;
+  private javax.swing.JPanel panelEspecie;
+  private javax.swing.JPanel panelID;
+  private javax.swing.JPanel panelTipoConsulta;
+  private javax.swing.JPanel panelZona;
+  private javax.swing.JLayeredPane paneles;
+  private javax.swing.JScrollPane scrollPane;
+  private javax.swing.JSeparator separadorTabla;
+  private javax.swing.JSeparator separadorTipoConsulta;
+  private javax.swing.JTable tablaReportes;
+  private javax.swing.JTextField textFieldEspecie;
+  private javax.swing.JTextField textFieldIdReporte;
+  private javax.swing.JTextField textFieldZona;
   private javax.swing.JComboBox<TipoConsulta> tipoConsultaComboBox;
   // End of variables declaration//GEN-END:variables
 }
