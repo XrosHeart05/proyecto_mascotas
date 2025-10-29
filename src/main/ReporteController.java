@@ -1,7 +1,7 @@
 package main;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 import java.time.temporal.ChronoUnit;
 
 import java.time.LocalDate;
@@ -9,37 +9,213 @@ import java.time.format.DateTimeFormatter;
 
 public class ReporteController {
 
-  public final List<Reporte> reportes; // Listado que solo admite objetos Reporte // Sirve para agregar nuevos reportes
-  public Reporte reporte; // Se usa para interactuar con un objeto reporte (SINGULAR)
+  // Listado que solo admite objetos Reporte
+  // Sirve para agregar nuevos reportes
+  public final List<Reporte> reportes;
+  private final String archivoPerdidas = "reporte_perdidas.txt";
+  private final String archivoEncontradas = "reporte_encontradas.txt";
 
   // Constructor
   public ReporteController() {
     this.reportes = new ArrayList<>();
+    sincronizarArchivos();
   }
 
-  public boolean existeId(String id) {
-    boolean esValido = true;
-    for (Reporte i : this.reportes) {
-      if (id.equals(i.getId())) {
-        System.out.println("El ID del reporte ya existe, intente con otro ID");
-        esValido = false;
+  /**
+   * Invoca los métodos de carga de archivos
+   */
+  private void sincronizarArchivos() {
+    reportes.clear();
+    cargarArchivo(archivoPerdidas, true);
+    cargarArchivo(archivoEncontradas, false);
+  }
+
+  /**
+   * Apertura archivos txt, los lee línea por línea y separa cada una de sus
+   * "columnas" por medio del caracter "|" Transforma los archivos txt en
+   * objetos de tipo Reporte para su posterior adición al listado de reportes
+   *
+   * @param archivo Nombre del archivo
+   * @param esPerdida Si se trata del archivo de perdidos o no
+   */
+  private void cargarArchivo(String archivo, boolean esPerdida) {
+    // Instancia de objetos para lectura de archivos
+    File file = new File(archivo);
+    Reporte reporte;
+    BufferedReader bufferedReader = null;
+
+    // Valida si existe el archivo o no
+    if (!file.exists()) {
+      try {
+        if (file.createNewFile()) {
+          System.out.println("Archivo creado: " + archivo);
+        } else {
+          System.out.println("No se pudo crear el archivo: " + archivo);
+        }
+      } catch (IOException e) {
+        System.out.println("Error al crear el archivo " + archivo + ". Error: " + e.getMessage());
       }
     }
-    return esValido;
+
+    // Archivo vacío, nada que cargar
+    if (file.length() == 0) {
+      return;
+    }
+
+    try {
+      // Lectura de archivo
+      bufferedReader = new BufferedReader(new FileReader(file));
+      String linea;
+
+      // Línea por línea
+      while ((linea = bufferedReader.readLine()) != null) {
+        // Corte de cada línea por el caracter "|"
+        String[] datos = linea.split("\\|");
+        // Determinar que especie es
+        String especie = datos[6];
+        boolean estaEsterelizado = false, tieneCollar = false;
+
+        // Rellenado de datos de la mascota
+        Mascota mascota;
+        if ("CAT".equals(especie)) {
+          if ("si".equals(datos[12])) {
+            estaEsterelizado = true;
+          }
+          mascota = new Gato(datos[10], datos[11], estaEsterelizado, especie, datos[7], datos[8], datos[9]);
+        } else {
+          if ("si".equals(datos[12])) {
+            tieneCollar = true;
+          }
+          mascota = new Perro(datos[10], datos[11], tieneCollar, especie, datos[7], datos[8], datos[9]);
+        }
+
+        // Rellenado de los datos de cada reporte
+        if (esPerdida) {
+          reporte = new ReportePerdida(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], mascota);
+        } else {
+          reporte = new ReporteEncontrada(datos[0], datos[1], datos[2], datos[3], datos[4], datos[5], mascota);
+        }
+
+        this.reportes.add(reporte);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Error al leer el archivo " + archivo + ". Error: " + e.getMessage());
+    } finally {
+      try {
+        if (bufferedReader != null) {
+          // Cerrar lectura de archivo
+          bufferedReader.close();
+        }
+      } catch (IOException e) {
+        System.out.println("Error al cerrar el lector del archivo " + archivo + ". Error: " + e.getMessage());
+      }
+    }
   }
 
+  /**
+   * Agrega los reportes al listado de reportes e invoca el método de
+   * almacenamiento de datos al archivo de txt correspondiente
+   *
+   * @param _reporte
+   */
   public void crearReporte(Reporte _reporte) {
     reportes.add(_reporte);
+    almacenarReporte(_reporte);
   }
 
-  // Regresa el reporte por identificador
-  // Puede devolver un objeto o estar vacío.
-  // No devuelve null
+  /**
+   * Desfragmenta un reporte en string para almacenarse en el txt
+   * correspondiente
+   *
+   * @param reporte Reporte a almacenar
+   */
+  private void almacenarReporte(Reporte reporte) {
+    FileWriter fileWriter = null;
+    BufferedWriter bufferedWriter = null;
+    PrintWriter printWriter = null;
+
+    String nombreArchivo;
+    // Validación de tipo de reporte
+    if ("PDR".equals(reporte.getTipo())) {
+      nombreArchivo = archivoPerdidas;
+    } else {
+      nombreArchivo = archivoEncontradas;
+    }
+
+    // Escritura en archivo
+    try {
+      // Inicialización de objetos para escritura de archivo
+      // true para modo append
+      fileWriter = new FileWriter(nombreArchivo, true);
+      bufferedWriter = new BufferedWriter(fileWriter);
+      printWriter = new PrintWriter(bufferedWriter);
+
+      Mascota mascota = reporte.getMascota();
+      // Escritura en archivo
+      printWriter.println(String.join("|",
+        reporte.getId(),
+        reporte.getReportanteId(),
+        reporte.getNombreCompleto(),
+        reporte.getFecha(),
+        reporte.getZona(),
+        reporte.getContacto(),
+        mascota.getEspecie(),
+        mascota.getColor(),
+        mascota.getSennas(),
+        mascota.getMicrochip(),
+        mascota.toPrint()
+      ));
+
+    } catch (IOException e) {
+      System.out.println("Error al guardar el reporte en el archivo " + nombreArchivo + ". Error: " + e.getMessage());
+    } finally {
+      try {
+        if (printWriter != null) {
+          printWriter.close();
+        }
+        if (bufferedWriter != null) {
+          bufferedWriter.close();
+        }
+        if (fileWriter != null) {
+          fileWriter.close();
+        }
+
+      } catch (IOException e) {
+        System.out.println("Error al cerrar el archivo " + nombreArchivo + ". Error: " + e.getMessage());
+      }
+    }
+
+  }
+
+  /**
+   * Regresa el reporte por identificador Puede devolver un objeto o estar
+   * vacío. No devuelve null
+   *
+   * @param id ID del reporte a buscar
+   * @return Listado de reportes
+   */
+  public List<Reporte> obtenerReportesPorIdReportante(String id) {
+    // Stream es un método propio de los ArrayList o List
+    // Genera un Stream (flujo) de objetos
+    // Filter aplica como su nombre indica filtros a dichos objetos(colador de datos)
+    List<Reporte> reportesADevolver = reportes.stream().filter(i -> i.getReportanteId().trim().equals(id.trim())).toList();
+    return reportesADevolver;
+  }
+
+  /**
+   * Regresa el reporte por identificador Puede devolver un objeto o estar
+   * vacío. No devuelve null
+   *
+   * @param id ID del reporte a buscar
+   * @return Listado de reportes
+   */
   public List<Reporte> obtenerReportesPorId(String id) {
     // Stream es un método propio de los ArrayList o List
     // Genera un Stream (flujo) de objetos
     // Filter aplica como su nombre indica filtros a dichos objetos(colador de datos)
-    return reportes.stream().filter(i -> i.getId().equals(id)).toList();
+    List<Reporte> reportesADevolver = reportes.stream().filter(i -> i.getId().trim().equals(id.trim())).toList();
+    return reportesADevolver;
   }
 
   /**
@@ -69,7 +245,7 @@ public class ReporteController {
    * @return reportes
    */
   public List<Reporte> obtenerReportePorZona(String zona) {
-    return reportes.stream().filter(i -> i.getZona().equals(zona)).toList();
+    return reportes.stream().filter(i -> i.getZona().toLowerCase().equals(zona)).toList();
   }
 
   /**
@@ -89,14 +265,14 @@ public class ReporteController {
       case 1:
         System.out.println("\nIngrese el ID del reportante: ");
         consulta = InputController.inputString().toLowerCase();
-        resultado = obtenerReportesPorId(consulta);
+        resultado = obtenerReportesPorIdReportante(consulta);
         break;
 
       // Especie
       // TODO: Aplicar filtro de especie
       case 2:
         System.out.println("\nIngrese la especie (DOG/CAT): ");
-        consulta = InputController.inputString().toLowerCase();
+        consulta = InputController.inputString();
         resultado = obtenerReportePorEspecie(consulta);
         break;
 
@@ -183,10 +359,9 @@ public class ReporteController {
   public List<Reporte> sugerirCoincidencias(Reporte _reporte) {
     String reportante = _reporte.getNombreCompleto().toLowerCase();
     String color = _reporte.getMascota().getColor().toLowerCase();
-    String tipoReporte = _reporte.getTipo();
 
     return reportes.stream()
-      .filter(r -> r.getTipo() == _reporte.getTipo())
+      .filter(r -> r.getTipo().equals(_reporte.getTipo()))
       // Otras coincidencias
       .filter(r -> r.getNombreCompleto().toLowerCase().contains(reportante))
       .filter(r -> r.getMascota().getColor().toLowerCase().contains(color))
@@ -195,91 +370,414 @@ public class ReporteController {
 
   }
 
-  public void actualizarReporte(Reporte _reporte, int accion) {
+  /**
+   * Actualiza un reporte completo o solo ciertos valores de este
+   *
+   * @param reporte Reporte a actualizar
+   * @param accion Indica si actualizar un reporte por completo o solo un dato
+   * especifico
+   */
+  public void actualizarReporte(Reporte reporte, int accion) {
+    Mascota mascota = null;
+    List<String> especiesPermitidas = Arrays.asList("DOG", "CAT");
+    List<String> pelajesPermitidos = Arrays.asList("CORTO", "LARGO");
+    List<String> tallasPermitidas = Arrays.asList("PEQ", "MED", "GRA");
+
+    if (reporte == null) {
+      System.out.println("No se encontró el reporte");
+      return;
+    }
+
     switch (accion) {
       // Todos los datos:
       case 0:
         // Todos los datos
+        System.out.println("Actualizando todos los datos");
+
+        // ID del reportante
+        System.out.println("\nDigite el ID del reportante:");
+        reporte.setReportanteId(InputController.inputID());
+
+        // Nombre completo
+        System.out.println("\nDigite el nombre completo del reportante:");
+        reporte.setNombreCompleto(InputController.inputStringMinimo(7));
+
+        // Fecha
+        System.out.println("\nDigite la fecha:");
+        reporte.setFecha(InputController.inputFecha());
+
+        // Zona
+        System.out.println("\nDigite la zona:");
+        reporte.setZona(InputController.inputStringMaximo(30));
+
+        // Número de teléfono
+        System.out.println("\nIngrese el número de teléfono: ");
+        reporte.setContacto(InputController.inputTelefono());
+
+        // Tipo de especie
+        System.out.println("\nIngrese el tipo de especie:");
+        String especieEscogida = InputController.inputRestrict(especiesPermitidas);
+
+        // Datos generales de mascota
+        // Color
+        System.out.println("\nIngrese el color del " + especieEscogida + ": ");
+        String color = InputController.inputString();
+
+        // Señas
+        System.out.println("\nIngrese las señas del " + especieEscogida + ": ");
+        String sennas = InputController.inputStringRango(10, 100);
+
+        // Microchip
+        System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
+        String microchip = InputController.inputVacio();
+
+        // Gato
+        String raza,
+         tipoPelaje,
+         talla;
+        boolean estaEsterelizado,
+         tieneCollar;
+        if ("CAT".equals(especieEscogida)) {
+          // Raza del gato
+          System.out.println("\nIngrese la raza del " + especieEscogida + ": ");
+          raza = InputController.inputString();
+
+          // Tipo de pelaje del gato
+          System.out.println("\nIngrese el tipo de pelaje del " + especieEscogida + ": ");
+          tipoPelaje = InputController.inputRestrict(pelajesPermitidos);
+
+          // Si el gato está esterelizado o no
+          System.out.println("\nIngrese si el " + especieEscogida + " se encuentra esterelizado o no: ");
+          estaEsterelizado = InputController.inputSiNo();
+
+          mascota = new Gato(raza, tipoPelaje, estaEsterelizado, especieEscogida, color, sennas, microchip);
+        } // PERRO
+        else if ("DOG".equals(especieEscogida)) {
+          // Raza del perro
+          System.out.println("\nIngrese la raza del " + especieEscogida + ": ");
+          raza = InputController.inputString();
+
+          // Talla del perro
+          System.out.println("\nIngrese la talla del " + especieEscogida + ": ");
+          talla = InputController.inputRestrict(tallasPermitidas);
+
+          // Si el perro tiene collar o no
+          System.out.println("\nIngrese si el " + especieEscogida + " tiene collar o no: ");
+          tieneCollar = InputController.inputSiNo();
+
+          mascota = new Perro(raza, talla, tieneCollar, especieEscogida, color, sennas, microchip);
+        }
+
+        reporte.setMascota(mascota);
         break;
 
       // Nombre completo
       case 1:
+        System.out.println("\nDigite el nuevo nombre completo");
         String nombre = InputController.inputString();
-        _reporte.setNombreCompleto(nombre);
+        reporte.setNombreCompleto(nombre);
         break;
 
       // Tipo de reporte
       case 2:
-        System.out.println("El tipo de reporte actual es:" + _reporte.getTipo());
-        String tipoRep = InputController.inputReporte();
-        if (!"PDR".equals(tipoRep) || !"ENC".equals(tipoRep)) {
-          System.out.println("Solo se admiten 'PDR' o 'ENC'");
+        System.out.println("\nEl tipo de reporte actual es:" + reporte.getTipo());
+        List<String> tiposPermitidos = Arrays.asList("PDR", "ENC");
+        String tipoRep = InputController.inputRestrict(tiposPermitidos);
+
+        if (tipoRep.equals(reporte.getTipo())) {
+          System.out.println("Ya el reporte es del tipo " + reporte.getTipo());
           break;
         }
+
+        String tipoOriginal = reporte.getTipo();
+
         if ("PDR".equals(tipoRep)) {
-          _reporte = new ReportePerdida(
-            _reporte.getId(),
-            _reporte.getReportanteId(),
-            _reporte.getNombreCompleto(),
-            _reporte.getFecha(),
-            _reporte.getZona(),
-            _reporte.getContacto(),
-            _reporte.getMascota()
+          reporte = new ReportePerdida(
+            reporte.getId(),
+            reporte.getReportanteId(),
+            reporte.getNombreCompleto(),
+            reporte.getFecha(),
+            reporte.getZona(),
+            reporte.getContacto(),
+            reporte.getMascota()
           );
         } else if ("ENC".equals(tipoRep)) {
-          _reporte = new ReporteEncontrada(
-            _reporte.getId(),
-            _reporte.getReportanteId(),
-            _reporte.getNombreCompleto(),
-            _reporte.getFecha(),
-            _reporte.getZona(),
-            _reporte.getContacto(),
-            _reporte.getMascota()
+          reporte = new ReporteEncontrada(
+            reporte.getId(),
+            reporte.getReportanteId(),
+            reporte.getNombreCompleto(),
+            reporte.getFecha(),
+            reporte.getZona(),
+            reporte.getContacto(),
+            reporte.getMascota()
           );
         }
+
+        int indiceReporte = indicePorId(reporte.getId());
+        if (indiceReporte != -1) {
+          reportes.set(indiceReporte, reporte);
+        }
+
+        String archivoOriginal;
+        if (tipoOriginal.equals("PDR")) {
+          archivoOriginal = archivoPerdidas;
+        } else {
+          archivoOriginal = archivoEncontradas;
+        }
+
+        eliminarReporteDeArchivo(archivoOriginal, reporte.getId());
+
+        almacenarReporte(reporte);
+
+        System.out.println("Tipo de reporte actualizado correctamente a " + tipoRep);
+
         break;
 
       // Zona
       case 3:
-        String zona = InputController.inputString();
-        _reporte.setZona(zona);
+        String zona = InputController.inputStringMaximo(30);
+        reporte.setZona(zona);
         break;
 
       // Especie
       case 4:
-        String tipoEsp = InputController.inputEspecie();
-        _reporte.getMascota().setEspecie(tipoEsp);
+        // Tipo de especie
+        System.out.println("\nIngrese el tipo de especie: ");
+        String especieAct = InputController.inputRestrict(especiesPermitidas);
+
+        if (especieAct.equals(reporte.getMascota().getEspecie())) {
+          System.out.println("Ya la mascota es de ese tipo de especie");
+          break;
+        }
+
+        // Datos generales de mascota
+        System.out.println("\nIngrese los datos restantes de la mascota");
+        // Color
+        System.out.println("\nIngrese el color del " + especieAct + ": ");
+        String colorAct = InputController.inputString();
+
+        // Señas
+        System.out.println("\nIngrese las señas del " + especieAct + ": ");
+        String sennasAct = InputController.inputStringRango(10, 100);
+
+        // Microchip
+        System.out.println("\nIngrese microchip (opcional, deje en blanco si no tiene): ");
+        String microchipAct = InputController.inputVacio();
+
+        // Gato
+        String tipoPelajeAct,
+         tallaAct;
+        boolean estaEsterelizadoAct,
+         tieneCollarAct;
+        if ("CAT".equals(especieAct)) {
+          // Raza del gato
+          System.out.println("\nIngrese la raza del " + especieAct + ": ");
+          String razaGatoAct = InputController.inputString();
+
+          // Tipo de pelaje del gato
+          System.out.println("\nIngrese el tipo de pelaje del " + especieAct + ": ");
+          tipoPelajeAct = InputController.inputRestrict(pelajesPermitidos);
+
+          // Si el gato está esterelizado o no
+          System.out.println("\nIngrese si el " + especieAct + " se encuentra esterelizado o no: ");
+          estaEsterelizadoAct = InputController.inputSiNo();
+
+          mascota = new Gato(razaGatoAct, tipoPelajeAct, estaEsterelizadoAct, especieAct, colorAct, sennasAct, microchipAct);
+        } // PERRO
+        else if ("DOG".equals(especieAct)) {
+          // Raza del perro
+          System.out.println("\nIngrese la raza del " + especieAct + ": ");
+          String razaPerroAct = InputController.inputString();
+
+          // Talla del perro
+          System.out.println("\nIngrese la talla del " + especieAct + ": ");
+          tallaAct = InputController.inputRestrict(tallasPermitidas);
+
+          // Si el perro tiene collar o no
+          System.out.println("\nIngrese si el " + especieAct + " tiene collar o no: ");
+          tieneCollarAct = InputController.inputSiNo();
+
+          mascota = new Perro(razaPerroAct, tallaAct, tieneCollarAct, especieAct, colorAct, sennasAct, microchipAct);
+        }
+
+        reporte.setMascota(mascota);
+        System.out.println("Mascota actualizada");
         break;
 
       // Color principal
       case 5:
-        String color = InputController.inputString();
-        _reporte.getMascota().setColor(color);
+        String soloColorAct = InputController.inputString();
+        reporte.getMascota().setColor(soloColorAct);
         break;
 
       // Señas
       case 6:
-        String senas = InputController.inputString();
-        _reporte.getMascota().setSennas(senas);
+        String soloSennasAct = InputController.inputString();
+        reporte.getMascota().setSennas(soloSennasAct);
         break;
 
       // Contacto
       case 7:
-        String contacto = InputController.inputTelefono();
-        _reporte.setContacto(contacto);
+        String soloContactoAct = InputController.inputTelefono();
+        reporte.setContacto(soloContactoAct);
         break;
 
       // Micro
       case 8:
-        String micro = InputController.inputVacio();
-        _reporte.getMascota().setMicrochip(micro);
+        String soloMicroAct = InputController.inputVacio();
+        reporte.getMascota().setMicrochip(soloMicroAct);
         break;
       default:
         System.out.println("Error en actualización");
         break;
     }
+
+    int indice = indicePorId(reporte.getId());
+    if (indice != -1) {
+      reportes.set(indice, reporte);
+    }
+
+    actualizarArchivoTexto(reporte);
+    System.out.println("Reporte actualizado correctamente");
   }
 
+  private void eliminarReporteDeArchivo(String archivo, String id) {
+    File file = new File(archivo);
+    if (!file.exists()) {
+      System.out.println("El archivo no existe");
+      return;
+    }
+
+    List<String> lineas = new ArrayList<>();
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+      String linea;
+      while ((linea = bufferedReader.readLine()) != null) {
+        if (!linea.startsWith(id + "|")) {
+          lineas.add(linea);
+        }
+      }
+    } catch (IOException e) {
+      System.out.println("Error al leer archivo. Error: " + e.getMessage());
+    }
+
+    try (PrintWriter printWriter = new PrintWriter(new FileWriter(file, false))) {
+      for (String linea : lineas) {
+        printWriter.println(linea);
+      }
+    } catch (IOException e) {
+      System.out.println("Error al reescribir el archivo. Error: " + e.getMessage());
+    }
+  }
+
+  /**
+   * Actualiza el archivo de texto
+   *
+   * @param reporte Reporte a actualizar
+   */
+  private void actualizarArchivoTexto(Reporte reporte) {
+    String archivoActualizar;
+    // Validación de tipo de reporte
+    if ("PDR".equals(reporte.getTipo())) {
+      archivoActualizar = archivoPerdidas;
+    } else {
+      archivoActualizar = archivoEncontradas;
+    }
+
+    File file = new File(archivoActualizar);
+    List<String> lineasActualizadas = new ArrayList<>();
+
+    BufferedReader bufferedReader = null;
+    PrintWriter printWriter = null;
+
+    try {
+      bufferedReader = new BufferedReader(new FileReader(file));
+      String linea;
+
+      while ((linea = bufferedReader.readLine()) != null) {
+        String[] datos = linea.split("\\|");
+
+        if (datos.length < 11) {
+          System.out.println("Faltan datos en tu archivo de texto, verificalo");
+          continue;
+        }
+
+        if (datos[0].equals(reporte.getId())) {
+          Mascota mascotaActualizada = reporte.getMascota();
+          lineasActualizadas.add(String.join("|",
+            reporte.getId(),
+            reporte.getReportanteId(),
+            reporte.getNombreCompleto(),
+            reporte.getFecha(),
+            reporte.getZona(),
+            reporte.getContacto(),
+            mascotaActualizada.getEspecie(),
+            mascotaActualizada.getColor(),
+            mascotaActualizada.getSennas(),
+            mascotaActualizada.getMicrochip(),
+            mascotaActualizada.toPrint()
+          ));
+        } else {
+          lineasActualizadas.add(linea);
+        }
+      }
+
+      // Reescritura
+      printWriter = new PrintWriter(new BufferedWriter(new FileWriter(file, false)));
+      for (String l : lineasActualizadas) {
+        printWriter.println(l);
+      }
+
+    } catch (IOException e) {
+      System.out.println("Error actualizando el reporte. Error: " + e.getMessage());
+    } finally {
+      try {
+        if (bufferedReader != null) {
+          bufferedReader.close();
+        }
+        if (printWriter != null) {
+          printWriter.close();
+        }
+      } catch (IOException e) {
+        System.out.println("Error cerrando los archivos. Error: " + e.getMessage());
+      }
+    }
+  }
+
+  /**
+   * Valida si el id del reporte ya existe o no
+   *
+   * @param id Id del reporte a comparar
+   * @return boolean indicando si existe o no; true no existe, false, existe
+   */
+  public boolean existeId(String id) {
+    boolean esValido = true;
+    for (Reporte i : this.reportes) {
+      if (id.equals(i.getId())) {
+        System.out.println("El ID del reporte ya existe, intente con otro ID");
+        esValido = false;
+      }
+    }
+    return esValido;
+  }
+
+  /**
+   * Encontrar el indice del reporte
+   *
+   * @param id Id a buscar
+   * @return Indice
+   */
+  private int indicePorId(String id) {
+    for (int i = 0; i < reportes.size(); i++) {
+      if (reportes.get(i).getId().equals(id)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Imprime conteos por tipo de reportes y por tipo de especies
+   */
   public void reporteAgrupado() {
     int contadorGatos = 0, contadorPerros = 0, contadorPDR = 0, contadorENC = 0;
     for (Reporte i : this.reportes) {
@@ -307,6 +805,11 @@ public class ReporteController {
     System.out.println("DOG: " + contadorPerros + "\n");
   }
 
+  /**
+   * Genera un listado de coincidencias de reportes
+   *
+   * @return Listado de reportes
+   */
   public List<Reporte> reportesCoincidencias() {
     List<Reporte> resultado = new ArrayList<>();
     int contador = 0;

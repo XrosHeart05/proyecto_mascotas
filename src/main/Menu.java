@@ -80,7 +80,7 @@ public class Menu {
     String nombreCompleto = InputController.inputStringMinimo(7);
 
     // Fecha
-    System.out.println("\nIngresa la fecha (dd/mm/yyyy): ");
+    System.out.println("\nIngresa la fecha (dd/mm/yyyy) o presione Enter para colocar la fecha actual: ");
     String fecha = InputController.inputFecha();
 
     // Zona
@@ -206,7 +206,7 @@ public class Menu {
       accion2 = InputController.inputIntRango(1, 8);
       reporteController.actualizarReporte(reporte, accion2);
     } else {
-      // reporteController.actualizarReporte(reporte, 0);
+      reporteController.actualizarReporte(reporte, 0);
       return null;
     }
 
@@ -236,12 +236,21 @@ public class Menu {
     List<Reporte> reportes = reporteController.buscarReportes(opcion);
     if (reportes.isEmpty()) {
       System.out.println("No hay reportes que coincidan");
+      return null;
     }
     return reportes;
   }
 
   public static Reporte sugerirCoincidenciasMenu() {
-    Reporte reporte = new Reporte();
+    System.out.println("\nQué tipo de reporte es? \n1: Perdido\n2: Encontrado");
+    int opcion = InputController.inputIntRango(1, 2);
+    Reporte reporte;
+    if (opcion == 1) {
+      reporte = new ReportePerdida();
+    } else {
+      reporte = new ReporteEncontrada();
+    }
+
     System.out.println("Ingrese la especie (DOG/CAT): ");
     String especie = InputController.inputString();
     if ("CAT".equals(especie)) {
