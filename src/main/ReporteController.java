@@ -327,7 +327,7 @@ public class ReporteController {
 
       // Zona
       case 3:
-        consulta = InputController.inputStringInterfaz(valor);
+        consulta = InputController.inputStringInterfaz(valor, "Zona");
         if (consulta != null) {
           resultado = obtenerReportePorZona(consulta);
         } else {
