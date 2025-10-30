@@ -44,6 +44,8 @@ public class FrameReporteAgrupado extends javax.swing.JFrame {
     labelDOG = new javax.swing.JLabel();
     labelConteoCAT = new javax.swing.JLabel();
     labelConteoDOG = new javax.swing.JLabel();
+    jPanel1 = new javax.swing.JPanel();
+    botonVolver = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -125,8 +127,18 @@ public class FrameReporteAgrupado extends javax.swing.JFrame {
           .addComponent(labelConteoENC)
           .addComponent(labelDOG)
           .addComponent(labelConteoDOG))
-        .addContainerGap(45, Short.MAX_VALUE))
+        .addContainerGap(25, Short.MAX_VALUE))
     );
+
+    jPanel1.setLayout(new java.awt.BorderLayout());
+
+    botonVolver.setText("Volver");
+    botonVolver.addActionListener(new java.awt.event.ActionListener() {
+      public void actionPerformed(java.awt.event.ActionEvent evt) {
+        botonVolverActionPerformed(evt);
+      }
+    });
+    jPanel1.add(botonVolver, java.awt.BorderLayout.CENTER);
 
     javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
@@ -134,17 +146,27 @@ public class FrameReporteAgrupado extends javax.swing.JFrame {
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addComponent(panelCabecera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
       .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+      .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
     );
     layout.setVerticalGroup(
       layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
       .addGroup(layout.createSequentialGroup()
         .addComponent(panelCabecera, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        .addComponent(panelPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        .addComponent(panelPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
     );
 
     pack();
   }// </editor-fold>//GEN-END:initComponents
+
+  private void botonVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonVolverActionPerformed
+    InterfazGrafica interfazGraficaFrame = new InterfazGrafica();
+    interfazGraficaFrame.setVisible(true);
+
+    this.dispose();
+  }//GEN-LAST:event_botonVolverActionPerformed
 
   /**
    * @param args the command line arguments
@@ -172,6 +194,8 @@ public class FrameReporteAgrupado extends javax.swing.JFrame {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
+  private javax.swing.JButton botonVolver;
+  private javax.swing.JPanel jPanel1;
   private javax.swing.JLabel labelCAT;
   private javax.swing.JLabel labelConteoCAT;
   private javax.swing.JLabel labelConteoDOG;
