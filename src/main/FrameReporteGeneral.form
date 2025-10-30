@@ -23,86 +23,402 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="panelTitulo" alignment="0" max="32767" attributes="0"/>
+          <Component id="panelFinal" alignment="0" max="32767" attributes="0"/>
+          <Component id="panelPrincipal" alignment="0" max="32767" attributes="0"/>
+          <Component id="panelInformacion" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <Component id="panelTitulo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelPrincipal" min="-2" pref="269" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelInformacion" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="panelFinal" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel1">
+    <Container class="javax.swing.JPanel" name="panelTitulo">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="labelTitulo">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Times New Roman" size="18" style="0"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="Reporte General de Mascotas"/>
+          </Properties>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="Center"/>
+            </Constraint>
+          </Constraints>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panelPrincipal">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
+              <BorderConstraints direction="Center"/>
+            </Constraint>
+          </Constraints>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTable" name="tablaReportes">
+              <Properties>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="tablaModel" type="code"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="&#xa;ListSelectionListener listener = new ListSelectionListener() {&#xa;    @Override&#xa;    public void valueChanged(ListSelectionEvent e){&#xa;      if (e.getValueIsAdjusting()){&#xa;        int fila = tablaReportes.getSelectedRow();&#xa;        String reporteID = (String) tablaModel.getValueAt(fila, 0);&#xa;        String cedula = (String) tablaModel.getValueAt(fila, 1);&#xa;        String nombre = (String) tablaModel.getValueAt(fila, 2);&#xa;        String fecha = (String) tablaModel.getValueAt(fila, 3);&#xa;        String zona = (String) tablaModel.getValueAt(fila, 4);&#xa;        String contacto = (String) tablaModel.getValueAt(fila, 5);&#xa;        String especie = (String) tablaModel.getValueAt(fila, 6);&#xa;        String color = (String) tablaModel.getValueAt(fila, 7);&#xa;        String sennas = (String) tablaModel.getValueAt(fila, 8);&#xa;        String microchip = (String) tablaModel.getValueAt(fila, 9);&#xa;        String raza = (String) tablaModel.getValueAt(fila, 10);&#xa;        String talla = (String) tablaModel.getValueAt(fila, 11);&#xa;        String pelaje = (String) tablaModel.getValueAt(fila, 12);&#xa;        String esterelizado = (String) tablaModel.getValueAt(fila, 13);&#xa;        String collar = (String) tablaModel.getValueAt(fila, 14);&#xa;        &#xa;        labelReporteValor.setText(reporteID);&#xa;        labelCedulaValor.setText(cedula);&#xa;        labelReportanteValor.setText(nombre);&#xa;        labelFechaValor.setText(fecha);&#xa;        labelZonaValor.setText(zona);&#xa;        labelContactoValor.setText(contacto);&#xa;        labelEspecieValor.setText(especie);&#xa;        labelColorValor.setText(color);&#xa;        labelSennasValor.setText(sennas);&#xa;        labelMicrochipValor.setText(microchip);&#xa;        labelRazaValor.setText(raza);     &#xa;        labelTallaValor.setText(talla);     &#xa;        labelPelajeValor.setText(pelaje);     &#xa;        labelEsterelizadoValor.setText(esterelizado);     &#xa;        labelCollarValor.setText(collar);        &#xa;      }&#xa;    }&#xa;};&#xa;tablaReportes.getSelectionModel().addListSelectionListener(listener);&#xa;"/>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value=""/>
+              </AuxValues>
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panelInformacion">
 
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="661" max="-2" attributes="0"/>
-                  <EmptySpace pref="39" max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="245" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="buttonSalir" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelReporte" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelCedula" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelCedulaValor" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelReporteValor" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelReportante" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelContacto" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelContactoValor" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelReportanteValor" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelFechaValor" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelZonaValor" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Component id="labelFecha" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelZona" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="114" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelMicrochip" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelTalla" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelTallaValor" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelMicrochipValor" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelEspecie" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelColor" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelEspecieValor" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelColorValor" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelSennas" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelRaza" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelRazaValor" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelSennasValor" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" pref="135" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelEsterelizado" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelPelaje" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelCollar" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="labelCollarValor" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelPelajeValor" min="-2" max="-2" attributes="0"/>
+                              <Component id="labelEsterelizadoValor" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
+                  <EmptySpace pref="66" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelReporte" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelReporteValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEspecie" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEspecieValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelPelaje" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelPelajeValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
-                  <Component id="buttonSalir" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="92" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelCedula" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCedulaValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelColor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelColorValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEsterelizado" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelEsterelizadoValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelReportante" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelReportanteValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelRaza" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelRazaValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCollar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCollarValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelContacto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelContactoValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelSennas" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelSennasValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFechaValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelMicrochip" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelMicrochipValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelZona" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelZonaValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTalla" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTallaValor" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="7" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
-              <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="5" rowCount="4">
-                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 3" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 4" type="java.lang.Object"/>
-                    <Column editable="true" title="Title 5" type="java.lang.Object"/>
-                  </Table>
-                </Property>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Component class="javax.swing.JLabel" name="jLabel1">
+        <Component class="javax.swing.JLabel" name="labelReporte">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Times New Roman" size="18" style="0"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Reporte General de Mascotas"/>
+            <Property name="text" type="java.lang.String" value="ID Reporte"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JLabel" name="labelReporteValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reporte"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelCedula">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cedula"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelCedulaValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cedula"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelReportante">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reportante"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelReportanteValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reportante"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelFecha">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelFechaValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelZona">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Zona"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelZonaValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Zona"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelContacto">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Contacto"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelContactoValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Contacto"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelEspecie">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Especie"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelEspecieValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Especie"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelColor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Color"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelColorValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Color"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelSennas">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Se&#xf1;as"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelSennasValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Se&#xf1;as"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelMicrochip">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Microchip"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelMicrochipValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Microchip"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelRaza">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Raza"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelRazaValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Raza"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelTalla">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Talla"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelTallaValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Talla"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelPelaje">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pelaje"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelPelajeValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Pelaje"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelEsterelizado">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Esterelizado"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelEsterelizadoValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Esterelizado"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelCollar">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Collar"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelCollarValor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Collar"/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Container class="javax.swing.JPanel" name="panelFinal">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="buttonSalir" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace pref="23" max="32767" attributes="0"/>
+                  <Component id="buttonSalir" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
         <Component class="javax.swing.JButton" name="buttonSalir">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
