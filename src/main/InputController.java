@@ -15,7 +15,7 @@ public class InputController {
 
   private static final Scanner inputScanner = new Scanner(System.in);
 
-  //Función para inputs
+  // Función para inputs
   public static String inputVacio() {
     return InputController.inputScanner.nextLine().trim();
   }
@@ -34,10 +34,10 @@ public class InputController {
   }
 
   //Función para inputs
-  public static String inputStringInterfaz(String texto) {
+  public static String inputStringInterfaz(String texto, String campo) {
     texto = texto.trim();
     if (texto.isEmpty()) {
-      JOptionPane.showMessageDialog(null, "Debe digitar algún texto");
+      JOptionPane.showMessageDialog(null, "Debe digitar algún texto para " + campo);
       return null;
     }
 
@@ -59,6 +59,16 @@ public class InputController {
     }
   }
 
+  // Función que válida que caracteres esté dentro del rango
+  public static String inputStringRangoInterfaz(String texto, int min, int max, String campo) {
+    if (texto.length() < min || texto.length() > max) {
+      JOptionPane.showMessageDialog(null, "Cadena de caracteres fuera de rango, rango aceptado " + min + " - " + max + "caracteres para el campo " + campo);
+      return null;
+    }
+
+    return texto;
+  }
+
   //Valida que el usuario digite un entero válido
   public static String inputReporteId() {
     while (true) {
@@ -78,9 +88,11 @@ public class InputController {
   public static String inputReporteIdInterfaz(String texto) {
     // Uso de expresiones regulares
     if (!texto.matches("^REP-\\d{4,}$")) {
-      JOptionPane.showMessageDialog(null, "Formato inválido");
+      JOptionPane.showMessageDialog(null, "Formato inválido en ID de reporte");
       return null;
     }
+    
+    
 
     return texto;
   }
@@ -127,6 +139,24 @@ public class InputController {
     }
   }
 
+  // Función que valida confirmación
+  public static Boolean inputSiNoInterfaz(String texto, String campo) {
+    if (texto.trim().isEmpty()) {
+      JOptionPane.showMessageDialog(null, "No se permiten valores vacíos para " + campo);
+      return null;
+    }
+    
+    if ("s".equals(texto)) {
+      return true;
+    }
+    if ("n".equals(texto)) {
+      return false;
+    }
+    
+    JOptionPane.showMessageDialog(null, "Valor inválido " + texto + " para " + campo);
+    return null;
+  }
+
   //Función para usuario digite nombre
   //Valida que el usuario digite el nombre en el rango máximo
   public static String inputStringMinimo(int min) {
@@ -139,6 +169,16 @@ public class InputController {
       }
       return input;
     }
+  }
+
+  // Valida que el valor cumpla con el mínimo de caracteres
+  public static String inputStringMinimoInterfaz(int min, String texto, String campo) {
+    if (texto.length() < min) {
+      JOptionPane.showMessageDialog(null, "Cadena de caracteres fuera de rango. Rango aceptado " + min + " caracteres. Campo: " + campo);
+      return null;
+    }
+
+    return texto;
   }
 
   //Función usada en zona
@@ -154,6 +194,16 @@ public class InputController {
       }
       return input;
     }
+  }
+
+  // Valida que el usuario dijite la cantidad máxima de caracteres
+  public static String inputStringMaximoInterfaz(int max, String texto, String campo) {
+    if (texto.length() > max) {
+      JOptionPane.showMessageDialog(null, "Cadena de caracteres fuera de rango. Rango aceptado " + max + " caracteres. Campo: " + campo);
+      return null;
+    }
+
+    return texto;
   }
 
   /**
@@ -190,6 +240,35 @@ public class InputController {
 
   }
 
+  /**
+   * La función valida que la fecha que digite el usuario es correcta en formato
+   * y que sea real Para esta función se requirió información de la siguiente
+   * página Referencia Bibliográfica: Alarcón, J.(08/2023) Cómo validar fechas
+   * en Java. campusMVP.es.
+   * https://www.campusmvp.es/recursos/post/como-validar-fechas-en-java.aspx?srsltid=AfmBOoqh9ZAplVDZJ-dG3bVxNxV3o93s2IwdBoiM1jIAVxgXQGk-kzGW
+   *
+   * @param texto Fecha a validar
+   * @return String con la fecha en formato 'dd/MM/uuuu'
+   */
+  public static String inputFechaInterfaz(String texto) {
+    //Definir el formato de fecha
+    DateTimeFormatter formato = DateTimeFormatter
+      .ofPattern("dd/MM/uuuu")
+      .withResolverStyle(ResolverStyle.STRICT);
+
+    try {
+      if (texto.isEmpty()) {
+        return LocalDate.now().format(formato);
+      }
+      LocalDate fechaParseada = LocalDate.parse(texto, formato);
+      return fechaParseada.format(formato);
+    } catch (DateTimeParseException e) {
+      JOptionPane.showMessageDialog(null, "Error en fecha: " + e.getMessage());
+      return null;
+    }
+
+  }
+
   public static String inputID() {
 
     while (true) {
@@ -203,6 +282,21 @@ public class InputController {
       }
       return id;
     }
+  }
+
+  public static String inputIDInterfaz(String texto) {
+    texto = texto.trim();
+    if (texto.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Debe digitar algún texto");
+      return null;
+    }
+
+    if (!texto.matches("^\\d-\\d{4}-\\d{4}$")) {
+      JOptionPane.showMessageDialog(null, "ID del reportante inválido, el formato debe ser 1-1111-1111");
+      return null;
+    }
+
+    return texto;
   }
 
   public static String inputEspecie() {
@@ -252,6 +346,21 @@ public class InputController {
       }
       return numero;
     }
+  }
+
+  public static String inputTelefonoInterfaz(String texto) {
+    texto = texto.trim();
+    if (texto.isEmpty()) {
+      JOptionPane.showMessageDialog(null, "Debe digitar el número de telefono");
+      return null;
+    }
+
+    if (!texto.matches("^\\d{4}-\\d{4}$")) {
+      JOptionPane.showMessageDialog(null, "Formato del número es incorrecto, el formato correcto es: ####-####");
+      return null;
+    }
+
+    return texto;
   }
 
   public static String inputReporte() {
