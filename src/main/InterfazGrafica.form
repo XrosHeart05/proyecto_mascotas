@@ -62,8 +62,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="322" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="ButtonOpcion2" min="-2" pref="258" max="-2" attributes="0"/>
-                              <Component id="ButtonOpcion1" min="-2" pref="258" max="-2" attributes="0"/>
+                              <Component id="botonConsultarReportes" min="-2" pref="258" max="-2" attributes="0"/>
+                              <Component id="botonRegistrarReporte" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion3" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="botonReporteAgrupado" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion5" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
@@ -88,9 +88,9 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="ButtonOpcion1" min="-2" pref="33" max="-2" attributes="0"/>
+                  <Component id="botonRegistrarReporte" min="-2" pref="33" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="ButtonOpcion2" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonConsultarReportes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="ButtonOpcion3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -136,7 +136,7 @@
             <Property name="text" type="java.lang.String" value="Haz clic en la opci&#xf3;n del men&#xfa;"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonOpcion1">
+        <Component class="javax.swing.JButton" name="botonRegistrarReporte">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="14" style="0"/>
@@ -144,10 +144,10 @@
             <Property name="text" type="java.lang.String" value="1. Registar mascota desaparecida"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRegistrarReporteActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonOpcion2">
+        <Component class="javax.swing.JButton" name="botonConsultarReportes">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="14" style="0"/>
@@ -155,7 +155,7 @@
             <Property name="text" type="java.lang.String" value="2. Consultar por ID/Especie/Zona"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonConsultarReportesActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="ButtonOpcion3">

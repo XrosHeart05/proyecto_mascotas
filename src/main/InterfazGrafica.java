@@ -30,8 +30,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
     jLabel2 = new javax.swing.JLabel();
     jLabel3 = new javax.swing.JLabel();
     jLabel4 = new javax.swing.JLabel();
-    ButtonOpcion1 = new javax.swing.JButton();
-    ButtonOpcion2 = new javax.swing.JButton();
+    botonRegistrarReporte = new javax.swing.JButton();
+    botonConsultarReportes = new javax.swing.JButton();
     ButtonOpcion3 = new javax.swing.JButton();
     botonReporteAgrupado = new javax.swing.JButton();
     ButtonOpcion5 = new javax.swing.JButton();
@@ -51,19 +51,19 @@ public class InterfazGrafica extends javax.swing.JFrame {
     jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
     jLabel4.setText("Haz clic en la opción del menú");
 
-    ButtonOpcion1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-    ButtonOpcion1.setText("1. Registar mascota desaparecida");
-    ButtonOpcion1.addActionListener(new java.awt.event.ActionListener() {
+    botonRegistrarReporte.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+    botonRegistrarReporte.setText("1. Registar mascota desaparecida");
+    botonRegistrarReporte.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        ButtonOpcion1ActionPerformed(evt);
+        botonRegistrarReporteActionPerformed(evt);
       }
     });
 
-    ButtonOpcion2.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-    ButtonOpcion2.setText("2. Consultar por ID/Especie/Zona");
-    ButtonOpcion2.addActionListener(new java.awt.event.ActionListener() {
+    botonConsultarReportes.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+    botonConsultarReportes.setText("2. Consultar por ID/Especie/Zona");
+    botonConsultarReportes.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        ButtonOpcion2ActionPerformed(evt);
+        botonConsultarReportesActionPerformed(evt);
       }
     });
 
@@ -135,8 +135,8 @@ public class InterfazGrafica extends javax.swing.JFrame {
           .addGroup(jPanel1Layout.createSequentialGroup()
             .addGap(322, 322, 322)
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-              .addComponent(ButtonOpcion2, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(ButtonOpcion1, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(botonConsultarReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(botonRegistrarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(ButtonOpcion3, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(botonReporteAgrupado, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(ButtonOpcion5, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -156,9 +156,9 @@ public class InterfazGrafica extends javax.swing.JFrame {
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         .addComponent(jLabel4)
         .addGap(18, 18, 18)
-        .addComponent(ButtonOpcion1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+        .addComponent(botonRegistrarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        .addComponent(ButtonOpcion2)
+        .addComponent(botonConsultarReportes)
         .addGap(18, 18, 18)
         .addComponent(ButtonOpcion3)
         .addGap(18, 18, 18)
@@ -186,19 +186,19 @@ public class InterfazGrafica extends javax.swing.JFrame {
     pack();
   }// </editor-fold>//GEN-END:initComponents
 
-    private void ButtonOpcion1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOpcion1ActionPerformed
-      Ventana1 newframe = new Ventana1();
+    private void botonRegistrarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarReporteActionPerformed
+      FrameRegistroReporte newframe = new FrameRegistroReporte();
       newframe.setVisible(true);
 
       this.dispose();
-    }//GEN-LAST:event_ButtonOpcion1ActionPerformed
+    }//GEN-LAST:event_botonRegistrarReporteActionPerformed
 
-  private void ButtonOpcion2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOpcion2ActionPerformed
+  private void botonConsultarReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConsultarReportesActionPerformed
     Frame_Consultas frameConsultas = new Frame_Consultas();
     frameConsultas.setVisible(true);
 
     this.dispose();
-  }//GEN-LAST:event_ButtonOpcion2ActionPerformed
+  }//GEN-LAST:event_botonConsultarReportesActionPerformed
 
     private void ButtonOpcion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOpcion3ActionPerformed
       FrameReporteGeneral frameReporteGeneral = new FrameReporteGeneral();
@@ -252,12 +252,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton ButtonOpcion1;
-  private javax.swing.JButton ButtonOpcion2;
   private javax.swing.JButton ButtonOpcion3;
   private javax.swing.JButton ButtonOpcion5;
   private javax.swing.JButton ButtonOpcion6;
   private javax.swing.JButton ButtonOpcion7;
+  private javax.swing.JButton botonConsultarReportes;
+  private javax.swing.JButton botonRegistrarReporte;
   private javax.swing.JButton botonReporteAgrupado;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
