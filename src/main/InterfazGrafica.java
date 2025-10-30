@@ -32,11 +32,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
     jLabel4 = new javax.swing.JLabel();
     botonRegistrarReporte = new javax.swing.JButton();
     botonConsultarReportes = new javax.swing.JButton();
-    ButtonOpcion3 = new javax.swing.JButton();
+    botonReporteGeneral = new javax.swing.JButton();
     botonReporteAgrupado = new javax.swing.JButton();
     ButtonOpcion5 = new javax.swing.JButton();
     ButtonOpcion6 = new javax.swing.JButton();
-    ButtonOpcion7 = new javax.swing.JButton();
+    botonSalir = new javax.swing.JButton();
 
     setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,12 +67,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
       }
     });
 
-    ButtonOpcion3.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-    ButtonOpcion3.setText("3. Reporte General");
-    ButtonOpcion3.setToolTipText("");
-    ButtonOpcion3.addActionListener(new java.awt.event.ActionListener() {
+    botonReporteGeneral.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+    botonReporteGeneral.setText("3. Reporte General");
+    botonReporteGeneral.setToolTipText("");
+    botonReporteGeneral.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        ButtonOpcion3ActionPerformed(evt);
+        botonReporteGeneralActionPerformed(evt);
       }
     });
 
@@ -103,12 +103,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
       }
     });
 
-    ButtonOpcion7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-    ButtonOpcion7.setText("7. Salir");
-    ButtonOpcion7.setToolTipText("");
-    ButtonOpcion7.addActionListener(new java.awt.event.ActionListener() {
+    botonSalir.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+    botonSalir.setText("7. Salir");
+    botonSalir.setToolTipText("");
+    botonSalir.addActionListener(new java.awt.event.ActionListener() {
       public void actionPerformed(java.awt.event.ActionEvent evt) {
-        ButtonOpcion7ActionPerformed(evt);
+        botonSalirActionPerformed(evt);
       }
     });
 
@@ -137,11 +137,11 @@ public class InterfazGrafica extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
               .addComponent(botonConsultarReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(botonRegistrarReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(ButtonOpcion3, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+              .addComponent(botonReporteGeneral, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(botonReporteAgrupado, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(ButtonOpcion5, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
               .addComponent(ButtonOpcion6, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-              .addComponent(ButtonOpcion7, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))))
+              .addComponent(botonSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))))
         .addContainerGap(129, Short.MAX_VALUE))
     );
     jPanel1Layout.setVerticalGroup(
@@ -160,7 +160,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
         .addComponent(botonConsultarReportes)
         .addGap(18, 18, 18)
-        .addComponent(ButtonOpcion3)
+        .addComponent(botonReporteGeneral)
         .addGap(18, 18, 18)
         .addComponent(botonReporteAgrupado)
         .addGap(18, 18, 18)
@@ -168,7 +168,7 @@ public class InterfazGrafica extends javax.swing.JFrame {
         .addGap(18, 18, 18)
         .addComponent(ButtonOpcion6)
         .addGap(18, 18, 18)
-        .addComponent(ButtonOpcion7)
+        .addComponent(botonSalir)
         .addContainerGap(120, Short.MAX_VALUE))
     );
 
@@ -200,12 +200,12 @@ public class InterfazGrafica extends javax.swing.JFrame {
     this.dispose();
   }//GEN-LAST:event_botonConsultarReportesActionPerformed
 
-    private void ButtonOpcion3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOpcion3ActionPerformed
+    private void botonReporteGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteGeneralActionPerformed
       FrameReporteGeneral frameReporteGeneral = new FrameReporteGeneral();
       frameReporteGeneral.setVisible(true);
 
       this.dispose();
-    }//GEN-LAST:event_ButtonOpcion3ActionPerformed
+    }//GEN-LAST:event_botonReporteGeneralActionPerformed
 
     private void botonReporteAgrupadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonReporteAgrupadoActionPerformed
       FrameReporteAgrupado frameReporteAgrupado = new FrameReporteAgrupado();
@@ -222,9 +222,10 @@ public class InterfazGrafica extends javax.swing.JFrame {
       // TODO add your handling code here:
     }//GEN-LAST:event_ButtonOpcion6ActionPerformed
 
-    private void ButtonOpcion7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ButtonOpcion7ActionPerformed
-      // TODO add your handling code here:
-    }//GEN-LAST:event_ButtonOpcion7ActionPerformed
+    private void botonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonSalirActionPerformed
+      this.dispose();
+      System.exit(0);
+    }//GEN-LAST:event_botonSalirActionPerformed
 
   /**
    * @param args the command line arguments
@@ -252,13 +253,13 @@ public class InterfazGrafica extends javax.swing.JFrame {
   }
 
   // Variables declaration - do not modify//GEN-BEGIN:variables
-  private javax.swing.JButton ButtonOpcion3;
   private javax.swing.JButton ButtonOpcion5;
   private javax.swing.JButton ButtonOpcion6;
-  private javax.swing.JButton ButtonOpcion7;
   private javax.swing.JButton botonConsultarReportes;
   private javax.swing.JButton botonRegistrarReporte;
   private javax.swing.JButton botonReporteAgrupado;
+  private javax.swing.JButton botonReporteGeneral;
+  private javax.swing.JButton botonSalir;
   private javax.swing.JLabel jLabel1;
   private javax.swing.JLabel jLabel2;
   private javax.swing.JLabel jLabel3;

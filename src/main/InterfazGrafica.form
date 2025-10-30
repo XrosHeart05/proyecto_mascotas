@@ -64,11 +64,11 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="botonConsultarReportes" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="botonRegistrarReporte" min="-2" pref="258" max="-2" attributes="0"/>
-                              <Component id="ButtonOpcion3" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
+                              <Component id="botonReporteGeneral" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="botonReporteAgrupado" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion5" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                               <Component id="ButtonOpcion6" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
-                              <Component id="ButtonOpcion7" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
+                              <Component id="botonSalir" alignment="0" min="-2" pref="258" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -92,7 +92,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="botonConsultarReportes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="ButtonOpcion3" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonReporteGeneral" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="botonReporteAgrupado" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -100,7 +100,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="ButtonOpcion6" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="ButtonOpcion7" min="-2" max="-2" attributes="0"/>
+                  <Component id="botonSalir" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="120" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -158,7 +158,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonConsultarReportesActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonOpcion3">
+        <Component class="javax.swing.JButton" name="botonReporteGeneral">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="14" style="0"/>
@@ -167,7 +167,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonReporteGeneralActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botonReporteAgrupado">
@@ -206,7 +206,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion6ActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="ButtonOpcion7">
+        <Component class="javax.swing.JButton" name="botonSalir">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="14" style="0"/>
@@ -215,7 +215,7 @@
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ButtonOpcion7ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonSalirActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
